@@ -5,10 +5,12 @@ namespace TRex.Metadata
 {
     public static class SwaggerDocsConfigExtensions
     {
-        public static void ReleaseTheTRex(this SwaggerDocsConfig c)
+        public static void ReleaseTheTRex(this SwaggerDocsConfig config)
         {
-            c.SchemaFilter<QuickLearnLogicAppMetadataFilter>();
-            c.OperationFilter<QuickLearnLogicAppMetadataFilter>();
+            if (config == null) return;
+
+            config.SchemaFilter<TRexSchemaFilter>();
+            config.OperationFilter<TRexOperationFilter>();
         }
     }
 }

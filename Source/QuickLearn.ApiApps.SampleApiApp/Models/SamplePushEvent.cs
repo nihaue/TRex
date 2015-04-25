@@ -17,7 +17,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Models
             TimeStamp = DateTime.UtcNow;
         }
         
-        [Metadata(Visibility = VisibilityTypes.Advanced)]
+        [Metadata(Visibility = VisibilityType.Advanced)]
         public DateTime TimeStamp { get; set; }
 
         [Metadata("A Wild Int Appeared", "This is an Int")]
@@ -26,7 +26,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Models
         [Metadata("Sample String Again", "Another sample string, there are lots of these")]
         public string SampleStringProperty { get; set; }
 
-        [Metadata(Visibility = VisibilityTypes.Advanced,
+        [Metadata(Visibility = VisibilityType.Advanced,
             FriendlyName = "Sample Complex Property", Description = "Sample complex property -- instance of ClassB")]
         public ClassB SampleComplexProperty { get; set; }
     }

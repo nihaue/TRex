@@ -1,5 +1,6 @@
 ﻿using Swashbuckle.Swagger;
 using System.Collections.Generic;
+using System.Globalization;
 using TRex.Metadata;
 
 namespace QuickLearn.ApiApps.Metadata.Extensions
@@ -30,15 +31,17 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             }
         }
 
-        public static void SetVisibility(this Schema modelDescription, VisibilityTypes visibility)
+        public static void SetVisibility(this Schema modelDescription, VisibilityType visibility)
         {
-            if (visibility == VisibilityTypes.Default) return;
+            if (visibility == VisibilityType.Default) return;
 
             modelDescription.EnsureVendorExtensions();
 
             if (!modelDescription.vendorExtensions.ContainsKey(Constants.X_MS_VISIBILITY))
             {
-                modelDescription.vendorExtensions.Add(Constants.X_MS_VISIBILITY, visibility.ToString().ToLower());
+                modelDescription.vendorExtensions
+                    .Add(Constants.X_MS_VISIBILITY,
+                    CultureInfo.CurrentCulture.TextInfo.ToLower(visibility.ToString()));
             }
         }
 

@@ -15,7 +15,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Controllers
             return new SampleOutputMessage();
         }
 
-        [Metadata("Replace Message", Visibility = VisibilityTypes.Advanced)]
+        [Metadata("Replace Message", Visibility = VisibilityType.Advanced)]
         public SampleOutputMessage Put([FromBody, Metadata("Sample Input")] SampleInputMessage sampleInput)
         {
             return new SampleOutputMessage();

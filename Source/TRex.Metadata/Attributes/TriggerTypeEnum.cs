@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TRex.Metadata
 {
-    public enum TriggerTypes
+    public enum TriggerType
     {
         // "x-ms-scheduler-trigger": "poll"
         Poll,

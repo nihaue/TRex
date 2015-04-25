@@ -20,7 +20,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Controllers
         public static Dictionary<string, Uri> CallbackStore = new Dictionary<string, Uri>();
 
         // PUT trigger/push/{triggerId}
-        [Trigger(TriggerTypes.Push, typeof(SamplePushEvent))]
+        [Trigger(TriggerType.Push, typeof(SamplePushEvent))]
         [Metadata("Receive Simulated Push")]
         [HttpPut, Route("trigger/push/{triggerId}")]
         public HttpResponseMessage RegisterCallback(string triggerId /* Required Magic Parameter */,
@@ -68,7 +68,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Controllers
 
 
         [HttpPost, Route("trigger/fire/all")]
-        [Metadata(Visibility = VisibilityTypes.Internal)]
+        [Metadata(Visibility = VisibilityType.Internal)]
         [SwaggerResponse(HttpStatusCode.OK, "Indicates the operation completed without error", typeof(int))]
         public HttpResponseMessage FireTheTriggers()
         {

@@ -14,7 +14,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Controllers
     {
 
         // GET trigger/poll/{divisor}
-        [Trigger(TriggerTypes.Poll, typeof(SamplePollingResult))]
+        [Trigger(TriggerType.Poll, typeof(SamplePollingResult))]
         [Metadata("Check Minute", "Poll to see if minute is evenly divisible by the specified divisor")]
         [HttpGet, Route("trigger/poll/{divisor}")]
         [SwaggerResponse(HttpStatusCode.BadRequest, "Divide by zero fail")]

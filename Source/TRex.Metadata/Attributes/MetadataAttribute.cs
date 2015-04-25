@@ -7,7 +7,9 @@ namespace TRex.Metadata
     [System.AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Method,  AllowMultiple = false)]
     public sealed class MetadataAttribute : Attribute
     {
-        public MetadataAttribute(string friendlyName = null, string description = null, VisibilityTypes visibility = VisibilityTypes.Default)
+        public MetadataAttribute(string friendlyName = null,
+            string description = null,
+            VisibilityType visibility = VisibilityType.Default)
         {
             FriendlyName = friendlyName;
             Description = description;
@@ -18,7 +20,7 @@ namespace TRex.Metadata
         
         public string Description { get; set; }
         
-        public VisibilityTypes Visibility { get; set; }
+        public VisibilityType Visibility { get; set; }
 
     }
 }

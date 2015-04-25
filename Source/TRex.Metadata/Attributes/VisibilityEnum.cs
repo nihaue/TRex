@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TRex.Metadata
 {
-    public enum VisibilityTypes
+    public enum VisibilityType
     {
         Default,
         Internal,

@@ -1,6 +1,9 @@
+C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\TRex.0.0.1.0.nupkg
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\TRex.Metadata.dll.config
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\TRex.Metadata.dll
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\TRex.Metadata.pdb
+C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\TRex.Metadata.dll.CodeAnalysisLog.xml
+C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\TRex.Metadata.dll.lastcodeanalysissucceeded
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\Microsoft.Azure.AppService.ApiApps.Service.dll
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\Newtonsoft.Json.dll
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\Swashbuckle.Core.dll
@@ -11,7 +14,5 @@ C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\Newtonsoft.Json.
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\System.Web.Http.xml
-C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\obj\Debug\TRex.Metadata.csprojResolveAssemblyReference.cache
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\obj\Debug\TRex.Metadata.dll
 C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\obj\Debug\TRex.Metadata.pdb
-C:\Users\nickh\Source\Repos\TRex\Source\TRex.Metadata\bin\Debug\TRex.0.0.1.0.nupkg

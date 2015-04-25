@@ -1,79 +1,17 @@
-﻿using Microsoft.Azure.AppService.ApiApps.Service;
-using QuickLearn.ApiApps.Metadata.Extensions;
+﻿using QuickLearn.ApiApps.Metadata.Extensions;
 using Swashbuckle.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Web.Http.Description;
 using TRex.Metadata;
 
 namespace QuickLearn.ApiApps.Metadata
 {
-    public class QuickLearnLogicAppMetadataFilter : IOperationFilter, ISchemaFilter
+    internal class TRexOperationFilter : IOperationFilter
     {
 
-        public QuickLearnLogicAppMetadataFilter()
-        {
-
-        }
-
-        public void Apply(Schema schema, SchemaRegistry schemaRegistry, Type type)
-        {
-            if (schema.properties == null) return;
-
-            bool isPushTrigger = type.AssemblyQualifiedNameNoTypeParams() == typeof(TriggerInput<string, string>).AssemblyQualifiedNameNoTypeParams();
-
-            foreach (var propertyName in schema.properties.Keys)
-            {
-                var property = schema.properties[propertyName];
-
-                if (isPushTrigger && propertyName == Constants.CALLBACK_URL_PROPERTY_NAME)
-                {
-                    #region Apply callback magic defaults
-
-                    // Apply trigger magic defaults:
-                    // "x-ms-scheduler-recommendation": "@accessKeys('default').primary.secretRunUri
-                    schema.SetChildPropertyRequired(Constants.CALLBACK_URL_PROPERTY_NAME);
-
-                    property.SetVisibility(VisibilityTypes.Internal);
-                    property.SetSchedulerRecommendation(Constants.CALLBACK_URL_MAGIC_DEFAULT);
-
-                    // This is what this will look like (pulled from HTTP Listener API Definition)
-                    //
-                    // "TriggerInput[TriggerPushParameters,TriggerOutputParameters]": {
-                    //     "required": [            <-- SetChildPropertyRequired (on the parent model containing the callbackUrl property)
-                    //       "callbackUrl"
-                    // ],
-                    // "type": "object",
-                    // "properties": {
-                    //   "callbackUrl": {            <-- SetSchedulerRecommendation (on the actual property)
-                    //     "type": "string",
-                    //     "x-ms-visibility": "internal",
-                    //     "x-ms-scheduler-recommendation": "@accessKeys('default').primary.secretRunUri"
-                    //   },
-
-                    #endregion
-                }
-
-                // Apply friendly names and descriptions wherever possible
-                // "x-ms-summary" - friendly name (applies to properties)
-                // schema.properties["prop"].description - description (applies to parameters)
-
-                var propertyInfo = type.GetRuntimeProperties().Where(p => p.Name == propertyName).FirstOrDefault();
-
-                if (propertyInfo == null) return;
-
-                var propertyMetadata = propertyInfo.GetCustomAttribute<MetadataAttribute>();
-
-                if (propertyMetadata != null)
-                {
-                    property.SetVisibility(propertyMetadata.Visibility);
-                    property.SetFriendlyNameAndDescription(propertyMetadata.FriendlyName, propertyMetadata.Description);
-                }
-
-            }
-        }
+        public TRexOperationFilter() { }
 
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
@@ -104,7 +42,7 @@ namespace QuickLearn.ApiApps.Metadata
             {
                 operation.SetFriendlyNameAndDescription("Unregister Callback", "Unregisters the callback from being invoked when the event is triggered");
                 applyTriggerParameterMetadata(operation, Constants.TRIGGER_ID_PARAM_NAME, Constants.TRIGGER_ID_PARAM_FRIENDLY_NAME, Constants.TRIGGER_ID_MAGIC_DEFAULT);
-                operation.SetVisibility(VisibilityTypes.Internal);
+                operation.SetVisibility(VisibilityType.Internal);
             }
         }
 
@@ -132,7 +70,7 @@ namespace QuickLearn.ApiApps.Metadata
             if (!operation.vendorExtensions.ContainsKey(Constants.X_MS_SCHEDULER_TRIGGER))
                 operation.vendorExtensions.Add(Constants.X_MS_SCHEDULER_TRIGGER, operationTriggerInfo.TriggerType.ToString().ToLower());
 
-            if (operationTriggerInfo.TriggerType == TriggerTypes.Poll)
+            if (operationTriggerInfo.TriggerType == TriggerType.Poll)
             {
                 if (operationTriggerInfo.ResponseType != null)
                     applyResponseSchemas(operation, operationTriggerInfo.ResponseType, schemaRegistry);
@@ -168,7 +106,7 @@ namespace QuickLearn.ApiApps.Metadata
             if (triggerParam == null) return;
 
             triggerParam.SetFriendlyNameAndDescription(friendlyName, friendlyName);
-            triggerParam.SetVisibility(VisibilityTypes.Internal);
+            triggerParam.SetVisibility(VisibilityType.Internal);
             triggerParam.SetSchedulerRecommendation(magicDefault);
 
         }
@@ -234,7 +172,8 @@ namespace QuickLearn.ApiApps.Metadata
         }
 
         /// <summary>
-        /// Ensures that the 202 response message schema is cleared out
+        /// Ensures that the 200 response message schmea is present with the correct
+        /// type and that the 202 response message schema is cleared out
         /// </summary>
         /// <param name="operation">Metadata for the polling operation of a polling trigger</param>
         /// <param name="pollingResponseType">Type of the polling response</param>

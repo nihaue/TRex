@@ -13,7 +13,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Models
         [Metadata("String Property", "A happy string input value")]
         public string StringProperty { get; set; }
 
-        [Metadata(Visibility = VisibilityTypes.Advanced, FriendlyName = "Advanced String Property")]
+        [Metadata(Visibility = VisibilityType.Advanced, FriendlyName = "Advanced String Property")]
         public string AdvancedStringProperty { get; set; }
        
     }

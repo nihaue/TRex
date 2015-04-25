@@ -19,7 +19,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Models
         public bool SampleBoolean { get; set; }
 
 
-        [Metadata(Visibility = VisibilityTypes.Advanced)]
+        [Metadata(Visibility = VisibilityType.Advanced)]
         public DateTime TimeStamp { get; set; }
     }
 }

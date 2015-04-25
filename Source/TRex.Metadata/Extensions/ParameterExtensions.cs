@@ -21,9 +21,9 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             }
         }
 
-        public static void SetVisibility(this Parameter parameter, VisibilityTypes visibility)
+        public static void SetVisibility(this Parameter parameter, VisibilityType visibility)
         {
-            if (visibility == VisibilityTypes.Default) return;
+            if (visibility == VisibilityType.Default) return;
 
             parameter.EnsureVendorExtensions();
 
