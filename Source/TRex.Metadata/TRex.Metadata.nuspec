@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>TRex</id>
+    <version>$version$</version>
+    <title>T-Rex Metadata Library</title>
+    <authors>Nick Hauenstein</authors>
+    <owners>Nick Hauenstein</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/nihaue/TRex/</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>QuickLearn's T-Rex Metadata Library provides attributes that can be used to decorate your API Apps' actions and models for easy consumption by the Logic Apps designer.</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>T-Rex TRex API Apps App Service Metadata Logic Apps Metadata Logic Apps Azure App Service Swagger Swashbuckle</tags>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="Swashbuckle.Core" version="5.1.5" />
+        <dependency id="Microsoft.Azure.AppService.ApiApps.Service" version="0.9.40" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
