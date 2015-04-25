@@ -18,7 +18,7 @@ namespace QuickLearn.ApiApps.SampleApiApp.Controllers
         [Metadata("Check Minute", "Poll to see if minute is evenly divisible by the specified divisor")]
         [HttpGet, Route("trigger/poll/{divisor}")]
         [SwaggerResponse(HttpStatusCode.BadRequest, "Divide by zero fail")]
-        public HttpResponseMessage PutCallback([Metadata("Minute Divisible By",
+        public HttpResponseMessage Poll([Metadata("Minute Divisible By",
                                                         "Trigger when minute is evenly divisible by this")]
                                                         int divisor,
                                                         string triggerState /* Required Magic Parameter */)
