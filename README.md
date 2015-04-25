@@ -4,7 +4,7 @@ The T-Rex Metadata Library enables you to quickly write Web API applications tha
 So why does this exist when you could do it by hand? Because it's quite involved to do it by hand, and I don't like repeating myself. If you want to do it by hand, you certainly can. There's decent write-ups and examples [here](http://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-triggers/) and [here](https://code.msdn.microsoft.com/vstudio/Connector-API-App-Sample-66013c3b#content). However, let's not do that, and say that we did.
 
 # Getting Started
-To get started, you will need to install the NuGet package. From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and then whichever other sections are applicable below.
+To get started, you will need to [install the **TRex** NuGet package](https://www.nuget.org/packages/TRex/0.0.1). From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and then whichever other sections are applicable below.
 
 # Enabling T-Rex Metadata Generation
 To enable T-Rex Metadata Generation, head over to the **SwaggerConfig.cs** file in the **App_Start** folder, and then within the configure action passed to the **EnableSwagger** method, add the following line:
