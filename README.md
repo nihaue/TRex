@@ -1,7 +1,11 @@
 # T-Rex Metadata Library
 The T-Rex Metadata Library enables you to quickly write Web API applications that are readily consumable from the Logic App Designer. It is implemented as a set of .NET Attributes that you can use to decorate methods, parameters, and properties, and a set of filters for [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) that use those attributes to override the [swagger](http://swagger.io/) metadata generation.
 
-So why does this exist when you could do it by hand? Because it's quite involved to do it by hand, and I don't like repeating myself. If you want to do it by hand, you certainly can. There's decent write-ups and examples [here](http://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-triggers/) and [here](https://code.msdn.microsoft.com/vstudio/Connector-API-App-Sample-66013c3b#content). However, let's not do that, and say that we did.
+So why does this exist when you could do it by hand? Because it's quite involved to do it by hand, and I don't like repeating myself.
+
+If you want to do it by hand, you certainly can. There's decent write-ups and examples [here](http://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-triggers/) and [here](https://code.msdn.microsoft.com/vstudio/Connector-API-App-Sample-66013c3b#content). In fact, these write-ups are what informed a lot of my work on this library.
+
+So let's go ahead and get started!
 
 # Getting Started
 To get started, you will need to [install the **TRex** NuGet package](https://www.nuget.org/packages/TRex/0.0.1). From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and then whichever other sections are applicable below.
