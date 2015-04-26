@@ -8,7 +8,7 @@ If you want to do it by hand, you certainly can. There's decent write-ups and ex
 So let's go ahead and get started!
 
 # Getting Started
-To get started, you will need to [install the **TRex** NuGet package](https://www.nuget.org/packages/TRex/0.0.1). From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and then whichever other sections are applicable below.
+To get started, you will need to [install the **TRex** NuGet package](https://www.nuget.org/packages/TRex/). From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and then whichever other sections are applicable below.
 
 # Enabling T-Rex Metadata Generation
 To enable T-Rex Metadata Generation, head over to the **SwaggerConfig.cs** file in the **App_Start** folder, and then within the configure action passed to the **EnableSwagger** method, add the following line:
@@ -33,20 +33,18 @@ using TRex.Metadata;
 Now that we have that out of the way, let's see the **Metadata** attribute in action:
 
 ```csharp
-        [Metadata("Create Message", "Creates a new message absolutely nowhere")] // <-- Here is is!
+        [Metadata("Create Message", "Creates a new message absolutely nowhere")] <-- Here it is!
         public SampleOutputMessage Post([FromBody,
-                                            Metadata("Sample Input", "A sample input message")] // <-- And here too!
+                                            Metadata("Sample Input", "A sample input message")] <-- And here too!
                                             SampleInputMessage sampleInput)
         {
             return new SampleOutputMessage();
         }
-
-        [Metadata("Replace Message", Visibility = VisibilityTypes.Advanced)] // <-- Advanced means we're making the user click to see this action
-        public SampleOutputMessage Put([FromBody, Metadata("Sample Input")] SampleInputMessage sampleInput)
-        {
-            return new SampleOutputMessage();
-        }
 ```
+_**NOTE:** This is an extract from the the companion sample app. You can find this file [here](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.ApiApps.SampleApiApp/Controllers/ActionSampleController.cs)._
+
+Here's what that would look like in a Logic App (it's the one on the far right):
+![Create Message action within a Logic App](https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/SampleWithinLogicApp.png "Create Message action within a Logic App")
 
 The **Metadata** attribute accepts three values: **FriendlyName**, **Description**, and **Visibility**.
 
@@ -62,14 +60,16 @@ You're not limited to using the **Metadata** attribute on actions or parameters 
     public class SampleInputMessage
     {
 
-        [Metadata("String Property", "A happy string input value")]
+        [Metadata("String Property", "A happy string input value")] <-- Here it is again!
         public string StringProperty { get; set; }
 
-        [Metadata(Visibility = VisibilityTypes.Advanced, FriendlyName = "Advanced String Property")]
+        [Metadata(Visibility = VisibilityType.Advanced, FriendlyName = "Advanced String Property")]
         public string AdvancedStringProperty { get; set; }
        
     }
 ```
+_**NOTE:** This is an extract from the the companion sample app. You can find this file [here](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.ApiApps.SampleApiApp/Models/SampleInputMessage.cs)._
+
 It's pretty straight-forward stuff, eh?
 
 # Building a Polling Trigger API App
@@ -82,7 +82,7 @@ using TRex.Metadata;
 
 /* lots of unrelated code here */
 
-        [Trigger(TriggerTypes.Poll, typeof(SamplePollingResult))]
+        [Trigger(TriggerType.Poll, typeof(SamplePollingResult))]
         // ^-- Trigger attribute, that's nifty! It makes sure the Logic App knows what type we will be returning too.
         [Metadata("Check Minute", "Poll to see if minute is evenly divisible by the specified divisor")]
         // ^-- Our old friend Metadata
@@ -108,9 +108,9 @@ using TRex.Metadata;
             {
                 return Request.EventTriggered(new SamplePollingResult(), DateTime.UtcNow.Minute.ToString(), TimeSpan.FromMinutes(1));
             }
-
         }
 ```
+_**NOTE:** This is an extract from the the companion sample app. You can find this file [here](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.ApiApps.SampleApiApp/Controllers/PollingTriggerSampleController.cs)._
 
 The **Trigger** attribute accepts two values: **TriggerType**, and **ResultType**.
 
@@ -136,7 +136,7 @@ using TRex.Extensions; // <-- For our custom callback logic
         public static Dictionary<string, Uri> CallbackStore = new Dictionary<string, Uri>();
 
         // PUT trigger/push/{triggerId}
-        [Trigger(TriggerTypes.Push, typeof(SamplePushEvent))]
+        [Trigger(TriggerType.Push, typeof(SamplePushEvent))]
         [Metadata("Receive Simulated Push")]
         [HttpPut, Route("trigger/push/{triggerId}")]
         public HttpResponseMessage RegisterCallback(string triggerId /* Required magic parameter */,
@@ -186,6 +186,7 @@ using TRex.Extensions; // <-- For our custom callback logic
 
 
 ```
+_**NOTE:** This is an extract from the the companion sample app. You can find this file [here](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.ApiApps.SampleApiApp/Controllers/PushTriggerSampleController.cs)._
 
 # Go Build Great Things!
 Well, what are you waiting for? Reading documentation never built software. Go make mistakes, let those mistakes lead you into building great things!
