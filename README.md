@@ -11,8 +11,12 @@ So let's go ahead and get started!
 To get started, you will need to [install the **TRex** NuGet package](https://www.nuget.org/packages/TRex/). From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and then whichever other sections are applicable below. If you want to get straight to some working code, you can also [look through the sample application](https://github.com/nihaue/TRex/tree/master/Source/QuickLearn.ApiApps.SampleApiApp) which implements a set of simple actions, a polling trigger, and a push trigger.
 
 # Enabling T-Rex Metadata Generation
-To enable T-Rex Metadata Generation, head over to the **SwaggerConfig.cs** file in the **App_Start** folder, and then within the configure action passed to the **EnableSwagger** method, add the following line:
+To enable T-Rex Metadata Generation, head over to the **SwaggerConfig.cs** file in the **App_Start** folder. Add the requisite using directive:
+```csharp
+using TRex.Metadata;
+```
 
+Then within the configure action passed to the **EnableSwagger** method, add the following line:
 ```csharp
 GlobalConfiguration.Configuration.EnableSwagger(c =>
   {
