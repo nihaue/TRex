@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Source/QuickLearn.ApiApps.SampleApiApp/bin
+/Source/TRex.Metadata/bin
+/Source/TRex.Metadata/obj
+/Source/packages
+/Source/QuickLearn.ApiApps.SampleApiApp/obj
+*.suo
