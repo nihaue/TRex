@@ -11,7 +11,9 @@
     <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>QuickLearn's T-Rex Metadata Library provides attributes that can be used to decorate your API Apps' actions and models for easy consumption by the Logic Apps designer.</description>
-    <releaseNotes>- Updated code to generate friendly operation ids based on friendly names
+    <releaseNotes>- BREAKING CHANGE: Plural enums have been singularized
+- XML Docs for all the things
+- Updated code to generate friendly operation ids based on friendly names
 - Split out filters internally
 - Setup TRex.Metadata project for code analysis</releaseNotes>
     <copyright>Copyright 2015</copyright>
