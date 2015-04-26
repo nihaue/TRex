@@ -2,6 +2,7 @@
 using Swashbuckle.Swagger;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Http.Description;
 using TRex.Metadata;
@@ -68,7 +69,8 @@ namespace QuickLearn.ApiApps.Metadata
             //      "x-ms-scheduler-trigger": "push"
             //      "x-ms-scheduler-trigger": "poll"
             if (!operation.vendorExtensions.ContainsKey(Constants.X_MS_SCHEDULER_TRIGGER))
-                operation.vendorExtensions.Add(Constants.X_MS_SCHEDULER_TRIGGER, operationTriggerInfo.TriggerType.ToString().ToLower());
+                operation.vendorExtensions.Add(Constants.X_MS_SCHEDULER_TRIGGER,
+                    operationTriggerInfo.TriggerType.ToString().ToLowerInvariant());
 
             if (operationTriggerInfo.TriggerType == TriggerType.Poll)
             {
@@ -215,7 +217,8 @@ namespace QuickLearn.ApiApps.Metadata
             if (!operation.responses.ContainsKey(Constants.DEFAULT_RESPONSE_KEY))
             {
                 var successCode = (from statusCode in operation.responses.Keys
-                                   where statusCode.StartsWith("2")
+                                   where statusCode.StartsWith("2",
+                                    StringComparison.OrdinalIgnoreCase)
                                    select statusCode).FirstOrDefault();
 
                 if (successCode != null)

@@ -21,7 +21,7 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             
             if (!operation.vendorExtensions.ContainsKey(Constants.X_MS_VISIBILITY))
                 operation.vendorExtensions.Add(Constants.X_MS_VISIBILITY,
-                    CultureInfo.CurrentCulture.TextInfo.ToLower(visibility.ToString()));
+                    visibility.ToString().ToLowerInvariant());
         }
 
         public static void SetFriendlyNameAndDescription(this Operation operation, string friendlyName, string description)

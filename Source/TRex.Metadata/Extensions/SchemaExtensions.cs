@@ -41,7 +41,7 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             {
                 modelDescription.vendorExtensions
                     .Add(Constants.X_MS_VISIBILITY,
-                    CultureInfo.CurrentCulture.TextInfo.ToLower(visibility.ToString()));
+                            visibility.ToString().ToLowerInvariant());
             }
         }
 

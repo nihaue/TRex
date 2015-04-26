@@ -6,9 +6,16 @@ namespace TRex.Metadata
     public sealed class TriggerAttribute : Attribute
     {
 
-        public TriggerAttribute(TriggerType triggerType = TriggerType.Poll, Type responseType = null)
+        public TriggerAttribute(TriggerType triggerType)
         {
             TriggerType = triggerType;
+        }
+
+        public TriggerAttribute(TriggerType triggerType, Type responseType)
+            : this(triggerType)
+        {
+            if (responseType == null) return;
+
             ResponseType = responseType;
         }
 

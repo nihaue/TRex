@@ -6,7 +6,13 @@ namespace QuickLearn.ApiApps.SampleApiApp.Controllers
 {
     public class ActionSampleController : ApiController
     {
-        
+
+        [Metadata("Get message", "Gets a message without requiring parameters")]
+        public SampleOutputMessage Get()
+        {
+            return new SampleOutputMessage();
+        }
+
         [Metadata("Create Message", "Creates a new message absolutely nowhere")]
         public SampleOutputMessage Post([FromBody,
                                             Metadata("Sample Input", "A sample input message")]

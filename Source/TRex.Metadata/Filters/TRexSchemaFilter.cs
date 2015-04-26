@@ -18,7 +18,7 @@ namespace QuickLearn.ApiApps.Metadata
 
         public void Apply(Schema schema, SchemaRegistry schemaRegistry, Type type)
         {
-            if (schema.properties == null) return;
+            if (schema == null || schema.properties == null || type == null) return;
 
             bool isPushTrigger = type.AssemblyQualifiedNameNoTypeParams() == typeof(TriggerInput<string, string>).AssemblyQualifiedNameNoTypeParams();
 

@@ -1,5 +1,6 @@
 ﻿using Swashbuckle.Swagger;
 using System.Collections.Generic;
+using System.Globalization;
 using TRex.Metadata;
 
 namespace QuickLearn.ApiApps.Metadata.Extensions
@@ -29,7 +30,8 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
 
             if (!parameter.vendorExtensions.ContainsKey(Constants.X_MS_VISIBILITY))
             {
-                parameter.vendorExtensions.Add(Constants.X_MS_VISIBILITY, visibility.ToString().ToLower());
+                parameter.vendorExtensions.Add(Constants.X_MS_VISIBILITY,
+                    visibility.ToString().ToLowerInvariant());
             }
         }
 

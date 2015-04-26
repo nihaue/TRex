@@ -92,9 +92,10 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="TRex.0.0.1.0.nupkg">
+    <None Include="Packages\TRex.0.0.1.0.nupkg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Packages\TRex.0.0.2.0.nupkg" />
     <None Include="TRex.Metadata.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
