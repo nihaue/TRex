@@ -8,14 +8,11 @@
     <owners>Nick Hauenstein</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
     <projectUrl>https://github.com/nihaue/TRex/</projectUrl>
-    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <iconUrl>https://github.com/nihaue/TRex/blob/master/Docs/Images/PackageIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>QuickLearn's T-Rex Metadata Library provides attributes that can be used to decorate your API Apps' actions and models for easy consumption by the Logic Apps designer.</description>
-    <releaseNotes>- BREAKING CHANGE: Plural enums have been singularized
-- XML Docs for all the things
-- Updated code to generate friendly operation ids based on friendly names
-- Split out filters internally
-- Setup TRex.Metadata project for code analysis</releaseNotes>
+    <releaseNotes>- Added icon
+- Wildly upgraded version number</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>T-Rex TRex API Apps App Service Metadata Logic Apps Metadata Logic Apps Azure App Service Swagger Swashbuckle</tags>
     <dependencies>
