@@ -1,9 +1,6 @@
+
 # T-Rex Metadata Library
-The T-Rex Metadata Library enables you to quickly write Web API applications that are readily consumable from the Logic App Designer. It is implemented as a set of .NET Attributes that you can use to decorate methods, parameters, and properties, and a set of filters for [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) that use those attributes to override the [swagger](http://swagger.io/) metadata generation.
-
-So why does this exist when you could do it by hand? Because it's quite involved to do it by hand, and I don't like repeating myself.
-
-If you want to do it by hand, you certainly can. There's decent write-ups and examples [here](http://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-triggers/) and [here](https://code.msdn.microsoft.com/vstudio/Connector-API-App-Sample-66013c3b#content). In fact, these write-ups are what informed a lot of my work on this library.
+<img src="https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PackageIcon.png" align="right" />The T-Rex Metadata Library enables you to quickly write Web API applications that are readily consumable from the Logic App Designer. It is implemented as a set of .NET Attributes that you can use to decorate methods, parameters, and properties, and a set of filters for [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) that use those attributes to override the [swagger](http://swagger.io/) metadata generation.
 
 So let's go ahead and get started!
 
@@ -249,3 +246,6 @@ Wow! That was a lot of code, right? Well let's break it down in checklist form s
 
 # Go Build Great Things!
 Well, what are you waiting for? Reading documentation never built software. Go make mistakes, let those mistakes lead you into building great things!
+
+# Do I Have To Use This Library?
+What if you don't want to use this library, and want to do it by hand instead? Well, you certainly can! There's decent write-ups and examples [here](http://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-triggers/) and [here](https://code.msdn.microsoft.com/vstudio/Connector-API-App-Sample-66013c3b#content). In fact, these write-ups are what informed a lot of my work here. So you do have a choice, and you can do what makes you the most happy :-)
