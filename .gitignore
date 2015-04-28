@@ -8,3 +8,4 @@
 /Source/packages
 /Source/QuickLearn.ApiApps.SampleApiApp/obj
 *.suo
+*.user

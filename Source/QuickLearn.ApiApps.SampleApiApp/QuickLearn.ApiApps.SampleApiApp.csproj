@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.AppService.ApiApps.Service, Version=0.9.40.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.AppService.ApiApps.Service.0.9.40\lib\net45\Microsoft.Azure.AppService.ApiApps.Service.dll</HintPath>
       <Private>True</Private>
@@ -111,10 +114,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\SampleInputMessage.cs" />
-    <Compile Include="Models\SampleOutputMessage.cs" />
-    <Compile Include="Models\SamplePollingResult.cs" />
-    <Compile Include="Models\SamplePushEvent.cs" />
+    <Compile Include="Models\ActionSample\SampleInputMessage.cs" />
+    <Compile Include="Models\ActionSample\SampleOutputMessage.cs" />
+    <Compile Include="Models\PollingTriggerSample\SamplePollingResult.cs" />
+    <Compile Include="Models\PushTriggerSample\SamplePushConfig.cs" />
+    <Compile Include="Models\PushTriggerSample\SamplePushEvent.cs" />
+    <Compile Include="Models\PushTriggerSample\SampleStoredCallback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

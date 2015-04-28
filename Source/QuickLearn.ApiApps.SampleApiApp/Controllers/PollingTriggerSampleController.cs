@@ -1,4 +1,6 @@
-﻿using Microsoft.Azure.AppService.ApiApps.Service;
+﻿// See here for more info: http://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-triggers/
+
+using Microsoft.Azure.AppService.ApiApps.Service;
 using QuickLearn.ApiApps.SampleApiApp.Models;
 using Swashbuckle.Swagger.Annotations;
 using System;
@@ -7,36 +9,50 @@ using System.Net.Http;
 using System.Web.Http;
 using TRex.Metadata;
 
-
 namespace QuickLearn.ApiApps.SampleApiApp.Controllers
 {
+
+    [RoutePrefix("trigger/poll")]
     public class PollingTriggerSampleController : ApiController
     {
 
-        // GET trigger/poll/{divisor}
+        // GET trigger/poll/diceRoll?triggerState={triggerState}&numberOfSides={numberOfSides}&targetNumber={targetNumber}
+
         [Trigger(TriggerType.Poll, typeof(SamplePollingResult))]
-        [Metadata("Check Minute", "Poll to see if minute is evenly divisible by the specified divisor")]
-        [HttpGet, Route("trigger/poll/{divisor}")]
-        [SwaggerResponse(HttpStatusCode.BadRequest, "Divide by zero fail")]
-        public HttpResponseMessage Poll([Metadata("Minute Divisible By",
-                                                        "Trigger when minute is evenly divisible by this")]
-                                                        int divisor,
-                                                        string triggerState /* Required Magic Parameter */)
+        [Metadata("Roll the Dice", "Roll the dice to see if we should trigger this time")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Bad configuration. Dice require 1 or more sides")]
+        [HttpGet, Route("diceRoll")]
+        public HttpResponseMessage DiceRoll(string triggerState,
+                                        [Metadata("Number of Sides", "Number of sides that should be on the die that is rolled")]
+                                        int numberOfSides,
+                                        [Metadata("Target Number", "Trigger will fire if dice roll is above this number")]
+                                        int targetNumber)
         {
-            if (divisor == 0)
+            // Validate configuration
+            if (numberOfSides <= 0)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad divisor");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                                                        "Bad configuration. Dice require 1 or more sides");
             }
 
-            // It's not the trigger minute, or we've already fired for this minute 
-            if (DateTime.UtcNow.Minute % divisor != 0 ||
-                (!string.IsNullOrWhiteSpace(triggerState) && Convert.ToInt32(triggerState) == DateTime.UtcNow.Minute))
+            int lastRoll = 0;
+            int.TryParse(triggerState, out lastRoll);
+            int thisRoll = new Random().Next(numberOfSides);
+
+            // Roll the dice
+            if (thisRoll >= targetNumber /* We've hit or exceeded the target */
+                    && thisRoll != lastRoll /* And this dice roll isn't the same as the last */)
             {
-                return Request.EventWaitPoll(TimeSpan.FromMinutes(1), triggerState);
+                // Let the Logic App know the dice roll matched
+                return Request.EventTriggered(new SamplePollingResult(thisRoll),
+                                                triggerState: thisRoll.ToString(),
+                                                pollAgain: TimeSpan.FromSeconds(30)); 
             }
             else
             {
-                return Request.EventTriggered(new SamplePollingResult(), DateTime.UtcNow.Minute.ToString(), TimeSpan.FromMinutes(1));
+                // Let the Logic App know we don't have any data for it
+                return Request.EventWaitPoll(retryDelay: null, triggerState: triggerState);
+
             }
 
         }

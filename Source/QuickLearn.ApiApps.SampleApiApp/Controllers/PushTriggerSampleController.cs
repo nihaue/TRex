@@ -1,8 +1,11 @@
-﻿using Microsoft.Azure.AppService.ApiApps.Service;
+﻿// See here for more info: http://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-triggers/
+
+using Microsoft.Azure.AppService.ApiApps.Service;
 using QuickLearn.ApiApps.SampleApiApp.Models;
 using Swashbuckle.Swagger.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -12,82 +15,87 @@ using TRex.Metadata;
 
 namespace QuickLearn.ApiApps.SampleApiApp.Controllers
 {
+    [RoutePrefix("trigger/push")]
     public class PushTriggerSampleController : ApiController
     {
 
-        // See here for more info: http://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-triggers/
-
-        public static Dictionary<string, Uri> CallbackStore = new Dictionary<string, Uri>();
-
+        // Simulated storage for callback data
+        public static Dictionary<string, SampleStoredCallback> CallbackStore
+            = new Dictionary<string, SampleStoredCallback>();
+        
         // PUT trigger/push/{triggerId}
+
         [Trigger(TriggerType.Push, typeof(SamplePushEvent))]
         [Metadata("Receive Simulated Push")]
-        [HttpPut, Route("trigger/push/{triggerId}")]
-        public HttpResponseMessage RegisterCallback(string triggerId /* Required Magic Parameter */,
-                                     [FromBody] TriggerInput<SampleInputMessage, SamplePushEvent> parameters)
+        [HttpPut, Route("{triggerId}")]
+        public HttpResponseMessage RegisterCallback(
+                                        string triggerId,
+                                        [FromBody]TriggerInput<SamplePushConfig, SamplePushEvent> parameters)
         {
 
-            // Callback will occur every 30 seconds, and will happen 10 times
-            // This is purely for the sake of simulation
-
-            CallbackStore.Add(triggerId, parameters.GetCallback().CallbackUri);
-            
-            Task.Run(() =>
+            // Store the callback for later use
+            CallbackStore[triggerId] = new SampleStoredCallback()
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    Task.Delay(30000).ContinueWith((a) =>
-                    {
-                        // Callback has been pulled, let's get out of here
-                        if (!CallbackStore.ContainsKey(triggerId)) return;
-
-                        // Get the callback from the store, and make things happen, we've been
-                        // triggered
-                        var callback = 
-                            new ClientTriggerCallback<SamplePushEvent>(CallbackStore[triggerId]);
-
-                        callback.InvokeAsyncWithBody(Runtime.FromAppSettings(),
-                            new SamplePushEvent() { SampleStringProperty
-                                                        = parameters.inputs.StringProperty });
-
-                    }).Wait();
-                }
-            });
-            
+                 SampleConfigFromLogicApp = parameters.inputs, 
+                 CallbackUri = parameters.GetCallback().CallbackUri
+            };
+                        
+            // Notify the Logic App that the callback was registered
             return Request.PushTriggerRegistered(parameters.GetCallback());
+
         }
 
-        [UnregisterCallback, HttpDelete, Route("trigger/push/{triggerId}")]
+        // DELETE trigger/push/{triggerId}
+
+        [UnregisterCallback]
+        [SwaggerResponse(HttpStatusCode.NotFound, "The trigger id had no callback registered")]
+        [HttpDelete, Route("{triggerId}")]
         public HttpResponseMessage UnregisterCallback(string triggerId)
         {
-            if (CallbackStore.ContainsKey(triggerId))
-                CallbackStore.Remove(triggerId);
 
+            if (!CallbackStore.ContainsKey(triggerId))
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The trigger had no callback registered");
+            
+            // Remove the stored callback by trigger id
+            CallbackStore.Remove(triggerId);
             return Request.CreateResponse(HttpStatusCode.OK);
+
         }
 
+        // POST trigger/push/all
 
-        [HttpPost, Route("trigger/fire/all")]
-        [Metadata(Visibility = VisibilityType.Internal)]
-        [SwaggerResponse(HttpStatusCode.OK, "Indicates the operation completed without error", typeof(int))]
-        public HttpResponseMessage FireTheTriggers()
+        [Metadata("Fire Push Triggers", "Fires all Logic Apps awaiting callback", VisibilityType.Internal)]
+        [SwaggerResponse(HttpStatusCode.OK, "Indicates the operation completed without error", typeof(string))]
+        [HttpPost, Route("all", Order = 0)]
+        public async Task<HttpResponseMessage> FireTheTriggers()
         {
-            int count = 0;
-            foreach (var item in CallbackStore)
+
+            // This action is the simulation of some external force causing
+            // the trigger to fire for all awaiting Logic Apps where
+            // our custom configuration value has been satisfied
+
+            var readyCallbacks = from callback in CallbackStore.Values
+                                    where callback.SampleConfigFromLogicApp.QuietHour != DateTime.UtcNow.Hour
+                                    select callback;
+
+            foreach (var storedCallback in readyCallbacks)
             {
-                var callback = new ClientTriggerCallback<SamplePushEvent>(item.Value);
+                var callback = new ClientTriggerCallback<SamplePushEvent>(storedCallback.CallbackUri);
 
-                callback.InvokeAsyncWithBody(Runtime.FromAppSettings(),
-                    new SamplePushEvent()
-                    {
-                        SampleStringProperty = "Fired by simulation push event"
-                    });
-
-                count++;
-
+                await callback.InvokeAsyncWithBody(
+                                    Runtime.FromAppSettings(),
+                                    new SamplePushEvent()
+                                    {
+                                        SampleStringProperty = 
+                                            string.Format("Fired with configuration data: {0}", 
+                                                storedCallback.SampleConfigFromLogicApp.QuietHour)
+                                    });
             }
 
-            return Request.CreateResponse<int>(HttpStatusCode.OK, count);
+            return Request.CreateResponse<string>(HttpStatusCode.OK,
+                    string.Format("{0} triggers were fired.", readyCallbacks.Count()));
+
         }
+
     }
 }
