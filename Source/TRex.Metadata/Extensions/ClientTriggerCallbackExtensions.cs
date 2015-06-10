@@ -17,6 +17,7 @@ namespace TRex.Extensions
         /// <param name="callback">Callback to invoke</param>
         /// <param name="runtime">Runtime settings</param>
         /// <param name="result">Result to push to the Logic App</param>
+        [CLSCompliant(false)]
         public async static Task InvokeAsyncWithBody<TResult>(
             this ClientTriggerCallback<TResult> callback,
             Runtime runtime,

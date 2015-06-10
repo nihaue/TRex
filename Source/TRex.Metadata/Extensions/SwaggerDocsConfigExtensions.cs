@@ -1,5 +1,6 @@
 ﻿using QuickLearn.ApiApps.Metadata;
 using Swashbuckle.Application;
+using System;
 
 namespace TRex.Metadata
 {
@@ -13,6 +14,7 @@ namespace TRex.Metadata
         /// </summary>
         /// <param name="config">SwaggerDocsConfig instance that will be used
         /// to configure Swashbuckle</param>
+        [CLSCompliant(false)]
         public static void ReleaseTheTRex(this SwaggerDocsConfig config)
         {
             if (config == null) return;
