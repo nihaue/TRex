@@ -26,7 +26,7 @@ namespace TRex.Extensions
             JObject values = new JObject();
             values.Add("body", JToken.FromObject(result));
 
-            await callback.InvokeAsync(runtime, values);
+            await callback.InvokeAsync(runtime, values).ConfigureAwait(false);
              
         }
     }
