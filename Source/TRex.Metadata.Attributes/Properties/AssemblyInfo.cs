@@ -1,28 +1,21 @@
-﻿using System;
+﻿using System.Resources;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TRex.Metadata")]
+[assembly: AssemblyTitle("TRex.Metadata.Attributes")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("QuickLearn Training")]
-[assembly: AssemblyProduct("T-Rex Metadata Library")]
+[assembly: AssemblyProduct("T-Rex Metadata Library - Attributes Only")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
-
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e6d9a952-247f-4ecd-9eb7-c6720278cdc0")]
 
 // Version information for an assembly consists of the following four values:
 //

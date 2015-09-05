@@ -1,6 +1,4 @@
-﻿using Swashbuckle.Swagger;
-using System;
-using System.Web.Http.Description;
+﻿using System;
 
 namespace TRex.Metadata
 {
@@ -9,7 +7,7 @@ namespace TRex.Metadata
     /// Provides information about how to display this action,
     /// parameter, or model property within the Logic App designer.
     /// </summary>
-    [System.AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Method,  AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Method,  AllowMultiple = false)]
     public sealed class MetadataAttribute : Attribute
     {
 
