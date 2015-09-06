@@ -16,9 +16,9 @@
     <tags>T-Rex TRex API Apps App Service Metadata Logic Apps Metadata Logic Apps Azure App Service Swagger Swashbuckle</tags>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="TRex.Metadata.Attributes" version="[0.1.6]" />
+        <dependency id="TRex.Metadata.Attributes" version="[0.1.7]" />
         <dependency id="Swashbuckle.Core" version="5.2.1" />
-        <dependency id="Microsoft.Azure.AppService.ApiApps.Service" version="0.9.52" />
+        <dependency id="Microsoft.Azure.AppService.ApiApps.Service" version="0.9.64" />
       </group>
     </dependencies>
   </metadata>
