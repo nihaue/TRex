@@ -97,6 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -108,18 +110,9 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ActionSampleController.cs" />
-    <Compile Include="Controllers\PollingTriggerSampleController.cs" />
-    <Compile Include="Controllers\PushTriggerSampleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ActionSample\SampleInputMessage.cs" />
-    <Compile Include="Models\ActionSample\SampleOutputMessage.cs" />
-    <Compile Include="Models\PollingTriggerSample\SamplePollingResult.cs" />
-    <Compile Include="Models\PushTriggerSample\SamplePushConfig.cs" />
-    <Compile Include="Models\PushTriggerSample\SamplePushEvent.cs" />
-    <Compile Include="Models\PushTriggerSample\SampleStoredCallback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

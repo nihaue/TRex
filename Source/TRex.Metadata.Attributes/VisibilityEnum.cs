@@ -7,6 +7,7 @@
     {
         Default,
         Internal,
-        Advanced
+        Advanced,
+        Important
     }
 }

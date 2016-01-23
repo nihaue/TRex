@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\Constants.cs" />
-    <Compile Include="Extensions\ClientTriggerCallbackExtensions.cs" />
     <Compile Include="Extensions\OperationExtensions.cs" />
     <Compile Include="Extensions\ParameterExtensions.cs" />
     <Compile Include="Extensions\SchemaExtensions.cs" />

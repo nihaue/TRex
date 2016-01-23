@@ -2,7 +2,6 @@
 using Swashbuckle.Swagger;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Http.Description;
 using TRex.Metadata;

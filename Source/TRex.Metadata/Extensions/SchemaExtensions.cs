@@ -1,6 +1,5 @@
 ﻿using Swashbuckle.Swagger;
 using System.Collections.Generic;
-using System.Globalization;
 using TRex.Metadata;
 
 namespace QuickLearn.ApiApps.Metadata.Extensions

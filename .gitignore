@@ -9,3 +9,12 @@
 /Source/QuickLearn.ApiApps.SampleApiApp/obj
 *.suo
 *.user
+/Source/TRex.Metadata.Tests/bin/Debug
+/Source/TRex.TestApiApp/obj/Debug
+/Source/TRex.Metadata.Attributes/obj/Debug
+/Source/TRex.TestHelpers/bin/Debug
+/Source/TRex.TestHelpers/obj/Debug
+/Source/TRex.Metadata.Attributes/bin/Debug
+/Source/TRex.Metadata.Tests/obj/Debug
+/Source/TRex.TestApiApp/bin
+/Source/TestResults

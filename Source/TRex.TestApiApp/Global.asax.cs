@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace QuickLearn.ApiApps.SampleApiApp
+namespace TRex.TestApiApp
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

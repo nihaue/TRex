@@ -29,6 +29,16 @@
         /// </summary>
         internal const string X_MS_VISIBILITY = "x-ms-visibility";
 
+        /// <summary>
+        /// Gets the string "x-ms-notification-content"
+        /// </summary>
+        internal const string X_MS_NOTIFICATION_CONTENT = "x-ms-notification-content";
+
+        /// <summary>
+        /// Gets the string "x-ms-async-pattern"
+        /// </summary>
+        internal const string X_MS_ASYNC_PATTERN = "x-ms-async-pattern";
+
         #endregion
 
         #region Parameter Descriptions and Defaults
