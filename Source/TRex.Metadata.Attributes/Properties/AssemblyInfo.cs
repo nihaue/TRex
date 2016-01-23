@@ -9,7 +9,7 @@ using System;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("QuickLearn Training")]
 [assembly: AssemblyProduct("T-Rex Metadata Library (Attributes Only)")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
@@ -24,5 +24,5 @@ using System;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.7.0")]
-[assembly: AssemblyFileVersion("0.1.7.0")]
+[assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyFileVersion("0.2.0.0")]
