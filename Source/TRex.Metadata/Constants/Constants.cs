@@ -15,7 +15,7 @@
         internal const string X_MS_SUMMARY = "x-ms-summary";
         
         /// <summary>
-        /// Gets or sets the string "x-ms-notification-url"
+        /// Gets the string "x-ms-notification-url"
         /// </summary>
         internal const string X_MS_NOTIFICATION_URL = "x-ms-notification-url";
 
