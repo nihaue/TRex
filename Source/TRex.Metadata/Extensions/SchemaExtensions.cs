@@ -11,22 +11,14 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             if (modelDescription.vendorExtensions == null) modelDescription.vendorExtensions = new Dictionary<string, object>();
         }
         
-
-        public static void SetChildPropertyRequired(this Schema model, string requiredChildPropertyName)
+        public static void SetCallbackUrl(this Schema modelDescription)
         {
-            if (model.required == null) model.required = new List<string>();
-            if (!model.required.Contains(requiredChildPropertyName)) model.required.Add(requiredChildPropertyName);
-        }
-
-        public static void SetSchedulerRecommendation(this Schema modelDescription, string recommendation)
-        {
-            if (string.IsNullOrWhiteSpace(recommendation)) return;
-
             modelDescription.EnsureVendorExtensions();
 
-            if (!modelDescription.vendorExtensions.ContainsKey(Constants.X_MS_SCHEDULER_RECOMMENDATION))
+            if (!modelDescription.vendorExtensions.ContainsKey(Constants.X_MS_NOTIFICATION_URL))
             {
-                modelDescription.vendorExtensions.Add(Constants.X_MS_SCHEDULER_RECOMMENDATION, recommendation);
+                modelDescription.vendorExtensions.Add(Constants.X_MS_NOTIFICATION_URL,
+                    true.ToString().ToLowerInvariant());
             }
         }
 

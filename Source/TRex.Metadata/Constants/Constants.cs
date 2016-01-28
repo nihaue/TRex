@@ -13,16 +13,11 @@
         /// Gets the string "x-ms-summary"
         /// </summary>
         internal const string X_MS_SUMMARY = "x-ms-summary";
-
+        
         /// <summary>
-        /// Gets the string "x-ms-scheduler-trigger"
+        /// Gets or sets the string "x-ms-notification-url"
         /// </summary>
-        internal const string X_MS_SCHEDULER_TRIGGER = "x-ms-scheduler-trigger";
-
-        /// <summary>
-        /// Gets the string "x-ms-scheduler-recommendation"
-        /// </summary>
-        internal const string X_MS_SCHEDULER_RECOMMENDATION = "x-ms-scheduler-recommendation";
+        internal const string X_MS_NOTIFICATION_URL = "x-ms-notification-url";
 
         /// <summary>
         /// Gets the string "x-ms-visibility"
@@ -35,57 +30,22 @@
         internal const string X_MS_NOTIFICATION_CONTENT = "x-ms-notification-content";
 
         /// <summary>
-        /// Gets the string "x-ms-async-pattern"
+        /// Gets the string "x-ms-trigger";
         /// </summary>
-        internal const string X_MS_ASYNC_PATTERN = "x-ms-async-pattern";
+        internal const string X_MS_TRIGGER = "x-ms-trigger";
+
+        /// <summary>
+        /// Gets the string "x-ms-dynamic-values";
+        /// </summary>
+        internal const string X_MS_DYNAMIC_VALUES = "x-ms-dynamic-values";
+
+        /// <summary>
+        /// Gets the string "x-ms-dynamic-schema";
+        /// </summary>
+        internal const string X_MS_DYNAMIC_SCHEMA = "x-ms-dynamic-schema";
 
         #endregion
-
-        #region Parameter Descriptions and Defaults
-
-        /// <summary>
-        /// Gets the string "triggerState"
-        /// </summary>
-        internal const string TRIGGER_STATE_PARAM_NAME = "triggerState";
-
-        /// <summary>
-        /// Gets the string "Trigger State"
-        /// </summary>
-        internal const string TRIGGER_STATE_PARAM_FRIENDLY_NAME = "Trigger State";
-
-        /// <summary>
-        /// Gets the string "@coalesce(triggers()?.outputs?.body?['triggerState'],'')"
-        /// </summary>
-        internal const string TRIGGER_STATE_MAGIC_DEFAULT = "@coalesce(triggers()?.outputs?.body?['triggerState'],'')";
-
-        /// <summary>
-        /// Gets the string triggerId
-        /// </summary>
-        internal const string TRIGGER_ID_PARAM_NAME = "triggerId";
-
-        /// <summary>
-        /// Gets the string "Trigger ID"
-        /// </summary>
-        internal const string TRIGGER_ID_PARAM_FRIENDLY_NAME = "Trigger ID";
-
-        /// <summary>
-        /// Gets the string "@workflow().name"
-        /// </summary>
-        internal const string TRIGGER_ID_MAGIC_DEFAULT = "@workflow().name";
-
-        /// <summary>
-        /// Gets the string "callbackUrl"
-        /// </summary>
-        internal const string CALLBACK_URL_PROPERTY_NAME = "callbackUrl";
-
-        /// <summary>
-        /// Gets the string "@accessKeys('default').primary.secretRunUri"
-        /// </summary>
-        internal const string CALLBACK_URL_MAGIC_DEFAULT = "@accessKeys('default').primary.secretRunUri";
-
-
-        #endregion  
-
+        
         #region Response Descriptions
 
         /// <summary>

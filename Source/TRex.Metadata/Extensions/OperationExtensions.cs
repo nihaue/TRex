@@ -30,14 +30,17 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
                 operation.description = description;
 
             if (!string.IsNullOrWhiteSpace(friendlyName))
-            { 
+            {
                 operation.summary = friendlyName;
-
-                operation.operationId = CultureInfo.CurrentCulture.TextInfo
-                                                .ToTitleCase(friendlyName)
-                                                .Replace(" ", "");
+                operation.operationId = GetOperationId(friendlyName);
             }
         }
 
+        public static string GetOperationId(string friendlyName)
+        {
+           return CultureInfo.CurrentCulture.TextInfo
+                                            .ToTitleCase(friendlyName)
+                                            .Replace(" ", "");
+        }
     }
 }

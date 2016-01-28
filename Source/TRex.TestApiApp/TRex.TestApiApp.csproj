@@ -129,12 +129,15 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\SubscriptionTestController.cs" />
     <Compile Include="Controllers\SummaryTestController.cs" />
+    <Compile Include="Controllers\ValueSourceTestController.cs" />
     <Compile Include="Controllers\VisibilityTestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\NoAttributeTestModel.cs" />
+    <Compile Include="Models\SubscriptionTestModel.cs" />
     <Compile Include="Models\SummaryTestModel.cs" />
     <Compile Include="Models\VisibilityTestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

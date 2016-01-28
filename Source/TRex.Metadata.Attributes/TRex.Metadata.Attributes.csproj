@@ -38,12 +38,14 @@
     <None Include="TRex.Metadata.Attributes.nuspec" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallbackUrlAttribute.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MetadataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TriggerAttribute.cs" />
     <Compile Include="TriggerTypeEnum.cs" />
     <Compile Include="UnregisterCallbackAttribute.cs" />
+    <Compile Include="ValueSourceAttribute.cs" />
     <Compile Include="VisibilityEnum.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

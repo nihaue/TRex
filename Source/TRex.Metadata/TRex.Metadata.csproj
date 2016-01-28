@@ -71,15 +71,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Extensions\ApiDescriptionExtensions.cs" />
     <Compile Include="Extensions\OperationExtensions.cs" />
     <Compile Include="Extensions\ParameterExtensions.cs" />
     <Compile Include="Extensions\SchemaExtensions.cs" />
     <Compile Include="Extensions\SwaggerDocsConfigExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Filters\TRexSchemaFilter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\DynamicValuesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Filters\TRexOperationFilter.cs" />
+    <Compile Include="Utility\ParameterParsing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

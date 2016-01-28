@@ -1,6 +1,7 @@
 ﻿using Swashbuckle.Swagger;
 using System.Collections.Generic;
 using TRex.Metadata;
+using TRex.Metadata.Models;
 
 namespace QuickLearn.ApiApps.Metadata.Extensions
 {
@@ -9,16 +10,6 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
         public static void EnsureVendorExtensions(this Parameter parameter)
         {
             if (parameter.vendorExtensions == null) parameter.vendorExtensions = new Dictionary<string, object>();
-        }
-
-        public static void SetSchedulerRecommendation(this Parameter parameter, string recommendation)
-        {
-            parameter.EnsureVendorExtensions();
-
-            if (!parameter.vendorExtensions.ContainsKey(Constants.X_MS_SCHEDULER_RECOMMENDATION))
-            {
-                parameter.vendorExtensions.Add(Constants.X_MS_SCHEDULER_RECOMMENDATION, recommendation);
-            }
         }
 
         public static void SetVisibility(this Parameter parameter, VisibilityType visibility)
@@ -32,6 +23,19 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
                 parameter.vendorExtensions.Add(Constants.X_MS_VISIBILITY,
                     visibility.ToString().ToLowerInvariant());
             }
+        }
+
+        public static void SetValueSource(this Parameter parameter, DynamicValuesModel dynamicValuesSettings)
+        {
+
+            parameter.EnsureVendorExtensions();
+
+            if (!parameter.vendorExtensions.ContainsKey(Constants.X_MS_DYNAMIC_VALUES))
+            {
+                parameter.vendorExtensions.Add(Constants.X_MS_DYNAMIC_VALUES,
+                    dynamicValuesSettings);
+            }
+
         }
 
         public static void SetFriendlyNameAndDescription(this Parameter parameter, string friendlyName, string description)

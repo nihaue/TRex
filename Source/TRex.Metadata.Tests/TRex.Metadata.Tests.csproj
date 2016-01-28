@@ -51,7 +51,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AsyncCallbackTests.cs" />
     <Compile Include="SummaryTests.cs" />
+    <Compile Include="ValueSourceTests.cs" />
     <Compile Include="VisibilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
