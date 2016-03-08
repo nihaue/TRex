@@ -137,6 +137,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\NoAttributeTestModel.cs" />
+    <Compile Include="Models\NotificationContentTestModel.cs" />
     <Compile Include="Models\SubscriptionTestModel.cs" />
     <Compile Include="Models\SummaryTestModel.cs" />
     <Compile Include="Models\VisibilityTestModel.cs" />

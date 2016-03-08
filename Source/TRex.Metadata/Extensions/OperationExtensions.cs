@@ -1,12 +1,32 @@
 ﻿using Swashbuckle.Swagger;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using TRex.Metadata;
+using TRex.Metadata.Models;
 
 namespace QuickLearn.ApiApps.Metadata.Extensions
 {
     internal static class OperationExtensions
     {
+
+        public static void SetCallbackType(this Operation operation, SchemaRegistry schemaRegistry, Type callbackType, string description)
+        {
+            operation.EnsureVendorExtensions();
+
+            if (!operation.vendorExtensions.ContainsKey(Constants.X_MS_NOTIFICATION_CONTENT))
+            {
+                var schemaInfo = schemaRegistry.GetOrRegister(callbackType);
+                
+                var notificationData = new NotificationContentModel();
+                notificationData.Description = description;
+                notificationData.Schema = new SchemaModel(schemaInfo);
+
+                operation.vendorExtensions.Add(Constants.X_MS_NOTIFICATION_CONTENT,
+                    notificationData);
+            }
+
+        }
 
         public static void EnsureVendorExtensions(this Operation operation)
         {
@@ -40,7 +60,7 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
         {
            return CultureInfo.CurrentCulture.TextInfo
                                             .ToTitleCase(friendlyName)
-                                            .Replace(" ", "");
+                                            .Replace(" ", string.Empty);
         }
     }
 }

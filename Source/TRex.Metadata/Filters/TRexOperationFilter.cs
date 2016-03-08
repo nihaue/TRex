@@ -27,7 +27,22 @@ namespace QuickLearn.ApiApps.Metadata
 
             // Handle ValueSource attribute
             applyValueSourceForLookupParameters(operation, apiDescription);
+
+            // Handle CallbackType attribute
+            applyCallbackType(operation, schemaRegistry, apiDescription);
+
+        }
+
+        private static void applyCallbackType(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+        {
+
+            var callbackTypeInfoResult = apiDescription.ActionDescriptor.GetCustomAttributes<CallbackTypeAttribute>();
+            var callbackTypeInfo = callbackTypeInfoResult == null ? null : callbackTypeInfoResult.FirstOrDefault();
+
+            if (callbackTypeInfo == null) return;
             
+            operation.SetCallbackType(schemaRegistry, callbackTypeInfo.CallbackType, callbackTypeInfo.FriendlyName);
+
         }
 
         private static void applyValueSourceForLookupParameters(Operation operation, ApiDescription apiDescription)
@@ -63,7 +78,7 @@ namespace QuickLearn.ApiApps.Metadata
                 param.SwaggerParameter.SetValueSource(valueSource);
             }
         }
-        
+
         /// <summary>
         /// Applies appropriate metadata for operation responsible for unregistering callbacks
         /// </summary>
@@ -74,11 +89,13 @@ namespace QuickLearn.ApiApps.Metadata
             var operationUnregisterCallbackInfoResult = apiDescription.ActionDescriptor.GetCustomAttributes<UnregisterCallbackAttribute>();
             var operationUnregisterCallbackInfo = operationUnregisterCallbackInfoResult == null ? null : operationUnregisterCallbackInfoResult.FirstOrDefault();
 
-            if (operationUnregisterCallbackInfo != null)
-            {
-                operation.SetFriendlyNameAndDescription("Unregister Callback", "Unregisters the callback from being invoked when the event is triggered");
-                operation.SetVisibility(VisibilityType.Internal);
-            }
+            if (operationUnregisterCallbackInfo == null) return;
+
+            operation.SetFriendlyNameAndDescription("Unregister Callback", "Unregisters the callback from being invoked when the event is triggered");
+            operation.SetVisibility(VisibilityType.Internal);
+
+            // TODO: Apply 204 response type
+
         }
 
         /// <summary>

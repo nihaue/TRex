@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QuickLearn.ApiApps.Metadata;
 
 namespace TRex.Metadata.Models
 {
@@ -7,19 +8,19 @@ namespace TRex.Metadata.Models
     internal class DynamicValuesModel
     {
 
-        [JsonProperty(PropertyName = "operationId")]
+        [JsonProperty(PropertyName = Constants.OPERATION_ID)]
         public string OperationId { get; set; }
 
-        [JsonProperty(PropertyName = "parameters")]
+        [JsonProperty(PropertyName = Constants.PARAMETERS)]
         public JObject Parameters { get; set; }
 
-        [JsonProperty(PropertyName = "value-collection")]
+        [JsonProperty(PropertyName = Constants.VALUE_COLLECTION)]
         public string ValueCollection { get; set; }
 
-        [JsonProperty(PropertyName = "value-path")]
+        [JsonProperty(PropertyName = Constants.VALUE_PATH)]
         public string ValuePath { get; set; }
 
-        [JsonProperty(PropertyName = "value-title")]
+        [JsonProperty(PropertyName = Constants.VALUE_TITLE)]
         public string ValueTitle { get; set; }
 
     }

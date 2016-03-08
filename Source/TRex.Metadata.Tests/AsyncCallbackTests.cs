@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System;
 using TRex.TestHelpers;
 
 namespace TRex.Metadata.Tests
@@ -10,7 +11,7 @@ namespace TRex.Metadata.Tests
         public JToken Swagger = JToken.Parse(SwaggerResolver.Swagger);
 
         [TestMethod, TestCategory("x-ms-notification-url"), TestCategory("Property Attribute")]
-        public void Property_CallbackUrlAttributeSet_XNotificationContentShownInSwagger()
+        public void Property_CallbackUrlAttributeSet_XNotificationUrlShownInSwagger()
         {
             var notificationUrlNode = Swagger.SelectToken(@"definitions.SubscriptionTestModel.properties.NotificationUrl.x-ms-notification-url");
 
@@ -24,12 +25,79 @@ namespace TRex.Metadata.Tests
         }
 
         [TestMethod, TestCategory("x-ms-notification-url"), TestCategory("Property Attribute")]
-        public void Property_CallbackUrlAttributeNotSet_XNotificationContentNotEmitted()
+        public void Property_CallbackUrlAttributeNotSet_XNotificationUrlNotEmitted()
         {
 
             var notificationUrlNode = Swagger.SelectToken(@"definitions.SubscriptionTestModel.properties.SampleProperty.x-ms-notification-url");
 
             Assert.IsNull(notificationUrlNode, "Notification Url was found for property without CallbackUrl attribute applied");
+
+        }
+
+        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Operation Attribute")]
+        public void Operation_CallbackTypeIsPrimitiveType_XNotificationContentSchemaUsesType()
+        {
+
+            var notificationContentNode = Swagger.SelectToken(@"paths./test/x-ms-notification-content/$subscriptions.post.x-ms-notification-content");
+
+            Assert.IsNotNull(notificationContentNode, "x-ms-notification-content extension not emitted for simple content test path");
+
+            Assert.IsNotNull(notificationContentNode["schema"], "schema node not found for x-ms-notification-content vendor extension on simple notification type test path");
+
+            Assert.IsNotNull(notificationContentNode["description"], "description node not found for x-ms-notification-content vendor extension on simple notification type test path");
+
+            var notificationType = notificationContentNode["schema"]["type"].Value<string>();
+            var notificationDescription = notificationContentNode["description"].Value<string>();
+
+            Assert.AreEqual("string", notificationType);
+            Assert.AreEqual("String callback value", notificationDescription);
+            
+        }
+
+        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Operation Attribute")]
+        public void Operation_CallbackTypeIsComplexType_XNotificationContentSchemaUsesRef()
+        {
+            var notificationContentNode = Swagger.SelectToken(@"paths./test/x-ms-notification-content/complex/$subscriptions.post.x-ms-notification-content");
+
+            Assert.IsNotNull(notificationContentNode, "x-ms-notification-content extension not emitted for complex content test path");
+
+            Assert.IsNotNull(notificationContentNode["schema"], "schema node not found for x-ms-notification-content vendor extension on complex notification type test path");
+
+            Assert.IsNotNull(notificationContentNode["description"], "description node not found for x-ms-notification-content vendor extension on complex notification type test path");
+
+
+            var notificationType = notificationContentNode["schema"]["$ref"].Value<string>();
+            var notificationDescription = notificationContentNode["description"].Value<string>();
+
+            Assert.AreEqual("#/definitions/NotificationContentTestModel", notificationType);
+            Assert.AreEqual("Complex callback value", notificationDescription);
+
+        }
+
+        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Operation Attribute")]
+        public void Operation_CallbackTypeIsComplexType_SchemaDefinitionIsRegisteredInSwagger()
+        {
+            var schemaDefinitionNode = Swagger.SelectToken(@"definitions.NotificationContentTestModel");
+
+            Assert.IsNotNull(schemaDefinitionNode, "Schema for NotificationContentTestModel not registered.");
+            
+        }
+
+        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Operation Attribute"), TestCategory("Property Attribute")]
+        public void Operation_CallbackTypeIsComplexTypeWithMetadataAttribute_SchemaDefinitionHasVendorExtensions()
+        {
+            
+            var visibilityExtension = Swagger.SelectToken(@"definitions.NotificationContentTestModel.properties.SampleIntProperty.x-ms-visibility");
+            var visibilityValue = visibilityExtension.Value<string>();
+            Assert.AreEqual("advanced", visibilityValue, "Advanced visibility not correctly applied through the x-ms-visibility vendor extension on property.");
+
+            var summaryExtension = Swagger.SelectToken(@"definitions.NotificationContentTestModel.properties.SampleIntProperty.x-ms-summary");
+            var summaryValue  = summaryExtension.Value<string>();
+            Assert.AreEqual("Sample Int Property", summaryValue, "Summary not correctly applied through the x-ms-summary vendor extension on property.");
+
+            var descriptionNode = Swagger.SelectToken(@"definitions.NotificationContentTestModel.properties.SampleIntProperty.description");
+            var descriptionValue = descriptionNode.Value<string>();
+            Assert.AreEqual("Contains a sample int property", descriptionValue, "Description not correctly applied through the description in swagger on property.");
 
         }
 

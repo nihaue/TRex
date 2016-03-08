@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using TRex.Metadata;
 using TRex.TestApiApp.Models;
 
 namespace TRex.TestApiApp.Controllers
@@ -9,7 +10,16 @@ namespace TRex.TestApiApp.Controllers
 
         [HttpPost]
         [Route("$subscriptions")]
+        [CallbackType(typeof(string), "String callback value")]
         public IHttpActionResult CreateSubscription([FromBody]SubscriptionTestModel subscription)
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("complex/$subscriptions")]
+        [CallbackType(typeof(NotificationContentTestModel), "Complex callback value")]
+        public IHttpActionResult CreateComplexSubscription([FromBody]SubscriptionTestModel subscription)
         {
             return Ok();
         }
