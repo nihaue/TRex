@@ -25,7 +25,7 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             }
         }
 
-        public static void SetValueSource(this Parameter parameter, DynamicValuesModel dynamicValuesSettings)
+        public static void SetValueLookup(this Parameter parameter, DynamicValuesModel dynamicValuesSettings)
         {
 
             parameter.EnsureVendorExtensions();
@@ -36,6 +36,17 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
                     dynamicValuesSettings);
             }
 
+        }
+
+        public static void SetSchemaLookup(this Parameter parameter, DynamicSchemaModel dynamicSchemaSettings)
+        {
+            parameter.EnsureVendorExtensions();
+
+            if (!parameter.vendorExtensions.ContainsKey(Constants.X_MS_DYNAMIC_SCHEMA))
+            {
+                parameter.vendorExtensions.Add(Constants.X_MS_DYNAMIC_SCHEMA,
+                    dynamicSchemaSettings);
+            }
         }
 
         public static void SetFriendlyNameAndDescription(this Parameter parameter, string friendlyName, string description)

@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System;
 using TRex.TestHelpers;
 
 namespace TRex.Metadata.Tests
@@ -34,7 +33,7 @@ namespace TRex.Metadata.Tests
 
         }
 
-        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Operation Attribute")]
+        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Method Attribute")]
         public void Operation_CallbackTypeIsPrimitiveType_XNotificationContentSchemaUsesType()
         {
 
@@ -54,7 +53,7 @@ namespace TRex.Metadata.Tests
             
         }
 
-        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Operation Attribute")]
+        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Method Attribute")]
         public void Operation_CallbackTypeIsComplexType_XNotificationContentSchemaUsesRef()
         {
             var notificationContentNode = Swagger.SelectToken(@"paths./test/x-ms-notification-content/complex/$subscriptions.post.x-ms-notification-content");
@@ -74,7 +73,7 @@ namespace TRex.Metadata.Tests
 
         }
 
-        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Operation Attribute")]
+        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Method Attribute")]
         public void Operation_CallbackTypeIsComplexType_SchemaDefinitionIsRegisteredInSwagger()
         {
             var schemaDefinitionNode = Swagger.SelectToken(@"definitions.NotificationContentTestModel");
@@ -83,7 +82,7 @@ namespace TRex.Metadata.Tests
             
         }
 
-        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Operation Attribute"), TestCategory("Property Attribute")]
+        [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Method Attribute"), TestCategory("Property Attribute")]
         public void Operation_CallbackTypeIsComplexTypeWithMetadataAttribute_SchemaDefinitionHasVendorExtensions()
         {
             
@@ -99,6 +98,49 @@ namespace TRex.Metadata.Tests
             var descriptionValue = descriptionNode.Value<string>();
             Assert.AreEqual("Contains a sample int property", descriptionValue, "Description not correctly applied through the description in swagger on property.");
 
+        }
+
+        [TestMethod, TestCategory("x-ms-trigger"), TestCategory("Method Attribute")]
+        public void Operation_NotATrigger_NoTriggerMetadataPresent()
+        {
+            var triggerNode = Swagger.SelectToken(@"paths./test/x-ms-trigger/regular-op.get.x-ms-trigger");
+
+            Assert.IsNull(triggerNode, "Trigger metadata was emitted for operation lacking the TriggerAttribute");
+        }
+
+        [TestMethod, TestCategory("x-ms-trigger"), TestCategory("Method Attribute")]
+        public void Operation_BatchedTrigger_BatchedTriggerMetadataPresent()
+        {
+            var triggerNode = Swagger.SelectToken(@"paths./test/x-ms-trigger/batched.get.x-ms-trigger");
+
+            Assert.IsNotNull(triggerNode, "x-ms-trigger attribute was not emitted for batched trigger");
+
+            Assert.AreEqual("batched", triggerNode.Value<string>(),
+                "x-ms-trigger attribute was not correctly emitted for batch trigger");
+            
+        }
+
+        [TestMethod, TestCategory("x-ms-trigger"), TestCategory("Method Attribute")]
+        public void Operation_SingleTriggerExplicit_SingleTriggerMetadatPresent()
+        {
+            var triggerNode = Swagger.SelectToken(@"paths./test/x-ms-trigger/single.get.x-ms-trigger");
+
+            Assert.IsNotNull(triggerNode, "x-ms-trigger attribute was not emitted for explicitly defined single trigger");
+
+            Assert.AreEqual("single", triggerNode.Value<string>(),
+                "x-ms-trigger attribute was not correctly emitted for explicitly defined single trigger");
+        }
+
+        [TestMethod, TestCategory("x-ms-trigger"), TestCategory("Method Attribute")]
+        public void Operation_SingleTriggerImplicit_SingleTriggerMetadataPresent()
+        {
+
+            var triggerNode = Swagger.SelectToken(@"paths./test/x-ms-trigger/single-implicit.get.x-ms-trigger");
+
+            Assert.IsNotNull(triggerNode, "x-ms-trigger attribute was not emitted for implicitly defined single trigger");
+
+            Assert.AreEqual("single", triggerNode.Value<string>(),
+                "x-ms-trigger attribute was not correctly emitted for implicitly defined single trigger");
         }
 
     }

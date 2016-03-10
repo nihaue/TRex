@@ -30,7 +30,7 @@ namespace TRex.Metadata.Tests
     //}
 
     [TestClass]
-    public class ValueSourceTests
+    public class DynamicValueLookupTests
     {
         public JToken Swagger = JToken.Parse(SwaggerResolver.Swagger);
 
@@ -119,7 +119,7 @@ namespace TRex.Metadata.Tests
         }
 
         [TestMethod, TestCategory("x-ms-dynamic-values"), TestCategory("Parameter Attribute")]
-        public void Parameter_FullValueSourceInfo_FullInfoAppearsInSwagger()
+        public void Parameter_FullValueLookupInfo_FullInfoAppearsInSwagger()
         {
             var dynamicValuesNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-values/friendly-operation-as-source.get.parameters[?(@.name == 'lookupParameter')].x-ms-dynamic-values");
 

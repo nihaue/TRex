@@ -13,7 +13,7 @@ namespace TRex.Metadata.Tests
 
         #region Method Attributes
 
-        [TestMethod, TestCategory("operationId"), TestCategory("Method Attribute")]
+        [TestMethod, TestCategory("x-ms-summary"), TestCategory("Method Attribute")]
         public void Method_FriendlyNameSet_OperationIdStartsWithFriendlyName()
         {
             var operationIdNode = Swagger.SelectToken(@"paths./test/x-ms-summary/operation.post.operationId");

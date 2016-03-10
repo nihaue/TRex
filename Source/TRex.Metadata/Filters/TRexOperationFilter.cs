@@ -25,8 +25,11 @@ namespace QuickLearn.ApiApps.Metadata
             // Handle Metadata attribute
             applyOperationMetadataAndVisibility(operation, apiDescription);
 
-            // Handle ValueSource attribute
-            applyValueSourceForLookupParameters(operation, apiDescription);
+            // Handle DynamicValueLookup attribute
+            applyValueLookupForDynamicParameters(operation, apiDescription);
+
+            // Handle DynamicSchemaLookup attribute
+            applySchemaLookupForDynamicParameters(operation, apiDescription);
 
             // Handle CallbackType attribute
             applyCallbackType(operation, schemaRegistry, apiDescription);
@@ -45,37 +48,70 @@ namespace QuickLearn.ApiApps.Metadata
 
         }
 
-        private static void applyValueSourceForLookupParameters(Operation operation, ApiDescription apiDescription)
+        private static void applySchemaLookupForDynamicParameters(Operation operation, ApiDescription apiDescription)
         {
             if (operation == null || apiDescription == null) return;
 
             var lookupParameters = from p in apiDescription.ParameterDescriptions
-                                   let valueSourceInfo = p.ParameterDescriptor.GetCustomAttributes<ValueSourceAttribute>()
-                                   where valueSourceInfo != null
-                                              && valueSourceInfo.FirstOrDefault() != null
+                                   let schemaLookupInfo = p.ParameterDescriptor.GetCustomAttributes<DynamicSchemaLookupAttribute>()
+                                   where schemaLookupInfo != null
+                                              && schemaLookupInfo.FirstOrDefault() != null
                                    select new
                                    {
                                        SwaggerParameter = operation.parameters.FirstOrDefault(param => param.name == p.Name),
                                        Parameter = p,
-                                       ValueSourceInfo = valueSourceInfo.FirstOrDefault()
+                                       SchemaLookupInfo = schemaLookupInfo.FirstOrDefault()
                                    };
 
             if (!lookupParameters.Any()) return;
 
             foreach (var param in lookupParameters)
             {
-                var valueSource = new DynamicValuesModel();
+                var schemaLookup = new DynamicSchemaModel();
 
-                valueSource.Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(param.ValueSourceInfo.Parameters);
-                valueSource.OperationId =
+                schemaLookup.Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(param.SchemaLookupInfo.Parameters);
+                schemaLookup.OperationId =
                     apiDescription.ResolveOperationIdForSiblingAction(
-                        param.ValueSourceInfo.LookupOperation,
-                        valueSource.Parameters.Properties().Select(p => p.Name).ToArray());
-                valueSource.ValueCollection = param.ValueSourceInfo.ValueCollection;
-                valueSource.ValuePath = param.ValueSourceInfo.ValuePath;
-                valueSource.ValueTitle = param.ValueSourceInfo.ValueTitle;
+                        param.SchemaLookupInfo.LookupOperation,
+                        schemaLookup.Parameters.Properties().Select(p => p.Name).ToArray());
+                schemaLookup.ValuePath = param.SchemaLookupInfo.ValuePath;
 
-                param.SwaggerParameter.SetValueSource(valueSource);
+                param.SwaggerParameter.SetSchemaLookup(schemaLookup);
+            }
+        }
+
+
+        private static void applyValueLookupForDynamicParameters(Operation operation, ApiDescription apiDescription)
+        {
+            if (operation == null || apiDescription == null) return;
+
+            var lookupParameters = from p in apiDescription.ParameterDescriptions
+                                   let valueLookupInfo = p.ParameterDescriptor.GetCustomAttributes<DynamicValueLookupAttribute>()
+                                   where valueLookupInfo != null
+                                              && valueLookupInfo.FirstOrDefault() != null
+                                   select new
+                                   {
+                                       SwaggerParameter = operation.parameters.FirstOrDefault(param => param.name == p.Name),
+                                       Parameter = p,
+                                       ValueLookupInfo = valueLookupInfo.FirstOrDefault()
+                                   };
+
+            if (!lookupParameters.Any()) return;
+
+            foreach (var param in lookupParameters)
+            {
+                var valueLookup = new DynamicValuesModel();
+
+                valueLookup.Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(param.ValueLookupInfo.Parameters);
+                valueLookup.OperationId =
+                    apiDescription.ResolveOperationIdForSiblingAction(
+                        param.ValueLookupInfo.LookupOperation,
+                        valueLookup.Parameters.Properties().Select(p => p.Name).ToArray());
+                valueLookup.ValueCollection = param.ValueLookupInfo.ValueCollection;
+                valueLookup.ValuePath = param.ValueLookupInfo.ValuePath;
+                valueLookup.ValueTitle = param.ValueLookupInfo.ValueTitle;
+
+                param.SwaggerParameter.SetValueLookup(valueLookup);
             }
         }
 
@@ -86,13 +122,13 @@ namespace QuickLearn.ApiApps.Metadata
         /// <param name="apiDescription">Implementation metadata</param>
         private static void applyUnregisterCallbackInfo(Operation operation, ApiDescription apiDescription)
         {
-            var operationUnregisterCallbackInfoResult = apiDescription.ActionDescriptor.GetCustomAttributes<UnregisterCallbackAttribute>();
-            var operationUnregisterCallbackInfo = operationUnregisterCallbackInfoResult == null ? null : operationUnregisterCallbackInfoResult.FirstOrDefault();
+            //var operationUnregisterCallbackInfoResult = apiDescription.ActionDescriptor.GetCustomAttributes<UnregisterCallbackAttribute>();
+            //var operationUnregisterCallbackInfo = operationUnregisterCallbackInfoResult == null ? null : operationUnregisterCallbackInfoResult.FirstOrDefault();
 
-            if (operationUnregisterCallbackInfo == null) return;
+            //if (operationUnregisterCallbackInfo == null) return;
 
-            operation.SetFriendlyNameAndDescription("Unregister Callback", "Unregisters the callback from being invoked when the event is triggered");
-            operation.SetVisibility(VisibilityType.Internal);
+            //operation.SetFriendlyNameAndDescription("Unregister Callback", "Unregisters the callback from being invoked when the event is triggered");
+            //operation.SetVisibility(VisibilityType.Internal);
 
             // TODO: Apply 204 response type
 
