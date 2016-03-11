@@ -18,3 +18,8 @@
 /Source/TRex.Metadata.Tests/obj/Debug
 /Source/TRex.TestApiApp/bin
 /Source/TestResults
+/Source/TRex.Test.DummyApi/bin
+/Source/TRex.Test.DummyApi/obj/Debug
+/Source/TRex.Test.Infrastructure/bin/Debug
+/Source/TRex.Test.Infrastructure/obj/Debug
+/Source/.vs/config/applicationhost.config

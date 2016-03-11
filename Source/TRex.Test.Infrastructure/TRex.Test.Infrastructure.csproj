@@ -85,7 +85,7 @@
       <Project>{bb17e598-1d39-4997-a0f3-77079002bada}</Project>
       <Name>TRex.Metadata</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TRex.TestApiApp\TRex.Test.DummyApi.csproj">
+    <ProjectReference Include="..\TRex.Test.DummyApi\TRex.Test.DummyApi.csproj">
       <Project>{e05d7f04-57aa-4f98-9662-82137b17ca64}</Project>
       <Name>TRex.Test.DummyApi</Name>
     </ProjectReference>

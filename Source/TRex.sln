@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Metadata.Attributes", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Metadata.Tests", "TRex.Metadata.Tests\TRex.Metadata.Tests.csproj", "{76E53728-EC68-457A-A1B7-36532B7B8C5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Test.DummyApi", "TRex.TestApiApp\TRex.Test.DummyApi.csproj", "{E05D7F04-57AA-4F98-9662-82137B17CA64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Test.DummyApi", "TRex.Test.DummyApi\TRex.Test.DummyApi.csproj", "{E05D7F04-57AA-4F98-9662-82137B17CA64}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{CF02E26A-8194-4F66-8677-DF7F3F235F1A}"
 EndProject
@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{FB0D846F-D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{BF8BACFC-9BE3-45E4-8890-E3476005AC99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Test.Infrastructure", "TRex.TestHelpers\TRex.Test.Infrastructure.csproj", "{BC876A57-376F-4E66-8083-96A752681EDE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Test.Infrastructure", "TRex.Test.Infrastructure\TRex.Test.Infrastructure.csproj", "{BC876A57-376F-4E66-8083-96A752681EDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
