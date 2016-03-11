@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using TRex.Metadata;
 
@@ -37,5 +39,16 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             return operationId;
         }
 
+        internal static T GetFirstOrDefaultCustomAttribute<T>(this HttpActionDescriptor actionDescriptor) where T : Attribute
+        {
+            var attributeInfoResult = actionDescriptor.GetCustomAttributes<T>();
+            return attributeInfoResult == null ? null : attributeInfoResult.FirstOrDefault();
+        }
+
+        internal static T GetFirstOrDefaultCustomAttribute<T>(this HttpParameterDescriptor parameterDescriptor) where T : Attribute
+        {
+            var attributeInfoResult = parameterDescriptor.GetCustomAttributes<T>();
+            return attributeInfoResult == null ? null : attributeInfoResult.FirstOrDefault();
+        }
     }
 }

@@ -14,7 +14,11 @@ namespace TRex.Metadata.Tests
         [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Method Attribute")]
         public void ReturnTypeLookup_AttributeDefined_DynamicSchemaEmittedInSwagger()
         {
-            var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/dynamic-schema-return.get.responses.200.x-ms-dynamic-schema");
+            var placeholderNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/dynamic-schema-return.get.x-ms-dynamic-schema-200");
+
+            Assert.IsNull(placeholderNode, "Placeholder vendor extension is still present. Swashbuckle PR 679 has still not been merged.");
+
+            var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/dynamic-schema-return.get.responses.default.x-ms-dynamic-schema");
 
             Assert.IsNotNull(dynamicSchemaNode, "Dynamic schema lookup metadata not emitted for operation");
 
