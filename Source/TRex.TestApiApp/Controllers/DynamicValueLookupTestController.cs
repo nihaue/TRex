@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using TRex.Metadata;
 
-namespace TRex.TestApiApp.Controllers
+namespace TRex.Test.DummyApi.Controllers
 {
 	[RoutePrefix("test/x-ms-dynamic-values")]
 	public class DynamicValueLookupTestController : ApiController

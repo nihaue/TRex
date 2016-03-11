@@ -11,7 +11,7 @@ using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using TRex.Metadata;
 
-namespace TRex.TestHelpers
+namespace TRex.Test.Infrastructure
 {
     public static class SwaggerResolver
     {
@@ -42,7 +42,7 @@ namespace TRex.TestHelpers
         internal static string GetSwagger()
         {
 
-            SetupRoutesFor(typeof(TRex.TestApiApp.WebApiApplication).Assembly);
+            SetupRoutesFor(typeof(TRex.Test.DummyApi.WebApiApplication).Assembly);
 
             var request = new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/swagger/docs/v1");
 

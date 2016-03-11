@@ -1,8 +1,8 @@
 ﻿using System.Web.Http;
 using TRex.Metadata;
-using TRex.TestApiApp.Models;
+using TRex.Test.DummyApi.Models;
 
-namespace TRex.TestApiApp.Controllers
+namespace TRex.Test.DummyApi.Controllers
 {
     [RoutePrefix("test/x-ms-summary")]
     public class SummaryTestController : ApiController

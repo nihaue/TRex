@@ -59,13 +59,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TRex.TestApiApp\TRex.TestApiApp.csproj">
+    <ProjectReference Include="..\TRex.TestApiApp\TRex.Test.DummyApi.csproj">
       <Project>{e05d7f04-57aa-4f98-9662-82137b17ca64}</Project>
-      <Name>TRex.TestApiApp</Name>
+      <Name>TRex.Test.DummyApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TRex.TestHelpers\TRex.TestHelpers.csproj">
+    <ProjectReference Include="..\TRex.TestHelpers\TRex.Test.Infrastructure.csproj">
       <Project>{bc876a57-376f-4e66-8083-96a752681ede}</Project>
-      <Name>TRex.TestHelpers</Name>
+      <Name>TRex.Test.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

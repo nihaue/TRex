@@ -5,12 +5,12 @@ using System.Web.Http.Description;
 using Swashbuckle.Application;
 using Swashbuckle.Swagger;
 using WebActivatorEx;
-using TRex.TestApiApp;
+using TRex.Test.DummyApi;
 using TRex.Metadata;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace TRex.TestApiApp
+namespace TRex.Test.DummyApi
 {
     public class SwaggerConfig
     {

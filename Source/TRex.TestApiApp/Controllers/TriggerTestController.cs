@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using TRex.Metadata;
 
-namespace TRex.TestApiApp.Controllers
+namespace TRex.Test.DummyApi.Controllers
 {
     // Reference:
     // https://azure.microsoft.com/en-us/documentation/articles/powerapps-develop-api/

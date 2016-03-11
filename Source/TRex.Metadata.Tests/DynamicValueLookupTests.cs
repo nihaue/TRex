@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using TRex.TestHelpers;
+using TRex.Test.Infrastructure;
 
 namespace TRex.Metadata.Tests
 {

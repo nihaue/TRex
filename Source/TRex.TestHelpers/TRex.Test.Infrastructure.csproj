@@ -7,8 +7,8 @@
     <ProjectGuid>{BC876A57-376F-4E66-8083-96A752681EDE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TRex.TestHelpers</RootNamespace>
-    <AssemblyName>TRex.TestHelpers</AssemblyName>
+    <RootNamespace>TRex.Test.Infrastructure</RootNamespace>
+    <AssemblyName>TRex.Test.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -85,9 +85,9 @@
       <Project>{bb17e598-1d39-4997-a0f3-77079002bada}</Project>
       <Name>TRex.Metadata</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TRex.TestApiApp\TRex.TestApiApp.csproj">
+    <ProjectReference Include="..\TRex.TestApiApp\TRex.Test.DummyApi.csproj">
       <Project>{e05d7f04-57aa-4f98-9662-82137b17ca64}</Project>
-      <Name>TRex.TestApiApp</Name>
+      <Name>TRex.Test.DummyApi</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

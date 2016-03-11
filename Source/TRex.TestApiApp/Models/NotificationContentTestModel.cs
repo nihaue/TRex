@@ -1,6 +1,6 @@
 ﻿using TRex.Metadata;
 
-namespace TRex.TestApiApp.Models
+namespace TRex.Test.DummyApi.Models
 {
     public class NotificationContentTestModel
     {

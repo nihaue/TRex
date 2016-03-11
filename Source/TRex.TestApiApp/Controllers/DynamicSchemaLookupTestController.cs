@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TRex.Metadata;
 
-namespace TRex.TestApiApp.Controllers
+namespace TRex.Test.DummyApi.Controllers
 {
     [RoutePrefix("test/x-ms-dynamic-schema")]
     public class DynamicSchemaLookupTestController : ApiController

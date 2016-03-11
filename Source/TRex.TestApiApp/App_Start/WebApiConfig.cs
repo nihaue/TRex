@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace TRex.TestApiApp
+namespace TRex.Test.DummyApi
 {
     public static class WebApiConfig
     {
