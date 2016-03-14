@@ -98,7 +98,7 @@ It's pretty straight-forward stuff, eh? So how does the Logic App know what to s
 
 If you [fire up a new API App](https://azure.microsoft.com/en-us/documentation/articles/app-service-logic-custom-hosted-api/), you can see some of the information contained in the metadata yourself in a nice visual form by going to **/swagger/ui/index**.
 
-In the example shown in the figure belwo, we find the **Create Message** action with its lovely friendly name being displayed.
+In the example shown in the figure below, we find the **Create Message** action with its lovely friendly name being displayed.
 
 ![Create Message action shown in Swagger UI](https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/CreateMessageSwagger1.png "Create Message action shown in Swagger UI")
 
@@ -116,7 +116,7 @@ Well that's pretty cool, but what else can T-Rex do for me?
 
 T-Rex is currently being updated to support [new functionality](http://www.quicklearn.com/blog/2016/03/09/azure-app-service-logic-apps-refresh/) within the Logic Apps designer and runtime. The current release provides the set of attributes that will be available, but does not necessarily represent the final implementation of those attributes. Meaning, if you write code today and use the attributes, you should not have to modify your code in order to enable the functionality as it becomes available (simply update the NuGet package reference).
 
-You can find this functionality in version **0.3.0-alpha** of the NuGet package. A sample API will be released to further demonstrate usage of these attributes.
+You can find this functionality in version **1.0.0-alpha** of the NuGet package. A sample API will be released to further demonstrate usage of these attributes.
 
 What will I have to change in my code?
 - Triggers as a concept have evolved into a completely different form in the new runtime/designer. Triggers can actually be used at any point of a Logic App -- they're not necessarily only triggering the flow -- the flow can pause and wait for an event and/or poll for data. As a result the **Trigger** attribute no longer serves the same purpose. A sample and guidance for using each of the triggering models will be made available as it is ready. Currenly only polling triggers can be built with this release of T-Rex.
