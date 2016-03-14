@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>TRex</id>
-    <version>$version$-alpha</version>
+    <version>1.0.0-alpha</version>
     <title>T-Rex Metadata Library (Full)</title>
     <authors>Nick Hauenstein</authors>
     <owners>Nick Hauenstein</owners>

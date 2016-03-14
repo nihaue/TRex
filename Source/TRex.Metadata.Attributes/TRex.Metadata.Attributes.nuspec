@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>TRex.Metadata.Attributes</id>
-    <version>$version$-alpha</version>
+    <version>1.0.0-alpha</version>
     <title>T-Rex Metadata Library (Attributes Only)</title>
     <authors>Nick Hauenstein</authors>
     <owners>Nick Hauenstein</owners>
