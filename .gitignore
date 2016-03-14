@@ -23,3 +23,5 @@
 /Source/TRex.Test.Infrastructure/bin/Debug
 /Source/TRex.Test.Infrastructure/obj/Debug
 /Source/.vs/config/applicationhost.config
+/Source/QuickLearn.Api.Sample/bin
+/Source/QuickLearn.Api.Sample/obj/Debug

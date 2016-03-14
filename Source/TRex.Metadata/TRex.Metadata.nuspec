@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>TRex</id>
-    <version>$version$</version>
+    <version>$version$-alpha</version>
     <title>T-Rex Metadata Library (Full)</title>
     <authors>Nick Hauenstein</authors>
     <owners>Nick Hauenstein</owners>
@@ -11,13 +11,20 @@
     <iconUrl>https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PackageIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>QuickLearn's T-Rex Metadata Library provides attributes that can be used to decorate your API Apps' actions and models for easy consumption by the Logic Apps designer. Use this package for your API App projects.</description>
-    <releaseNotes>- Started implementing Power Apps Logic Flow designer support</releaseNotes>
+    <releaseNotes>Started implementing Power Apps Logic Flow designer support, including:
+    - Update to visibility enum to include "Important" visibility
+    - Replacement of Trigger attribute concept (previously denoted polling vs. push, now denotes batch mode for polling triggers)
+    - Add CallbackType attribute to define shape of notification data for async notification subscriptions (emits x-ms-notification-content swagger vendor extension)
+    - Add CallbackUrl attribute to define which member of callback subscription should contain notification url (emits x-ms-notification-url swagger vendor extension)
+    - Add DynamicSchemaLookup attribute to define an operation to call to lookup a JSON schema for a given parameter (emits x-ms-dynamic-schmea swagger vendor extension)
+    - Add DynamicValueLookup attribute to define an operation to call to lookup possible values for a given parameter (emits x-ms-dynamic-values vendor extension)
+    - ResponseTypeLookup attribute for async notification are temporarily marked internal only (pending product updates in Logic Apps designer and Swashbuckle library)</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>T-Rex TRex API Apps App Service Metadata Logic Apps Metadata Logic Apps Azure App Service Swagger Swashbuckle</tags>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="TRex.Metadata.Attributes" version="[0.2.0]" />
-        <dependency id="Swashbuckle.Core" version="5.2.1" />
+        <dependency id="TRex.Metadata.Attributes" version="[0.3.0]" />
+        <dependency id="Swashbuckle.Core" version="5.3.2" />
       </group>
     </dependencies>
   </metadata>

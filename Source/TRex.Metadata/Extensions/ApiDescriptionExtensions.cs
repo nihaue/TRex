@@ -41,12 +41,16 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
 
         internal static T GetFirstOrDefaultCustomAttribute<T>(this HttpActionDescriptor actionDescriptor) where T : Attribute
         {
+            if (actionDescriptor == null) return null;
+
             var attributeInfoResult = actionDescriptor.GetCustomAttributes<T>();
             return attributeInfoResult == null ? null : attributeInfoResult.FirstOrDefault();
         }
 
         internal static T GetFirstOrDefaultCustomAttribute<T>(this HttpParameterDescriptor parameterDescriptor) where T : Attribute
         {
+            if (parameterDescriptor == null) return null;
+
             var attributeInfoResult = parameterDescriptor.GetCustomAttributes<T>();
             return attributeInfoResult == null ? null : attributeInfoResult.FirstOrDefault();
         }

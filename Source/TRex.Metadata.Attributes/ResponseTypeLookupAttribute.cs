@@ -8,7 +8,7 @@ namespace TRex.Metadata
     /// Provides a mechanism to emit the x-ms-dynamic-schema vendor extension for a decorated parameter or method
     /// </summary>
     [System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    public sealed class ResponseTypeLookupAttribute : Attribute
+    internal sealed class ResponseTypeLookupAttribute : Attribute
     {
         
         public HttpStatusCode StatusCode { get; set; }
