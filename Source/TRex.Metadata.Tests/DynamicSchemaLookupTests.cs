@@ -7,16 +7,18 @@ namespace TRex.Metadata.Tests
 {
     
     [TestClass]
+    
     public class DynamicSchemaLookupTests
     {
         public JToken Swagger = JToken.Parse(SwaggerResolver.Swagger);
 
+        [Ignore]
         [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Method Attribute")]
         public void ReturnTypeLookup_AttributeDefined_DynamicSchemaEmittedInSwagger()
         {
             var placeholderNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/dynamic-schema-return.get.x-ms-dynamic-schema-200");
 
-            Assert.IsNull(placeholderNode, "Placeholder vendor extension is still present. Swashbuckle PR 679 has still not been merged.");
+            Assert.IsNull(placeholderNode, "Placeholder vendor extension is still present. Swashbuckle PR 679 has still not been merged and published as part of NuGet package.");
 
             var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/dynamic-schema-return.get.responses.default.x-ms-dynamic-schema");
 

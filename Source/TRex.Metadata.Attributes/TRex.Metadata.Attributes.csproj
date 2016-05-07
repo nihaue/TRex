@@ -38,17 +38,16 @@
     <None Include="TRex.Metadata.Attributes.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CallbackUrlAttribute.cs" />
-    <Compile Include="ResponseTypeLookupAttribute.cs" />
+    <Compile Include="Attributes\CallbackUrlAttribute.cs" />
+    <Compile Include="Attributes\ResponseTypeLookupAttribute.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="MetadataAttribute.cs" />
+    <Compile Include="Attributes\MetadataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TriggerAttribute.cs" />
-    <Compile Include="BatchModeEnum.cs" />
-    <Compile Include="DynamicSchemaLookupAttribute.cs" />
-    <Compile Include="DynamicValueLookupAttribute.cs" />
-    <Compile Include="VisibilityEnum.cs" />
-    <Compile Include="CallbackTypeAttribute.cs" />
+    <Compile Include="Attributes\TriggerAttribute.cs" />
+    <Compile Include="Enumerations\TriggerTypeEnum.cs" />
+    <Compile Include="Attributes\DynamicSchemaLookupAttribute.cs" />
+    <Compile Include="Attributes\DynamicValueLookupAttribute.cs" />
+    <Compile Include="Enumerations\VisibilityEnum.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

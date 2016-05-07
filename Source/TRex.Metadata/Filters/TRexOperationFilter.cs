@@ -18,9 +18,6 @@ namespace QuickLearn.ApiApps.Metadata
 
             if (operation == null) return;
             
-            // TODO: Evaluate what this looks like moving forward
-            applyUnregisterCallbackInfo(operation, apiDescription);
-            
             // Handle Metadata attribute
             applyOperationMetadataAndVisibility(operation, apiDescription);
 
@@ -30,11 +27,8 @@ namespace QuickLearn.ApiApps.Metadata
             // Handle DynamicSchemaLookup attribute
             applySchemaLookupForDynamicParameters(operation, apiDescription);
 
-            // Handle CallbackType attribute
-            applyCallbackType(operation, schemaRegistry, apiDescription);
-
             // Handle Trigger attribute
-            applyTriggerBatchDescription(operation, apiDescription);
+            applyTriggerBatchModeAndResponse(operation, schemaRegistry, apiDescription);
 
             // Handle ResponseTypeLookup attribute
             applyResponseTypeLookup(operation, apiDescription);
@@ -62,26 +56,15 @@ namespace QuickLearn.ApiApps.Metadata
             }
         }
 
-        private static void applyTriggerBatchDescription(Operation operation, ApiDescription apiDescription)
+        private static void applyTriggerBatchModeAndResponse(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             var triggerInfo = apiDescription.ActionDescriptor.GetFirstOrDefaultCustomAttribute<TriggerAttribute>();
 
             if (triggerInfo == null) return;
 
-            operation.SetTrigger(triggerInfo.BatchMode);
+            operation.SetTrigger(schemaRegistry, triggerInfo);
         }
-
-        private static void applyCallbackType(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
-        {
-
-            var callbackTypeInfo = apiDescription.ActionDescriptor.GetFirstOrDefaultCustomAttribute<CallbackTypeAttribute>();
-
-            if (callbackTypeInfo == null) return;
-            
-            operation.SetCallbackType(schemaRegistry, callbackTypeInfo.CallbackType, callbackTypeInfo.FriendlyName);
-
-        }
-
+        
         private static void applySchemaLookupForDynamicParameters(Operation operation, ApiDescription apiDescription)
         {
             if (operation == null || apiDescription == null) return;
@@ -112,7 +95,6 @@ namespace QuickLearn.ApiApps.Metadata
                 param.SwaggerParameter.SetSchemaLookup(schemaLookup);
             }
         }
-
 
         private static void applyValueLookupForDynamicParameters(Operation operation, ApiDescription apiDescription)
         {
@@ -146,27 +128,7 @@ namespace QuickLearn.ApiApps.Metadata
                 param.SwaggerParameter.SetValueLookup(valueLookup);
             }
         }
-
-        /// <summary>
-        /// Applies appropriate metadata for operation responsible for unregistering callbacks
-        /// </summary>
-        /// <param name="operation">Callback unregistration operation</param>
-        /// <param name="apiDescription">Implementation metadata</param>
-        private static void applyUnregisterCallbackInfo(Operation operation, ApiDescription apiDescription)
-        {
-
-            // TODO: Evaluate what this needs to be moving forward
-            
-            //var operationUnregisterCallbackInfoResult = apiDescription.ActionDescriptor.GetCustomAttributes<UnregisterCallbackAttribute>();
-            //var operationUnregisterCallbackInfo = operationUnregisterCallbackInfoResult == null ? null : operationUnregisterCallbackInfoResult.FirstOrDefault();
-
-            //if (operationUnregisterCallbackInfo == null) return;
-
-            //operation.SetFriendlyNameAndDescription("Unregister Callback", "Unregisters the callback from being invoked when the event is triggered");
-            //operation.SetVisibility(VisibilityType.Internal);
-
-        }
-
+        
         /// <summary>
         /// Applies the friendly names, descriptions, and visibility settings to the operation
         /// </summary>
@@ -180,7 +142,6 @@ namespace QuickLearn.ApiApps.Metadata
             //      operation.description - description (applies to methods)
             //      "x-ms-summary" - friendly name (applies to parameters and their properties)
             //      operation.parameters[x].description - description (applies to parameters)
-
             
             var operationMetadata = apiDescription.ActionDescriptor.GetFirstOrDefaultCustomAttribute<MetadataAttribute>();
 

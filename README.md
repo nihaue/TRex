@@ -116,10 +116,10 @@ Well that's pretty cool, but what else can T-Rex do for me?
 
 T-Rex is currently being updated to support [new functionality](http://www.quicklearn.com/blog/2016/03/09/azure-app-service-logic-apps-refresh/) within the Logic Apps designer and runtime. The current release provides the set of attributes that will be available, but does not necessarily represent the final implementation of those attributes. Meaning, if you write code today and use the attributes, you should not have to modify your code in order to enable the functionality as it becomes available (simply update the NuGet package reference).
 
-You can find this functionality in version **1.0.0-alpha** of the NuGet package. A sample API will be released to further demonstrate usage of these attributes.
+You can find this functionality in version **1.0.1-alpha** of the NuGet package. A sample API will be released to further demonstrate usage of these attributes.
 
 What will I have to change in my code?
-- Triggers as a concept have evolved into a completely different form in the new runtime/designer. Triggers can actually be used at any point of a Logic App -- they're not necessarily only triggering the flow -- the flow can pause and wait for an event and/or poll for data. As a result the **Trigger** attribute no longer serves the same purpose. A sample and guidance for using each of the triggering models will be made available as it is ready. Currenly only polling triggers can be built with this release of T-Rex.
+- Triggers as a concept have evolved into a completely different form in the new runtime/designer. Triggers can actually be used at any point of a Logic App -- they're not necessarily only triggering the flow -- the flow can pause and wait for an event and/or poll for data. As a result the **Trigger** attribute no longer serves the same purpose as it once did. A sample and guidance for using each of the triggering models will be made available as it is ready. You can currently build three types of triggers with T-Rex (1) Polling with a single returned result, (2) Polling with a returned batch of results that will each trigger their own flow, (3) Subscription based trigger (requires use of the CallbackUrl attribute somewhere in the response model).
 - The **UnregisterCallback** attribute has been removed. It may return in a later release.
 
 What are the new features?
@@ -130,10 +130,7 @@ What are the new features?
 You can [learn about these new features here](https://azure.microsoft.com/en-us/documentation/articles/powerapps-develop-api/).
     
 The following features are not quite ready for use:
-- **CallbackType** attribute to be used on callback subscription registration methods to specify the shape of notification that will be sent as a result when the callback url is invoked. The emits the *x-ms-notification-content* swagger vendor extension, however it is currently not emitted in the correct location within the swagger. Instead it is targeting a location within the metadata that the designer **will** be looking in a future release.
-- **CallbackUrl** attribute to be used on a member of an input for the callback subscription registration method to specify the member that contains the url at which the Logic App can be notified of new contnet.
 - **ResponseTypeLookup** attribute. This has the same functionality as the **DynamicSchemaLookup** attribute, but only applies to return values. Implementation of this functionality is blocked by **Swashbuckle** which does not currently support emitting vendor extensions in the swagger for individual responses. [Pull request #679](https://github.com/domaindrivendev/Swashbuckle/pull/679) should unblock implementation if/when it is merged.
-
 
 # Go Build Great Things!
 Well, what are you waiting for? Reading documentation never built software. Go make mistakes, let those mistakes lead you into building great things!

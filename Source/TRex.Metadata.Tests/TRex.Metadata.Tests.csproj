@@ -51,7 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AsyncCallbackTests.cs" />
+    <Compile Include="TriggerTests.cs" />
     <Compile Include="DynamicSchemaLookupTests.cs" />
     <Compile Include="SummaryTests.cs" />
     <Compile Include="DynamicValueLookupTests.cs" />

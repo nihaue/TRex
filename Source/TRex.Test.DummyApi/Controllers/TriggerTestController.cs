@@ -12,7 +12,7 @@ namespace TRex.Test.DummyApi.Controllers
 
         [HttpGet]
         [Route("batched")]
-        [Trigger(BatchMode = BatchMode.Batched)]
+        [Trigger(TriggerType.PollingBatched, typeof(int[]), "Lucky numbers")]
         [Metadata("Batched Trigger", "This operation triggers a single flow per item in the result array")]
         public IHttpActionResult BatchedTrigger()
         {
@@ -21,7 +21,7 @@ namespace TRex.Test.DummyApi.Controllers
 
         [HttpGet]
         [Route("single")]
-        [Trigger(BatchMode = BatchMode.Single)]
+        [Trigger(Pattern = TriggerType.PollingSingle)]
         [Metadata("Single Trigger", "This operation triggers a single flow")]
         public IHttpActionResult SingleTrigger()
         {

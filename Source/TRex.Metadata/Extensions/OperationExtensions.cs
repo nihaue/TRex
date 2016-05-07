@@ -33,15 +33,51 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             }
         }
 
-        public static void SetTrigger(this Operation operation, BatchMode batchMode)
+        public static void SetTrigger(this Operation operation, SchemaRegistry schemaRegistry, TriggerAttribute triggerDescription)
         {
             operation.EnsureVendorExtensions();
+
+            string batchMode = null;
+
+            switch (triggerDescription.Pattern)
+            {
+                case TriggerType.PollingBatched:
+                    batchMode = Constants.BATCHED;
+                    break;
+                case TriggerType.PollingSingle:
+                    batchMode = Constants.SINGLE;
+                    break;
+                case TriggerType.Subscription:
+                    operation.SetCallbackType(schemaRegistry, triggerDescription.DataType, triggerDescription.DataFriendlyName);
+                    break;
+                default:
+                    break;
+            }
+
+            if (null == batchMode) return;
 
             if (!operation.vendorExtensions.ContainsKey(Constants.X_MS_TRIGGER))
             {
                 operation.vendorExtensions.Add(Constants.X_MS_TRIGGER,
                     batchMode.ToString().ToLowerInvariant());
             }
+            
+            var dataResponse = new Response()
+            {
+                description = triggerDescription.DataFriendlyName,
+                schema = null != triggerDescription.DataType
+                            ? schemaRegistry.GetOrRegister(triggerDescription.DataType)
+                            : null
+            };
+
+            var acceptedResponse = new Response()
+            {
+                description = Constants.ACCEPTED
+            };
+
+            operation.responses[Constants.HAPPY_POLL_WITH_DATA_RESPONSE_CODE] = dataResponse;
+            operation.responses[Constants.HAPPY_POLL_NO_DATA_RESPONSE_CODE] = acceptedResponse;
+
         }
 
         public static void SetCallbackType(this Operation operation, SchemaRegistry schemaRegistry, Type callbackType, string description)

@@ -51,50 +51,64 @@
         /// <summary>
         /// Gets the string "operationId"
         /// </summary>
-        public const string OPERATION_ID = "operationId";
+        internal const string OPERATION_ID = "operationId";
 
         /// <summary>
         /// Gets the string "parameters"
         /// </summary>
-        public const string PARAMETERS = "parameters";
+        internal const string PARAMETERS = "parameters";
 
         /// <summary>
         /// Gets the string "value-collection"
         /// </summary>
-        public const string VALUE_COLLECTION = "value-collection";
+        internal const string VALUE_COLLECTION = "value-collection";
 
 
         /// <summary>
         /// Gets the string "value-path"
         /// </summary>
-        public const string VALUE_PATH = "value-path";
+        internal const string VALUE_PATH = "value-path";
 
         /// <summary>
         /// Gets the string "value-title"
         /// </summary>
-        public const string VALUE_TITLE = "value-title";
+        internal const string VALUE_TITLE = "value-title";
         
         /// <summary>
         /// Gets the string "schema"
         /// </summary>
-        public const string SCHEMA = "schema";
+        internal const string SCHEMA = "schema";
 
         /// <summary>
         /// Gets the string "description"
         /// </summary>
-        public const string DESCRIPTION = "description";
+        internal const string DESCRIPTION = "description";
 
         /// <summary>
         /// Gets the string "type"
         /// </summary>
-        public const string TYPE = "type";
+        internal const string TYPE = "type";
 
         /// <summary>
         /// Gets the string "$ref"
         /// </summary>
-        public const string REF = "$ref";
+        internal const string REF = "$ref";
 
         #endregion
+
+        #region Vendor Extension Values
+
+        /// <summary>
+        /// Gets the string "single"
+        /// </summary>
+        internal const string SINGLE = "single";
+
+        /// <summary>
+        /// Gets the string "batched"
+        /// </summary>
+        internal const string BATCHED = "batched";
+
+        #endregion  
 
         #region Response Descriptions
 
@@ -117,7 +131,12 @@
         /// Gets the first digit ("2") of the 200 level of response codes
         /// </summary>
         internal const string HAPPY_RESPONSE_CODE_LEVEL_START = "2";
-        
+
+        /// <summary>
+        /// Gets the string "Accepted"
+        /// </summary>
+        internal const string ACCEPTED = "Accepted";
+
 
         #endregion
 

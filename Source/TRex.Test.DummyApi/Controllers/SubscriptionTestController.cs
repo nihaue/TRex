@@ -10,7 +10,7 @@ namespace TRex.Test.DummyApi.Controllers
 
         [HttpPost]
         [Route("$subscriptions")]
-        [CallbackType(typeof(string), "String callback value")]
+        [Trigger(TriggerType.Subscription, typeof(string), "String callback value")]
         public IHttpActionResult CreateSubscription([FromBody]SubscriptionTestModel subscription)
         {
             return Ok();
@@ -18,7 +18,7 @@ namespace TRex.Test.DummyApi.Controllers
 
         [HttpPost]
         [Route("complex/$subscriptions")]
-        [CallbackType(typeof(NotificationContentTestModel), "Complex callback value")]
+        [Trigger(TriggerType.Subscription, typeof(NotificationContentTestModel), "Complex callback value")]
         public IHttpActionResult CreateComplexSubscription([FromBody]SubscriptionTestModel subscription)
         {
             return Ok();

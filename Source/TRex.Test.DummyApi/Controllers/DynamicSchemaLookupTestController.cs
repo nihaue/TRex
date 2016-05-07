@@ -72,17 +72,17 @@ namespace TRex.Test.DummyApi.Controllers
             return Ok();
         }
 
-        [Metadata("Dynamic schema return result")]
-        [HttpGet]
-        [Route("dynamic-schema-return")]
-        [ResponseTypeLookup(statusCode: HttpStatusCode.OK,
-                                lookupOperation: "FriendlySource",
-                                parameters: "sampleParam1={sampleParam1}",
-                                valuePath: "schema")]
-        public IHttpActionResult DynamicReturn(string sampleParam1)
-        {
-            return Ok();
-        }
+        //[Metadata("Dynamic schema return result")]
+        //[HttpGet]
+        //[Route("dynamic-schema-return")]
+        //[ResponseTypeLookup(statusCode: HttpStatusCode.OK,
+        //                        lookupOperation: "FriendlySource",
+        //                        parameters: "sampleParam1={sampleParam1}",
+        //                        valuePath: "schema")]
+        //public IHttpActionResult DynamicReturn(string sampleParam1)
+        //{
+        //    return Ok();
+        //}
 
 
         [Metadata("Friendly Name For Operation")]
