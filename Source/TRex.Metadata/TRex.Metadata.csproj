@@ -34,6 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\key\trex.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Azure.AppService.ApiApps.Service, Version=0.9.64.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.AppService.ApiApps.Service.0.9.64\lib\net45\Microsoft.Azure.AppService.ApiApps.Service.dll</HintPath>
@@ -87,6 +93,9 @@
     <Compile Include="Utility\ParameterParsing.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\key\trex.snk">
+      <Link>trex.snk</Link>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="TRex.Metadata.nuspec" />
