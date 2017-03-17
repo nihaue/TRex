@@ -7,9 +7,16 @@ namespace TRex.Metadata
 {
     internal class TRexDocumentFilter : IDocumentFilter
     {
+        public TRexDocumentFilter()
+        {
+
+        }
+
         public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
         {
-            
+
+            if (swaggerDoc == null) return;
+
             // This iterates through the paths and "moves up" any x-ms-notification-content
             // vendor extension values to the path level where the designer expects them to live
             foreach (var path in swaggerDoc.paths.Keys)

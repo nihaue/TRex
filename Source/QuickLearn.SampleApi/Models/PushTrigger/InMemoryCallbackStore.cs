@@ -18,29 +18,32 @@ namespace QuickLearn.SampleApi.Controllers
             = new Dictionary<string, Callback<TConfiguration>>();
 
         #region These would exist on the server side where the API lives
-        public async Task DeleteCallbackAsync(string triggerId)
+        public Task DeleteCallbackAsync(string triggerId)
         {
-            if (storage.ContainsKey(triggerId))
+            return Task.Factory.StartNew(() =>
             {
-                storage.Remove(triggerId);
-            }
-
-            return;
+                if (storage.ContainsKey(triggerId))
+                {
+                    storage.Remove(triggerId);
+                }
+            });            
         }
 
-        public async Task<IEnumerable<Callback<TConfiguration>>> ReadCallbacksAsync()
+        public Task<IEnumerable<Callback<TConfiguration>>> ReadCallbacksAsync()
         {
-            return storage.Values;
+            return Task<IEnumerable<Callback<TConfiguration>>>
+                        .Factory.StartNew(() => storage.Values);
         }
         #endregion
 
         #region This would exist near the source of the event that triggers the notifications
 
-        public async Task WriteCallbackAsync(string triggerId, Uri callbackUri, TConfiguration triggerConfig)
+        public Task WriteCallbackAsync(string triggerId, Uri callbackUri, TConfiguration triggerConfig)
         {
-            storage[triggerId] = new Callback<TConfiguration>(callbackUri, triggerConfig);
-
-            return;
+            return Task.Factory.StartNew(() =>
+            {
+                storage[triggerId] = new Callback<TConfiguration>(callbackUri, triggerConfig);
+            });
         }
 
         #endregion
