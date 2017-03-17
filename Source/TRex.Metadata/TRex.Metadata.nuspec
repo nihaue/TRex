@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>TRex</id>
-    <version>2.0.0-alpha</version>
+    <version>2.0.1-alpha</version>
     <title>T-Rex Metadata Library (Full)</title>
     <authors>Nick Hauenstein</authors>
     <owners>Nick Hauenstein</owners>
@@ -14,12 +14,13 @@
     <releaseNotes>- Fixed DynamicValueLookup attribute implementation
       - Fixed push trigger implementation
       - Added support for building polling triggers in a similar way to original behavior (i.e., handling the cases where there is data or no data without requiring heaps of custom code)
+      - Updated dependency version
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>T-Rex TRex API Apps App Service Metadata Logic Apps Metadata Logic Apps Azure App Service Swagger Swashbuckle</tags>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="TRex.Metadata.Attributes" version="[2.0.0-alpha]" />
+        <dependency id="TRex.Metadata.Attributes" version="[2.0.1-alpha]" />
         <dependency id="Swashbuckle.Core" version="5.5.3" />
       </group>
     </dependencies>
