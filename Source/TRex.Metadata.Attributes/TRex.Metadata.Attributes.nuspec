@@ -11,8 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PackageIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>QuickLearn's T-Rex Metadata Library provides attributes that can be used to decorate your API Apps' actions and models for Logic App consumption. Use this package for shared projects containing models.</description>
-    <releaseNotes>- Removed CallbackUrlAttribute
-    - Fixed DynamicSchemaLookup attribute implementation, and changed target to model classes
+    <releaseNotes>- Fixed DynamicSchemaLookup attribute implementation, and changed target to model classes
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>T-Rex TRex API Apps App Service Metadata Logic Apps Metadata Logic Apps Azure App Service Swagger Swashbuckle</tags>
