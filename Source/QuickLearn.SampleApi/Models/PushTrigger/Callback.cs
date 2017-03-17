@@ -75,18 +75,8 @@ namespace QuickLearn.SampleApi.Models
 
             if (!string.IsNullOrWhiteSpace(authorizationHeader))
                 client.DefaultRequestHeaders.Add("Authorization", authorizationHeader);
-
-            JObject outputs = new JObject(
-                new JProperty("outputs",
-                    new JObject(
-                        new JProperty("body",
-                                      JToken.FromObject(triggerOutput)
-                        )
-                    )
-                )
-            );
-
-            return await client.PostAsJsonAsync<JObject>(RawUri, outputs);
+            
+            return await client.PostAsJsonAsync<JObject>(RawUri, JObject.FromObject(triggerOutput));
 
         }
     }
