@@ -141,6 +141,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DynamicSchemaJsonParameters.cs" />
+    <Compile Include="Models\DynamicSchemaNoParamsModel.cs" />
+    <Compile Include="Models\DynamicSchemaNullParamModel.cs" />
+    <Compile Include="Models\DynamicSchemaTestModel.cs" />
     <Compile Include="Models\NoAttributeTestModel.cs" />
     <Compile Include="Models\NotificationContentTestModel.cs" />
     <Compile Include="Models\SubscriptionTestModel.cs" />

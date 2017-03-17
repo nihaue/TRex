@@ -74,7 +74,7 @@ namespace TRex.Metadata.Tests
             var sampleParam2 = parametersNode.SelectToken("sampleParam2");
             Assert.IsNotNull(sampleParam2, "Parameters were not emitted with correct names for ValueSource attribute.");
 
-            Assert.AreEqual("{noAttributeParameter}", sampleParam1.Value<string>(), "Parameter template not resolved correctly in ValueSource attribute");
+            Assert.AreEqual("noAttributeParameter", sampleParam1.SelectToken("parameter").Value<string>(), "Parameter template not resolved correctly in ValueSource attribute");
             Assert.AreEqual("hardcoded-value", sampleParam2.Value<string>(), "Hard coded parameter not resolved correctly in ValueSource attribute");
             
         }
@@ -136,7 +136,7 @@ namespace TRex.Metadata.Tests
             var sampleParam2 = parametersNode.SelectToken("sampleParam2");
             Assert.IsNotNull(sampleParam2, "Parameters were not emitted with correct names for ValueSource attribute.");
 
-            Assert.AreEqual("{noAttributeParameter}", sampleParam1.Value<string>(), "Parameter template not resolved correctly in ValueSource attribute");
+            Assert.AreEqual("noAttributeParameter", sampleParam1.SelectToken("parameter").Value<string>(), "Parameter template not resolved correctly in ValueSource attribute");
             Assert.AreEqual("hardcoded-value-here", sampleParam2.Value<string>(), "Hard coded parameter not resolved correctly in ValueSource attribute");
             
             var valueCollectionNode = dynamicValuesNode.SelectToken("value-collection");

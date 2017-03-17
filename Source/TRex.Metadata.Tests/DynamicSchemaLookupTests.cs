@@ -11,39 +11,11 @@ namespace TRex.Metadata.Tests
     public class DynamicSchemaLookupTests
     {
         public JToken Swagger = JToken.Parse(SwaggerResolver.Swagger);
-
-        [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Parameter Attribute")]
-        public void Parameter_SchemaLookupOperationFoundOnClass_OperationIdResolvedViaReflection()
-        {
-
-            var lookupOperationIdNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/friendly-operation-as-source.get.parameters[?(@.name == 'lookupParameter')].x-ms-dynamic-schema.operationId");
-
-            var lookupOperationIdNodeValue = lookupOperationIdNode.Value<string>();
-
-            Assert.AreEqual("FriendlyNameForOperation",
-                lookupOperationIdNodeValue,
-                "Lookup operation id was not appropriately resolved from the method name.");
-            
-        }
-
-        [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Parameter Attribute")]
-        public void Parameter_SchemaLookupOperationLacksFriendlyNameAttribute_UsedLiterallyAsOperationId()
-        {
-
-            var lookupOperationIdNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/no-attribute-operation-as-source.get.parameters[?(@.name == 'lookupParameter')].x-ms-dynamic-schema.operationId");
-
-            var lookupOperationIdNodeValue = lookupOperationIdNode.Value<string>();
-
-            Assert.AreEqual("NoAttributeSource",
-                lookupOperationIdNodeValue,
-                "Lookup operation id was not appropriately resolved from the method name.");
-
-        }
-
+        
         [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Parameter Attribute")]
         public void Parameter_SchemaLookupOperationParametersAsJson_ParametersObjectCorrectlyRepresentedInSwagger()
         {
-            var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/literal-operationid-json-parameters.get.parameters[?(@.name == 'lookupParameter')].x-ms-dynamic-schema");
+            var dynamicSchemaNode = Swagger.SelectToken(@"definitions.DynamicSchemaJsonParameters.x-ms-dynamic-schema");
 
             var parametersNode = dynamicSchemaNode.SelectToken("parameters");
             Assert.IsNotNull(parametersNode, "Parameters were not emitted for DynamicSchemaLookup attribute.");
@@ -52,27 +24,17 @@ namespace TRex.Metadata.Tests
             var sampleParam2 = parametersNode.SelectToken("sampleParam2");
             Assert.IsNotNull(sampleParam2, "Parameters were not emitted with correct names for DynamicSchemaLookup attribute.");
 
-            Assert.AreEqual("{noAttributeParameter}", sampleParam1.Value<string>(), "Parameter template not resolved correctly in DynamicSchemaLookup attribute");
+
+            Assert.AreEqual("noAttributeParameter", sampleParam1.SelectToken("parameter").Value<string>(), "Parameter template not resolved correctly in DynamicSchemaLookup attribute");
             Assert.AreEqual("hardcoded-value", sampleParam2.Value<string>(), "Hard coded parameter not resolved correctly in DynamicSchemaLookup attribute");
             
         }
-
-        [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Parameter Attribute")]
-        public void Parameter_SchemaLookupOperationNotFoundOnController_UsedLiterally()
-        {
-            var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/literal-operationid-no-parameters.get.parameters[?(@.name == 'lookupParameter')].x-ms-dynamic-schema");
-
-            var operationId = dynamicSchemaNode.Value<string>("operationId");
-
-            Assert.AreEqual("Some_Other_OperationId", operationId,
-                "Operation Id emitted for DynamicSchemaLookup attribute was not the literal operation Id specified.");
-        }
-
+        
         [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Parameter Attribute")]
         public void Parameter_SchemaLookupOperationNoParameters_NoParametersShowInSwagger()
         {
 
-            var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/literal-operationid-no-parameters.get.parameters[?(@.name == 'lookupParameter')].x-ms-dynamic-schema");
+            var dynamicSchemaNode = Swagger.SelectToken(@"definitions.DynamicSchemaNoParamsModel.x-ms-dynamic-schema");
             var parametersNode = dynamicSchemaNode.SelectToken("parameters");
 
             Assert.IsFalse(parametersNode.HasValues,
@@ -82,7 +44,7 @@ namespace TRex.Metadata.Tests
         [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Parameter Attribute")]
         public void Parameter_SchemaLookupOperationNullParamValue_EmptyStringValueShownInSwagger()
         {
-            var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/literal-operationid-null-parameter.get.parameters[?(@.name == 'lookupParameter')].x-ms-dynamic-schema");
+            var dynamicSchemaNode = Swagger.SelectToken(@"definitions.DynamicSchemaNullParamModel.x-ms-dynamic-schema");
             var parametersNode = dynamicSchemaNode.SelectToken("parameters");
             
             Assert.IsNotNull(parametersNode, "Parameters were not emitted for DynamicSchemaLookup attribute.");
@@ -99,7 +61,7 @@ namespace TRex.Metadata.Tests
         [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Parameter Attribute")]
         public void Parameter_FullSchemaLookupInfo_FullInfoAppearsInSwagger()
         {
-            var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/friendly-operation-as-source.get.parameters[?(@.name == 'lookupParameter')].x-ms-dynamic-schema");
+            var dynamicSchemaNode = Swagger.SelectToken(@"definitions.DynamicSchemaTestModel.x-ms-dynamic-schema");
 
             var operationIdNode = dynamicSchemaNode.SelectToken("operationId");
             Assert.IsNotNull(operationIdNode, "Operation Id was not emitted for DynamicSchemaLookup attribute.");
@@ -114,9 +76,10 @@ namespace TRex.Metadata.Tests
             var sampleParam2 = parametersNode.SelectToken("sampleParam2");
             Assert.IsNotNull(sampleParam2, "Parameters were not emitted with correct names for DynamicSchemaLookup attribute.");
 
-            Assert.AreEqual("{noAttributeParameter}", sampleParam1.Value<string>(), "Parameter template not resolved correctly in DynamicSchemaLookup attribute");
+            Assert.AreEqual("noAttributeParameter", sampleParam1.SelectToken("parameter").Value<string>(), "Place holder parameter not expanded correctly in handling of DynamicSchemaLookup attribute");            
             Assert.AreEqual("hardcoded-value-here", sampleParam2.Value<string>(), "Hard coded parameter not resolved correctly in DynamicSchemaLookup attribute");
             
+
             var valuePathNode = dynamicSchemaNode.SelectToken("value-path");
             Assert.IsNotNull(valuePathNode, "Value path was not emitted for DynamicSchemaLookup attribute.");
             Assert.AreEqual("Id", valuePathNode.Value<string>(), "Value Path emitted by DynamicSchemaLookup attribute contains incorrect value.");

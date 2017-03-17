@@ -8,7 +8,7 @@ namespace TRex.Test.DummyApi.Models
 
         public string SampleProperty { get; set; }
 
-        //[CallbackUrl]
+        [CallbackUrl]
         public Uri NotificationUrl { get; set; }
         
     }

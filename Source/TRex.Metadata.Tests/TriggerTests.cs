@@ -38,7 +38,7 @@ namespace TRex.Metadata.Tests
         public void Operation_CallbackTypeIsPrimitiveType_XNotificationContentSchemaUsesType()
         {
 
-            var notificationContentNode = Swagger.SelectToken(@"paths./test/x-ms-notification-content/$subscriptions.post.x-ms-notification-content");
+            var notificationContentNode = Swagger.SelectToken(@"paths./test/x-ms-notification-content/$subscriptions.x-ms-notification-content");
 
             Assert.IsNotNull(notificationContentNode, "x-ms-notification-content extension not emitted for simple content test path");
 
@@ -57,7 +57,7 @@ namespace TRex.Metadata.Tests
         [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Method Attribute")]
         public void Operation_CallbackTypeIsComplexType_XNotificationContentSchemaUsesRef()
         {
-            var notificationContentNode = Swagger.SelectToken(@"paths./test/x-ms-notification-content/complex/$subscriptions.post.x-ms-notification-content");
+            var notificationContentNode = Swagger.SelectToken(@"paths./test/x-ms-notification-content/complex/$subscriptions.x-ms-notification-content");
 
             Assert.IsNotNull(notificationContentNode, "x-ms-notification-content extension not emitted for complex content test path");
 
@@ -110,13 +110,13 @@ namespace TRex.Metadata.Tests
         }
 
         [TestMethod, TestCategory("x-ms-trigger"), TestCategory("Method Attribute")]
-        public void Operation_BatchedTrigger_BatchedTriggerMetadataPresent()
+        public void Operation_BatchTrigger_BatchTriggerMetadataPresent()
         {
             var triggerNode = Swagger.SelectToken(@"paths./test/x-ms-trigger/batched.get.x-ms-trigger");
 
             Assert.IsNotNull(triggerNode, "x-ms-trigger attribute was not emitted for batched trigger");
 
-            Assert.AreEqual("batched", triggerNode.Value<string>(),
+            Assert.AreEqual("batch", triggerNode.Value<string>(),
                 "x-ms-trigger attribute was not correctly emitted for batch trigger");
             
         }
