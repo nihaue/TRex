@@ -20,7 +20,7 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             switch (triggerDescription.Pattern)
             {
                 case TriggerType.PollingBatched:
-                    batchMode = Constants.BATCHED;
+                    batchMode = Constants.BATCH;
                     break;
                 case TriggerType.PollingSingle:
                     batchMode = Constants.SINGLE;

@@ -12,6 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>QuickLearn's T-Rex Metadata Library provides attributes that can be used to decorate your API Apps' actions and models for easy consumption by the Logic Apps designer. Use this package for your API App projects.</description>
     <releaseNotes>- Fixed DynamicValueLookup attribute implementation
+      - Fixed push trigger implementation
       - Added support for building polling triggers in a similar way to original behavior (i.e., handling the cases where there is data or no data without requiring heaps of custom code)
     </releaseNotes>
     <copyright>Copyright 2017</copyright>

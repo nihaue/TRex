@@ -41,11 +41,12 @@ namespace QuickLearn.ApiApps.Metadata
 
             if (null == dynamicSchemaInfo) return;
 
-            var schemaLookupSettings = new DynamicSchemaModel();
-
-            schemaLookupSettings.OperationId = dynamicSchemaInfo.LookupOperation;
-            schemaLookupSettings.Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(dynamicSchemaInfo.Parameters);
-            schemaLookupSettings.ValuePath = dynamicSchemaInfo.ValuePath;
+            var schemaLookupSettings = new DynamicSchemaModel()
+            {
+                OperationId = dynamicSchemaInfo.LookupOperation,
+                Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(dynamicSchemaInfo.Parameters),
+                ValuePath = dynamicSchemaInfo.ValuePath
+            };
 
             schema.SetSchemaLookup(schemaLookupSettings);
         }

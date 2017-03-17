@@ -109,9 +109,9 @@
         internal const string SINGLE = "single";
 
         /// <summary>
-        /// Gets the string "batched"
+        /// Gets the string "batch"
         /// </summary>
-        internal const string BATCHED = "batched";
+        internal const string BATCH = "batch";
 
         #endregion  
 

@@ -104,17 +104,23 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DynamicSchemasController.cs" />
     <Compile Include="Controllers\DynamicValuesController.cs" />
+    <Compile Include="Models\PushTrigger\InMemoryCallbackStore.cs" />
     <Compile Include="Controllers\PollingTriggerController.cs" />
     <Compile Include="Controllers\PushTriggerController.cs" />
     <Compile Include="Controllers\SimpleActionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\PushTrigger\Callback.cs" />
     <Compile Include="Models\DynamicValues\CountryList.cs" />
     <Compile Include="Models\DynamicSchemas\ContactInfoDummySchema.cs" />
     <Compile Include="Models\DynamicValues\FavoriteFoodModel.cs" />
     <Compile Include="Models\DynamicValues\StateListModel.cs" />
     <Compile Include="Models\PollingTrigger\PageQueryResult.cs" />
+    <Compile Include="Models\PushTrigger\ICallbackStore.cs" />
+    <Compile Include="Models\PushTrigger\IClientCallbackStore.cs" />
+    <Compile Include="Models\PushTrigger\PriceAlert.cs" />
+    <Compile Include="Models\PushTrigger\PriceAlertConfig.cs" />
     <Compile Include="Models\SimpleActions\TimeRemaining.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

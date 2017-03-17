@@ -21,6 +21,7 @@ namespace TRex.Metadata
 
             config.SchemaFilter<TRexSchemaFilter>();
             config.OperationFilter<TRexOperationFilter>();
+            config.DocumentFilter<TRexDocumentFilter>();
         }
     }
 }
