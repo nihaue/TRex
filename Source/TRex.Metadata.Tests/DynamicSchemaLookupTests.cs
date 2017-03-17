@@ -12,38 +12,6 @@ namespace TRex.Metadata.Tests
     {
         public JToken Swagger = JToken.Parse(SwaggerResolver.Swagger);
 
-        [Ignore]
-        [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Method Attribute")]
-        public void ReturnTypeLookup_AttributeDefined_DynamicSchemaEmittedInSwagger()
-        {
-            var placeholderNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/dynamic-schema-return.get.x-ms-dynamic-schema-200");
-
-            Assert.IsNull(placeholderNode, "Placeholder vendor extension is still present. Swashbuckle PR 679 has still not been merged and published as part of NuGet package.");
-
-            var dynamicSchemaNode = Swagger.SelectToken(@"paths./test/x-ms-dynamic-schema/dynamic-schema-return.get.responses.default.x-ms-dynamic-schema");
-
-            Assert.IsNotNull(dynamicSchemaNode, "Dynamic schema lookup metadata not emitted for operation");
-
-            var operationIdNode = dynamicSchemaNode.SelectToken("operationId");
-
-            Assert.IsNotNull(operationIdNode, "Operation Id was not emitted for DynamicSchemaLookup attribute.");
-            Assert.AreEqual("FriendlyNameForOperation",
-                operationIdNode.Value<string>(),
-                "Operation Id emitted by DynamicSchemaLookup attribute contains incorrect value.");
-
-            var parametersNode = dynamicSchemaNode.SelectToken("parameters");
-            Assert.IsNotNull(parametersNode, "Parameters were not emitted for DynamicSchemaLookup attribute.");
-            var sampleParam1 = parametersNode.SelectToken("sampleParam1");
-            Assert.IsNotNull(sampleParam1, "Parameters were not emitted with correct names for DynamicSchemaLookup attribute.");
-
-            Assert.AreEqual("{sampleParam1}", sampleParam1.Value<string>(), "Parameter template not resolved correctly in DynamicSchemaLookup attribute");
-
-            var valuePathNode = dynamicSchemaNode.SelectToken("value-path");
-            Assert.IsNotNull(valuePathNode, "Value path was not emitted for DynamicSchemaLookup attribute.");
-            Assert.AreEqual("schema", valuePathNode.Value<string>(), "Value Path emitted by DynamicSchemaLookup attribute contains incorrect value.");
-
-        }
-
         [TestMethod, TestCategory("x-ms-dynamic-schema"), TestCategory("Parameter Attribute")]
         public void Parameter_SchemaLookupOperationFoundOnClass_OperationIdResolvedViaReflection()
         {

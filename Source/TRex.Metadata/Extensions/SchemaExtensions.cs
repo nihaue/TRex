@@ -1,6 +1,7 @@
 ﻿using Swashbuckle.Swagger;
 using System.Collections.Generic;
 using TRex.Metadata;
+using TRex.Metadata.Models;
 
 namespace QuickLearn.ApiApps.Metadata.Extensions
 {
@@ -10,7 +11,18 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
         {
             if (modelDescription.vendorExtensions == null) modelDescription.vendorExtensions = new Dictionary<string, object>();
         }
-        
+
+        public static void SetSchemaLookup(this Schema modelDescription, DynamicSchemaModel dynamicSchemaSettings)
+        {
+            modelDescription.EnsureVendorExtensions();
+
+            if (!modelDescription.vendorExtensions.ContainsKey(Constants.X_MS_DYNAMIC_SCHEMA))
+            {
+                modelDescription.vendorExtensions.Add(Constants.X_MS_DYNAMIC_SCHEMA,
+                    dynamicSchemaSettings);
+            }
+        }
+
         public static void SetCallbackUrl(this Schema modelDescription)
         {
             modelDescription.EnsureVendorExtensions();
@@ -20,6 +32,8 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
                 modelDescription.vendorExtensions.Add(Constants.X_MS_NOTIFICATION_URL,
                     true.ToString().ToLowerInvariant());
             }
+
+            modelDescription.SetVisibility(VisibilityType.Internal);
         }
 
         public static void SetVisibility(this Schema modelDescription, VisibilityType visibility)

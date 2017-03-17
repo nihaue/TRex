@@ -44,6 +44,7 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             if (actionDescriptor == null) return null;
 
             var attributeInfoResult = actionDescriptor.GetCustomAttributes<T>();
+
             return attributeInfoResult == null ? null : attributeInfoResult.FirstOrDefault();
         }
 

@@ -11,28 +11,6 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
     internal static class OperationExtensions
     {
 
-        public static void SetResponseTypeLookup(this Operation operation, HttpStatusCode statusCode, DynamicSchemaModel dynamicSchemaSettings)
-        {
-
-            // Currently this adds a extension property marker on the operation that
-            // is copied down to the response by a document filter. If issue #678 is
-            // resolved in the Swashbuckle library, this can be re-written to simply
-            // apply the extension directly on the response instead
-
-            if (dynamicSchemaSettings == null) throw new ArgumentNullException(nameof(dynamicSchemaSettings));
-
-            var statusCodeString = ((int)statusCode).ToString(CultureInfo.InvariantCulture);
-
-            var vendorExtensionKey = string.Format(CultureInfo.InvariantCulture, "{0}-{1}", Constants.X_MS_DYNAMIC_SCHEMA, statusCodeString);
-
-            operation.EnsureVendorExtensions();
-
-            if (!operation.vendorExtensions.ContainsKey(vendorExtensionKey))
-            {
-                operation.vendorExtensions.Add(vendorExtensionKey, dynamicSchemaSettings);
-            }
-        }
-
         public static void SetTrigger(this Operation operation, SchemaRegistry schemaRegistry, TriggerAttribute triggerDescription)
         {
             operation.EnsureVendorExtensions();
@@ -87,10 +65,12 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             if (!operation.vendorExtensions.ContainsKey(Constants.X_MS_NOTIFICATION_CONTENT))
             {
                 var schemaInfo = schemaRegistry.GetOrRegister(callbackType);
-                
-                var notificationData = new NotificationContentModel();
-                notificationData.Description = description;
-                notificationData.Schema = new SchemaModel(schemaInfo);
+
+                var notificationData = new NotificationContentModel()
+                {
+                    Description = description,
+                    Schema = new SchemaModel(schemaInfo)
+                };
 
                 operation.vendorExtensions.Add(Constants.X_MS_NOTIFICATION_CONTENT,
                     notificationData);
@@ -128,6 +108,9 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
 
         public static string GetOperationId(string friendlyName)
         {
+           
+           if (!friendlyName.Contains(" ")) return friendlyName;
+
            return CultureInfo.CurrentCulture.TextInfo
                                             .ToTitleCase(friendlyName)
                                             .Replace(" ", string.Empty);

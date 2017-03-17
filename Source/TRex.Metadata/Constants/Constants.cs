@@ -59,6 +59,11 @@
         internal const string PARAMETERS = "parameters";
 
         /// <summary>
+        /// Gets the string "parameter"
+        /// </summary>
+        internal const string PARAMETER = "parameter";
+
+        /// <summary>
         /// Gets the string "value-collection"
         /// </summary>
         internal const string VALUE_COLLECTION = "value-collection";

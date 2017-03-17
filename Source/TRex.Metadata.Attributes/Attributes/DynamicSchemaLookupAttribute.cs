@@ -7,7 +7,7 @@ namespace TRex.Metadata
     /// <summary>
     /// Provides a mechanism to emit the x-ms-dynamic-schema vendor extension for a decorated parameter or method
     /// </summary>
-    [System.AttributeUsage(AttributeTargets.Parameter, Inherited = false, AllowMultiple = false)]
+    [System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class DynamicSchemaLookupAttribute : Attribute
     {
         public string Parameters { get; set; }

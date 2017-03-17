@@ -23,39 +23,15 @@ namespace QuickLearn.ApiApps.Metadata
 
             // Handle DynamicValueLookup attribute
             applyValueLookupForDynamicParameters(operation, apiDescription);
-
-            // Handle DynamicSchemaLookup attribute
-            applySchemaLookupForDynamicParameters(operation, apiDescription);
-
+            
             // Handle Trigger attribute
             applyTriggerBatchModeAndResponse(operation, schemaRegistry, apiDescription);
-
-            // Handle ResponseTypeLookup attribute
-            applyResponseTypeLookup(operation, apiDescription);
 
             // Apply default response (copy 200 level response if available as "default")
             applyDefaultResponse(operation);
 
         }
-
-        private static void applyResponseTypeLookup(Operation operation, ApiDescription apiDescription)
-        {
-            var responseTypeLookups = apiDescription.ActionDescriptor.GetCustomAttributes<ResponseTypeLookupAttribute>();
-
-            foreach (var responseTypeLookupInfo in responseTypeLookups)
-            { 
-                var schemaLookup = new DynamicSchemaModel();
-
-                schemaLookup.Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(responseTypeLookupInfo.Parameters);
-                schemaLookup.OperationId = apiDescription.ResolveOperationIdForSiblingAction(
-                                                responseTypeLookupInfo.LookupOperation,
-                                                schemaLookup.Parameters.Properties().Select(p => p.Name).ToArray());
-                schemaLookup.ValuePath = responseTypeLookupInfo.ValuePath;
-
-                operation.SetResponseTypeLookup(responseTypeLookupInfo.StatusCode, schemaLookup);
-            }
-        }
-
+        
         private static void applyTriggerBatchModeAndResponse(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             var triggerInfo = apiDescription.ActionDescriptor.GetFirstOrDefaultCustomAttribute<TriggerAttribute>();
@@ -64,38 +40,7 @@ namespace QuickLearn.ApiApps.Metadata
 
             operation.SetTrigger(schemaRegistry, triggerInfo);
         }
-        
-        private static void applySchemaLookupForDynamicParameters(Operation operation, ApiDescription apiDescription)
-        {
-            if (operation == null || apiDescription == null) return;
-
-            var dynamicSchemaParameters = from p in apiDescription.ParameterDescriptions
-                                    let schemaLookupInfo = p.ParameterDescriptor.GetFirstOrDefaultCustomAttribute<DynamicSchemaLookupAttribute>()
-                                    where schemaLookupInfo != null
-                                   select new
-                                   {
-                                       SwaggerParameter = operation.parameters.FirstOrDefault(param => param.name == p.Name),
-                                       Parameter = p,
-                                       SchemaLookupInfo = schemaLookupInfo
-                                   };
-
-            if (!dynamicSchemaParameters.Any()) return;
-
-            foreach (var param in dynamicSchemaParameters)
-            {
-                var schemaLookup = new DynamicSchemaModel();
-
-                schemaLookup.Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(param.SchemaLookupInfo.Parameters);
-                schemaLookup.OperationId =
-                    apiDescription.ResolveOperationIdForSiblingAction(
-                        param.SchemaLookupInfo.LookupOperation,
-                        schemaLookup.Parameters.Properties().Select(p => p.Name).ToArray());
-                schemaLookup.ValuePath = param.SchemaLookupInfo.ValuePath;
-
-                param.SwaggerParameter.SetSchemaLookup(schemaLookup);
-            }
-        }
-
+      
         private static void applyValueLookupForDynamicParameters(Operation operation, ApiDescription apiDescription)
         {
             if (operation == null || apiDescription == null) return;
@@ -114,17 +59,19 @@ namespace QuickLearn.ApiApps.Metadata
 
             foreach (var param in lookupParameters)
             {
-                var valueLookup = new DynamicValuesModel();
+                var valueLookup = new DynamicValuesModel()
+                {
+                    Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(param.ValueLookupInfo.Parameters),
+                    ValueCollection = param.ValueLookupInfo.ValueCollection,
+                    ValuePath = param.ValueLookupInfo.ValuePath,
+                    ValueTitle = param.ValueLookupInfo.ValueTitle
+                };
 
-                valueLookup.Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(param.ValueLookupInfo.Parameters);
                 valueLookup.OperationId =
                     apiDescription.ResolveOperationIdForSiblingAction(
                         param.ValueLookupInfo.LookupOperation,
                         valueLookup.Parameters.Properties().Select(p => p.Name).ToArray());
-                valueLookup.ValueCollection = param.ValueLookupInfo.ValueCollection;
-                valueLookup.ValuePath = param.ValueLookupInfo.ValuePath;
-                valueLookup.ValueTitle = param.ValueLookupInfo.ValueTitle;
-
+                
                 param.SwaggerParameter.SetValueLookup(valueLookup);
             }
         }

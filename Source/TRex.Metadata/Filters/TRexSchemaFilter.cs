@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using TRex.Metadata;
+using TRex.Metadata.Models;
 
 namespace QuickLearn.ApiApps.Metadata
 {
@@ -19,6 +20,8 @@ namespace QuickLearn.ApiApps.Metadata
         {
             if (schema == null || schema.properties == null || type == null) return;
 
+            applySchemaLookupForDynamicModels(schema, type);
+
             foreach (var propertyName in schema.properties.Keys)
             {
                 var schemaProperty = schema.properties[propertyName];
@@ -28,6 +31,25 @@ namespace QuickLearn.ApiApps.Metadata
                 applyCallbackUrl(schemaProperty, propertyInfo);
             }
         }
+
+
+        private static void applySchemaLookupForDynamicModels(Schema schema, Type type)
+        {
+            if (schema == null || type == null) return;
+
+            var dynamicSchemaInfo = type.GetCustomAttributes<DynamicSchemaLookupAttribute>().FirstOrDefault();
+
+            if (null == dynamicSchemaInfo) return;
+
+            var schemaLookupSettings = new DynamicSchemaModel();
+
+            schemaLookupSettings.OperationId = dynamicSchemaInfo.LookupOperation;
+            schemaLookupSettings.Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(dynamicSchemaInfo.Parameters);
+            schemaLookupSettings.ValuePath = dynamicSchemaInfo.ValuePath;
+
+            schema.SetSchemaLookup(schemaLookupSettings);
+        }
+
 
         private static void applyCallbackUrl(Schema schemaProperty, PropertyInfo propertyInfo)
         {

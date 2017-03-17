@@ -38,16 +38,6 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
 
         }
 
-        public static void SetSchemaLookup(this Parameter parameter, DynamicSchemaModel dynamicSchemaSettings)
-        {
-            parameter.EnsureVendorExtensions();
-
-            if (!parameter.vendorExtensions.ContainsKey(Constants.X_MS_DYNAMIC_SCHEMA))
-            {
-                parameter.vendorExtensions.Add(Constants.X_MS_DYNAMIC_SCHEMA,
-                    dynamicSchemaSettings);
-            }
-        }
 
         public static void SetFriendlyNameAndDescription(this Parameter parameter, string friendlyName, string description)
         {

@@ -13,10 +13,10 @@ namespace TRex.Test.DummyApi.Controllers
         [Route("friendly-operation-as-source")]
         public IHttpActionResult FriendlyAsSource(
                 // T-Rex will reflect this method to lookup operation id
-                [DynamicSchemaLookup(nameof(FriendlySource),
-                                // This will be parsed and re-created as JSON
-                                parameters: "sampleParam1={noAttributeParameter}&sampleParam2=hardcoded-value-here",
-                                valuePath: "Id")]
+                //[DynamicSchemaLookup(nameof(FriendlySource),
+                //                // This will be parsed and re-created as JSON
+                //                parameters: "sampleParam1={noAttributeParameter}&sampleParam2=hardcoded-value-here",
+                //                valuePath: "Id")]
                 JObject lookupParameter,
                 string noAttributeParameter)
         {
@@ -27,10 +27,10 @@ namespace TRex.Test.DummyApi.Controllers
         [Route("no-attribute-operation-as-source")]
         public IHttpActionResult NoAttributeAsSource(
                 // T-Rex will reflect this method to lookup operation id
-                [DynamicSchemaLookup(nameof(NoAttributeSource),
-                                        // This will be parsed and re-created as JSON
-                                        parameters: "sampleParam1=hardcoded",
-                                        valuePath: "Id")]
+                //[DynamicSchemaLookup(nameof(NoAttributeSource),
+                //                        // This will be parsed and re-created as JSON
+                //                        parameters: "sampleParam1=hardcoded",
+                //                        valuePath: "Id")]
                 JObject lookupParameter,
                 string noAttributeParameter)
         {
@@ -40,9 +40,9 @@ namespace TRex.Test.DummyApi.Controllers
         [HttpGet]
         [Route("literal-operationid-json-parameters")]
         public IHttpActionResult LiteralOperationIdJsonParameters(
-                        [DynamicSchemaLookup(lookupOperation: "Some_Other_OperationId",
-                                                parameters: @"{ ""sampleParam1"": ""{noAttributeParameter}"", ""sampleParam2"": ""hardcoded-value"" }",
-                                                valuePath: "Id")]
+                        //[DynamicSchemaLookup(lookupOperation: "Some_Other_OperationId",
+                        //                        parameters: @"{ ""sampleParam1"": ""{noAttributeParameter}"", ""sampleParam2"": ""hardcoded-value"" }",
+                        //                        valuePath: "Id")]
                                         JObject lookupParameter,
                                         string noAttributeParameter)
         {
@@ -52,9 +52,9 @@ namespace TRex.Test.DummyApi.Controllers
         [HttpGet]
         [Route("literal-operationid-null-parameter")]
         public IHttpActionResult LiteralOperationIdNullParameter(
-                [DynamicSchemaLookup(lookupOperation: "Some_Other_OperationId",
-                                parameters: "sampleParam1=",
-                                valuePath: "Id")]
+                //[DynamicSchemaLookup(lookupOperation: "Some_Other_OperationId",
+                //                parameters: "sampleParam1=",
+                //                valuePath: "Id")]
                         JObject lookupParameter,
                         string noAttributeParameter)
         {
@@ -64,8 +64,8 @@ namespace TRex.Test.DummyApi.Controllers
         [HttpGet]
         [Route("literal-operationid-no-parameters")]
         public IHttpActionResult LiteralOperationIdNoParameters(
-                                [DynamicSchemaLookup(lookupOperation: "Some_Other_OperationId",
-                                                        valuePath: "Id")]
+                                //[DynamicSchemaLookup(lookupOperation: "Some_Other_OperationId",
+                                //                        valuePath: "Id")]
                                 JObject lookupParameter,
                                 string noAttributeParameter)
         {

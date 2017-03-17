@@ -4,6 +4,7 @@ using QuickLearn.ApiApps.Metadata;
 
 namespace TRex.Metadata.Models
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     internal class DynamicSchemaModel
     {
 
