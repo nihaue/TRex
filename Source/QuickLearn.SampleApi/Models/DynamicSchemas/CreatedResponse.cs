@@ -1,6 +1,6 @@
 ﻿using TRex.Metadata;
 
-namespace QuickLearn.SampleApi.Models.DynamicSchemas
+namespace QuickLearn.SampleApi.Models
 {
     public class ContactCreatedResponse
     {

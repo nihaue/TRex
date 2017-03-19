@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using QuickLearn.SampleApi.Models;
-using QuickLearn.SampleApi.Models.DynamicSchemas;
 using Swashbuckle.Swagger.Annotations;
 using System.Collections.Generic;
 using System.IO;
