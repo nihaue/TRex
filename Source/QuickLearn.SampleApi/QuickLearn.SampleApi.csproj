@@ -105,6 +105,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DynamicSchemasController.cs" />
     <Compile Include="Controllers\DynamicValuesController.cs" />
+    <Compile Include="Models\DynamicSchemas\CreatedResponse.cs" />
     <Compile Include="Models\PushTrigger\InMemoryCallbackStore.cs" />
     <Compile Include="Controllers\PollingTriggerController.cs" />
     <Compile Include="Controllers\PushTriggerController.cs" />
@@ -114,7 +115,7 @@
     </Compile>
     <Compile Include="Models\PushTrigger\Callback.cs" />
     <Compile Include="Models\DynamicValues\CountryList.cs" />
-    <Compile Include="Models\DynamicSchemas\ContactInfoDummySchema.cs" />
+    <Compile Include="Models\DynamicSchemas\ContactInfo.cs" />
     <Compile Include="Models\DynamicValues\FavoriteFoodModel.cs" />
     <Compile Include="Models\DynamicValues\StateListModel.cs" />
     <Compile Include="Models\PollingTrigger\PageQueryResult.cs" />

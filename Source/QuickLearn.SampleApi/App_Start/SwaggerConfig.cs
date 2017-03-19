@@ -1,9 +1,5 @@
-﻿using System.Globalization;
-using System.Linq;
-using System.Web.Http;
-using System.Web.Http.Description;
+﻿using System.Web.Http;
 using Swashbuckle.Application;
-using Swashbuckle.Swagger;
 using WebActivatorEx;
 using QuickLearn.SampleApi;
 using TRex.Metadata;

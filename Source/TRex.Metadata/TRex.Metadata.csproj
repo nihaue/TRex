@@ -78,6 +78,7 @@
     <Compile Include="Filters\TRexDocumentFilter.cs" />
     <Compile Include="Filters\TRexSchemaFilter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\DynamicModelBase.cs" />
     <Compile Include="Models\DynamicSchemaModel.cs" />
     <Compile Include="Models\NotificationContentModel.cs" />
     <Compile Include="Models\DynamicValuesModel.cs" />

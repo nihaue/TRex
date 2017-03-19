@@ -3,6 +3,7 @@
 ################################################################################
 *.suo
 *.user
+/.vs
 /Source/.vs
 /Source/packages
 /Source/QuickLearn.SampleApi/bin
@@ -24,3 +25,4 @@
 /Source/TRex.TestHelpers/bin
 /Source/TRex.TestHelpers/obj
 /Source/QuickLearn.ApiApps.SampleApiApp
+
