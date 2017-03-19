@@ -121,7 +121,7 @@ namespace QuickLearn.SampleApi.Controllers
         /// <returns>Returns a message constructed from members of the created contact to demonstrate member access.</returns>
         [HttpPost, Route()]
         [Metadata("Insert Contact", "Inserts a new contact", VisibilityType.Advanced)]
-        [SwaggerResponse(HttpStatusCode.Created)]
+        [SwaggerResponse(HttpStatusCode.Created, Type = typeof(ContactCreatedResponse))]
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "Invalid type specified")]
         public IHttpActionResult CreateNewContact(
             [Metadata("Contact Name")]string name,
@@ -134,8 +134,8 @@ namespace QuickLearn.SampleApi.Controllers
             // JToken is likely the safer route to take.
             dynamic dynamicContact = contact;
             JToken jTokenContact = contact;
-            
-            var response = new ContactCreatedResponse();
+
+            var response = new ContactCreatedResponse() { Name = name };
 
             switch (contactType)
             {
