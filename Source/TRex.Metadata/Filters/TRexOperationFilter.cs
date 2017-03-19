@@ -140,7 +140,7 @@ namespace QuickLearn.ApiApps.Metadata
             if (!operation.responses.ContainsKey(Constants.DEFAULT_RESPONSE_KEY))
             {
                 var successCode = (from statusCode in operation.responses.Keys
-                                   where statusCode.StartsWith("2",
+                                   where statusCode.StartsWith(Constants.HAPPY_RESPONSE_CODE_LEVEL_START,
                                     StringComparison.OrdinalIgnoreCase)
                                    select statusCode).FirstOrDefault();
 

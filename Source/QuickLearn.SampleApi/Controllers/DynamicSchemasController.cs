@@ -8,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Description;
 using TRex.Metadata;
 
 namespace QuickLearn.SampleApi.Controllers
@@ -121,6 +122,7 @@ namespace QuickLearn.SampleApi.Controllers
         /// <returns>Returns a message constructed from members of the created contact to demonstrate member access.</returns>
         [HttpPost, Route()]
         [Metadata("Insert Contact", "Inserts a new contact", VisibilityType.Advanced)]
+        [ResponseType(typeof(ContactCreatedResponse))]
         [SwaggerResponse(HttpStatusCode.Created, Type = typeof(ContactCreatedResponse))]
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "Invalid type specified")]
         public IHttpActionResult CreateNewContact(
