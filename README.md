@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PackageIcon.png" align="right" />
 QuickLearn's T-Rex Metadata Library enables you to quickly write Web API applications that are
 readily consumable from the Logic App Designer. It is implemented as a set of .NET Attributes
-that you can use to decorate methods, parameters, and properties, and a set of filters for
+that you can use to decorate methods, parameters, models and properties, and a set of filters for
 [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) that use those attributes to
 override the [swagger](http://swagger.io/) metadata generation.
 
@@ -13,9 +13,8 @@ So let's go ahead and get started!
 To get started, you will need to [install the **TRex** NuGet package](https://www.nuget.org/packages/TRex/).
 From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and
 then whichever other sections are applicable below. If you want to get straight to some working
-code, you can also [look through the sample application](https://github.com/nihaue/TRex/tree/master/Source/QuickLearn.Api.Sample) (COMING SOON)
-which implements a simple API that demonstrates how one might use the T-Rex attributes with
-a custom API.
+code, you can also [look through the sample application](https://github.com/nihaue/TRex/tree/powerapps/Source/QuickLearn.SampleApi)
+which implements an API that demonstrates each of the core features of the T-Rex library.
 
 # Enabling T-Rex Metadata Generation
 To enable T-Rex Metadata Generation, head over to the **SwaggerConfig.cs** file in the
@@ -34,12 +33,13 @@ GlobalConfiguration.Configuration.EnableSwagger(c =>
 ```
 
 # Building an Action or Connector API App
-If you are building an Action or Connector API App, T-Rex helps you make sure your actions
-look pretty within the Logic Apps designer, and the generated swagger metadata. It does
-this through a set of custom attributes. The first attribute that you might want to know
-about is the **Metadata** attribute, which can be used to provide custom friendly names,
-descriptions, and visibility settings for each of your API App methods, parameters, or
-properties of the models used by your parameters.
+If you are building an Action/Connector API App, T-Rex helps you make sure your actions
+look pretty within the Logic Apps designer, and within the generated swagger metadata. It does
+this through a set of custom .NET attributes.
+
+The attribute that you will use most often is the **Metadata** attribute, which can be used to
+provide custom friendly names, descriptions, and visibility settings for each of your API App
+methods, parameters, or properties of the models used by your parameters.
 
 To use this beast, you'll need to add a pesky **using** directive (CTRL+. is your friend if
 you just start typing the attribute without thinking about it):
@@ -51,26 +51,39 @@ Now that we have that out of the way, let's start with a typical Web API action 
 
 ```csharp
         [HttpPost, Route]
-        public SampleOutputMessage Post([FromBody]SampleInputMessage sampleInput)
+		[SwaggerOperation("PostInput")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(SampleOutputMessage))]
+        public async Task<IHttpActionResult> Post([FromBody]SampleInputMessage sampleInput)
         {
-            return new SampleOutputMessage();
+            return await SampleOutputMessage.FromInputAsync(sampleInput);
         }
 ```
 
-How do we make it look pretty in the Logic App designer? We simply add the T-Rex **Metadata** attribute. Here it is in action, providing a friendly name and description for the action itself, and its parameter:
+How do we make it look pretty in the Logic App designer? We simply replace the **SwaggerOperation** attribute
+with the T-Rex **Metadata** attribute.
+
+Here it is in action, providing a friendly name and description for the action itself, and its parameter:
 
 ```csharp
-        [Metadata("Create Message", "Creates a new message absolutely nowhere")]
         [HttpPost, Route]
-        public SampleOutputMessage Post([FromBody]
+		[Metadata("Create Message", "Creates a new message absolutely nowhere")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(SampleOutputMessage))]
+        public async Task<IHttpActionResult> Post([FromBody]
                                         [Metadata("Sample Input", "A sample input message")]
                                             SampleInputMessage sampleInput)
         {
-            return new SampleOutputMessage();
+            return await SampleOutputMessage.FromInputAsync(sampleInput);
         }
 ```
 
-You're not limited to using the **Metadata** attribute on actions or parameters though, you can bring it to your models as well:
+Where did the **SwaggerOperation** attribute go? Well, the **Metadata** attribute goes a step further
+than the **SwaggerOperation** attriubte. The **SwaggerOperation** attribute indicates what the id of
+the operation should be in the swagger metadata. The **Metadata** attribute indicates a friendly name
+from which an operation id is generated. If you type a friendly name that does not include spaces, it will
+be used directly as the operation id in the swagger metadata.
+
+You're not limited to using the **Metadata** attribute on just *actions* or *parameters* though,
+you can bring it to your *models* as well:
 
 ```csharp
     public class SampleInputMessage
@@ -84,7 +97,6 @@ You're not limited to using the **Metadata** attribute on actions or parameters 
        
     }
 ```
-
 
 The **Metadata** attribute accepts three values: **FriendlyName**, **Description**, and **Visibility**.
 
@@ -112,26 +124,24 @@ So where is all of the metadata that we clearly added to the _model_ for this ac
 
 Well that's pretty cool, but what else can T-Rex do for me?
 
-# New Capabilities for Power Apps / Logic Apps Preview Refresh  
+# New Capabilities for Power Apps / Microsoft Flow 
 
-T-Rex is currently being updated to support [new functionality](http://www.quicklearn.com/blog/2016/03/09/azure-app-service-logic-apps-refresh/) within the Logic Apps designer and runtime. The current release provides the set of attributes that will be available, but does not necessarily represent the final implementation of those attributes. Meaning, if you write code today and use the attributes, you should not have to modify your code in order to enable the functionality as it becomes available (simply update the NuGet package reference).
+T-Rex is currently being updated to support [new functionality](https://powerapps.microsoft.com/en-us/tutorials/customapi-how-to-swagger/) within Power Apps and Microsoft Flow. At the moment, these features are **only** functioning in Microsoft Flow (since your custom API is treated as a Managed API and has access to the same dynamic schema/values functionality).
 
-You can find this functionality in version **1.0.1-alpha** of the NuGet package. A sample API will be released to further demonstrate usage of these attributes.
+You can find this functionality in version **[2.0.2-alpha](http://www.nuget.org/packages/TRex/2.0.2-alpha)** of the NuGet package.
 
 What will I have to change in my code?
-- Triggers as a concept have evolved into a completely different form in the new runtime/designer. Triggers can actually be used at any point of a Logic App -- they're not necessarily only triggering the flow -- the flow can pause and wait for an event and/or poll for data. As a result the **Trigger** attribute no longer serves the same purpose as it once did. A sample and guidance for using each of the triggering models will be made available as it is ready. You can currently build three types of triggers with T-Rex (1) Polling with a single returned result, (2) Polling with a returned batch of results that will each trigger their own flow, (3) Subscription based trigger (requires use of the CallbackUrl attribute somewhere in the response model).
-- The **UnregisterCallback** attribute has been removed. It may return in a later release.
+- Triggers as a concept have evolved into a completely different form in the new runtime/designer. Triggers can actually be used at any point of a Logic App -- they're not necessarily only triggering the flow -- the flow can pause and wait for an event and/or poll for data. As a result the **Trigger** attribute no longer serves the same purpose as it once did. You can currently build three types of triggers with T-Rex (1) [Polling with a single returned result](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PollingTriggerController.cs), (2) Polling with a returned batch of results that will each trigger their own flow, (3) [Subscription based trigger](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PushTriggerController.cs) (requires use of the [CallbackUrl attribute somewhere in the response model](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Models/PushTrigger/PriceAlertConfig.cs)).
+- The **UnregisterCallback** attribute has been removed. The runtime simply performs a DELETE on the resource specified in the Location header when the callback is created. [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PushTriggerController.cs).
+- The **ResponseTypeLookup** attribute has been removed. This has been replaced by the **DynamicSchemaLookup** attribute to be specified on a class that dervices from **DynamicModelBase**. [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Models/DynamicSchemas/ContactInfo.cs).
 
 What are the new features?
-- **Trigger** attribute to be used with polling triggers/actions to identify the batch mode (treat trigger result as a sinlge item vs. treat trigger result as a batch)
-- **DynamicValueLookup** attribute to be used with a parameter to define an operation to call to lookup possible values for a given parameter (emits x-ms-dynamic-values vendor extension)
-- **DynamicSchemaLookup** attribute to define an operation to call to lookup a JSON schema for a given parameter (emits x-ms-dynamic-schmea swagger vendor extension)
-
-You can [learn about these new features here](https://azure.microsoft.com/en-us/documentation/articles/powerapps-develop-api/).
+- [**Trigger** attribute](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata.Attributes/Attributes/TriggerAttribute.cs) to be used with [polling triggers](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PollingTriggerController.cs)/[subscription triggers](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PushTriggerController.cs) to identify the batch mode (treat trigger result as a sinlge item vs. treat trigger result as a batch) and pattern
+- [**EventTriggered** and **EventWaitPoll** extension methods](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata/Extensions/PollingTriggerExtensions.cs) that are compatible with new Logic Apps polling style. [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PollingTriggerController.cs))
+- [**DynamicValueLookup** attribute](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata.Attributes/Attributes/DynamicValueLookupAttribute.cs) to be used with a parameter to define an operation to call to lookup possible values for a given parameter (emits x-ms-dynamic-values vendor extension). [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/DynamicValuesController.cs). 
+- [**DynamicSchemaLookup** attribute](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata.Attributes/Attributes/DynamicSchemaLookupAttribute.cs) to define an operation to call to lookup a JSON schema for a given model (emits x-ms-dynamic-schmea swagger vendor extension). See [sample controller here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/DynamicSchemasController.cs), and [dynamic model here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Models/DynamicSchemas/ContactInfo.cs).
+- [**DynamicModelBase** class](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata/Models/DynamicModelBase.cs) to use as a base of your dynamic models (models for which you are using the **DynamicSchemaLookup** attribute). It has been designed to be backed by a JToken, and implicitly convertible to/from JToken. It can also be used as a dynamic. Properties added by classes deriving from this class will also be backed by the JToken during serialization/deserialization. [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Models/DynamicSchemas/ContactInfo.cs).
     
-The following features are not quite ready for use:
-- **ResponseTypeLookup** attribute. This has the same functionality as the **DynamicSchemaLookup** attribute, but only applies to return values. Implementation of this functionality is blocked by **Swashbuckle** which does not currently support emitting vendor extensions in the swagger for individual responses. [Pull request #679](https://github.com/domaindrivendev/Swashbuckle/pull/679) should unblock implementation if/when it is merged.
-
 # Go Build Great Things!
 Well, what are you waiting for? Reading documentation never built software. Go make mistakes, let those mistakes lead you into building great things!
 
