@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Net;
-using System.Web.Http;
-using System.Web.Http.Description;
+﻿using System.Web.Http;
 using TRex.Metadata;
 using TRex.Test.DummyApi.Models;
 

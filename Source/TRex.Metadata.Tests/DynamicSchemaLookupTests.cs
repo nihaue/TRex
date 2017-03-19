@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System;
 using TRex.Test.Infrastructure;
 
 namespace TRex.Metadata.Tests
 {
-    
+
     [TestClass]
     
     public class DynamicSchemaLookupTests

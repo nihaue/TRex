@@ -1,6 +1,8 @@
 ﻿using QuickLearn.ApiApps.Metadata.Extensions;
 using Swashbuckle.Swagger;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using TRex.Metadata;
@@ -18,9 +20,17 @@ namespace QuickLearn.ApiApps.Metadata
 
         public void Apply(Schema schema, SchemaRegistry schemaRegistry, Type type)
         {
-            if (schema == null || schema.properties == null || type == null) return;
+            if (schema == null || type == null)
+            {
+                return;
+            }
 
-            applySchemaLookupForDynamicModels(schema, type);
+            applySchemaLookupForDynamicModels(schema, schemaRegistry, type);
+
+            if (schema.properties == null)
+            {
+                return;
+            }
 
             foreach (var propertyName in schema.properties.Keys)
             {
@@ -33,7 +43,7 @@ namespace QuickLearn.ApiApps.Metadata
         }
 
 
-        private static void applySchemaLookupForDynamicModels(Schema schema, Type type)
+        private static void applySchemaLookupForDynamicModels(Schema schema, SchemaRegistry schemaRegistry, Type type)
         {
             if (schema == null || type == null) return;
 
@@ -48,7 +58,78 @@ namespace QuickLearn.ApiApps.Metadata
                 ValuePath = dynamicSchemaInfo.ValuePath
             };
 
-            schema.SetSchemaLookup(schemaLookupSettings);
+            // Swashbuckle should end up generating a ref schema in this case already,
+            // in which case all that is necessary is to apply the vendor extensions and 
+            // get out of this method
+            if (type.BaseType == typeof(object))
+            {
+                schema.SetSchemaLookup(schemaLookupSettings);
+                return;
+            }
+
+            // Determine if the dynamic schema already appears in the schema registry
+            // if it appears, we will reference it's definition and make sure it has the
+            // vendor extension applied 
+            if (schemaRegistry.Definitions.ContainsKey(type.Name))
+            {
+                schemaRegistry.Definitions[type.Name].SetSchemaLookup(schemaLookupSettings);
+            }
+            else
+            {
+                // Dynamic schema hasn't been registered yet, let's do that to make sure
+                // the schema doesn't get inlined (since the settings will be common for the type
+                // given that the attribute appears at the class-level)
+                var dynamicSchema = new Schema()
+                {
+                    additionalProperties = schema.additionalProperties,
+                    allOf = schema.allOf,
+                    @default = schema.@default,
+                    description = schema.description,
+                    discriminator = schema.discriminator,
+                    @enum = schema.@enum,
+                    example = schema.example,
+                    exclusiveMaximum = schema.exclusiveMaximum,
+                    exclusiveMinimum = schema.exclusiveMinimum,
+                    externalDocs = schema.externalDocs,
+                    format = schema.format,
+                    items = schema.items,
+                    maximum = schema.maximum,
+                    maxItems = schema.maxItems,
+                    maxLength = schema.maxLength,
+                    maxProperties = schema.maxProperties,
+                    minimum = schema.minimum,
+                    minItems = schema.minItems,
+                    minLength = schema.minLength,
+                    minProperties = schema.minProperties,
+                    multipleOf = schema.multipleOf,
+                    pattern = schema.pattern,
+                    properties = schema.properties,
+                    readOnly = schema.readOnly,
+                    @ref = schema.@ref,
+                    required = schema.required,
+                    title = schema.title,
+                    type = schema.type,
+                    uniqueItems = schema.uniqueItems,
+                    xml = schema.xml
+                };
+
+                dynamicSchema.SetSchemaLookup(schemaLookupSettings);
+                dynamicSchema.properties = dynamicSchema.properties ?? new Dictionary<string, Schema>();
+
+                schemaRegistry.Definitions.Add(type.Name, dynamicSchema);
+
+
+            }
+
+            // Let's make sure the current schema points to the definition that is registered
+            // and doesn't get inlined
+            if (string.IsNullOrWhiteSpace(schema.@ref))
+            {
+                schema.@ref = $"#/{nameof(schemaRegistry.Definitions).ToLower(CultureInfo.InvariantCulture)}/{type.Name}";
+                schema.type = null;
+                schema.properties = null;
+            }
+
         }
 
 
