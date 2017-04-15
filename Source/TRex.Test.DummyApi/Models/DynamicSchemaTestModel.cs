@@ -1,4 +1,5 @@
-﻿using TRex.Metadata;
+﻿using System;
+using TRex.Metadata;
 
 namespace TRex.Test.DummyApi.Models
 {

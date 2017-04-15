@@ -32,7 +32,7 @@ namespace TRex.Metadata
         {
             data = JToken.FromObject(source);
         }
-        
+
         public override IEnumerable<string> GetDynamicMemberNames()
         {
             var dObj = (data as JObject);
@@ -53,7 +53,7 @@ namespace TRex.Metadata
             result = null;
 
             if (binder == null) return false;
-            
+
             try
             {
                 if (getPublicMemberNames().Contains(binder.Name))
@@ -74,7 +74,7 @@ namespace TRex.Metadata
 
                 result = data[binder.Name];
                 return true;
-                
+
             }
             catch (Exception)
             {
@@ -104,7 +104,7 @@ namespace TRex.Metadata
                     else { }
                 }
 
-                data[binder.Name] = JToken.FromObject(value);
+                data[binder.Name] = value == null ? null : JToken.FromObject(value);
 
                 return true;
             }
@@ -133,7 +133,7 @@ namespace TRex.Metadata
         {
             return source;
         }
-
+        
         public static implicit operator JToken(DynamicModelBase source)
         {
             if (source == null) return null;

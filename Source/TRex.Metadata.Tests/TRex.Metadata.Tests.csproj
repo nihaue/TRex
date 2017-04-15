@@ -41,8 +41,11 @@
     <AssemblyOriginatorKeyFile>..\key\trex.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" />
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -57,10 +60,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="TestDoubles\DynamicModelHardcodedProp.cs" />
     <Compile Include="TriggerTests.cs" />
     <Compile Include="DynamicSchemaLookupTests.cs" />
     <Compile Include="SummaryTests.cs" />
     <Compile Include="DynamicValueLookupTests.cs" />
+    <Compile Include="DynamicModelBaseTests.cs" />
     <Compile Include="VisibilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -71,6 +76,14 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TRex.Metadata.Attributes\TRex.Metadata.Attributes.csproj">
+      <Project>{d174c512-53a9-47f3-8c4c-31147125d9a5}</Project>
+      <Name>TRex.Metadata.Attributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TRex.Metadata\TRex.Metadata.csproj">
+      <Project>{bb17e598-1d39-4997-a0f3-77079002bada}</Project>
+      <Name>TRex.Metadata</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TRex.Test.DummyApi\TRex.Test.DummyApi.csproj">
       <Project>{e05d7f04-57aa-4f98-9662-82137b17ca64}</Project>
       <Name>TRex.Test.DummyApi</Name>
@@ -80,6 +93,7 @@
       <Name>TRex.Test.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
