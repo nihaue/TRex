@@ -186,9 +186,9 @@ namespace QuickLearn.SampleApi.Controllers
 
                 var distinctCountries = (from r in
                                              from c in cultures
-                                             select new RegionInfo(c.LCID)
-                                         orderby r.EnglishName ascending
-                                         select new KeyValuePair<string, string>(string.Format(
+                                             select new RegionInfo(c.Name)
+                                                orderby r.EnglishName ascending
+                                                select new KeyValuePair<string, string>(string.Format(
                                                         "{1} ({0})",
                                                         r.EnglishName, r.NativeName),
                                                         r.TwoLetterISORegionName.ToUpperInvariant()))
