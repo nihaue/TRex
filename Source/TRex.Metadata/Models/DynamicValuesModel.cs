@@ -23,5 +23,7 @@ namespace TRex.Metadata.Models
         [JsonProperty(PropertyName = Constants.VALUE_TITLE)]
         public string ValueTitle { get; set; }
 
+        [JsonProperty (PropertyName = Constants.CAPABILITY)]
+        public string Capability { get; set; }
     }
 }

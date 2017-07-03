@@ -23,7 +23,10 @@ namespace QuickLearn.ApiApps.Metadata
 
             // Handle DynamicValueLookup attribute
             applyValueLookupForDynamicParameters(operation, apiDescription);
-            
+
+            // Handle DynamicValueLookupCapability attribute
+            applyValueLookupForDynamicParametersWithCapability (operation, apiDescription);
+
             // Handle Trigger attribute
             applyTriggerBatchModeAndResponse(operation, schemaRegistry, apiDescription);
 
@@ -40,7 +43,7 @@ namespace QuickLearn.ApiApps.Metadata
 
             operation.SetTrigger(schemaRegistry, triggerInfo);
         }
-      
+        
         private static void applyValueLookupForDynamicParameters(Operation operation, ApiDescription apiDescription)
         {
             if (operation == null || apiDescription == null) return;
@@ -54,7 +57,7 @@ namespace QuickLearn.ApiApps.Metadata
                                        Parameter = p,
                                        ValueLookupInfo = valueLookupInfo
                                    };
-
+            
             if (!lookupParameters.Any()) return;
 
             foreach (var param in lookupParameters)
@@ -71,11 +74,42 @@ namespace QuickLearn.ApiApps.Metadata
                     apiDescription.ResolveOperationIdForSiblingAction(
                         param.ValueLookupInfo.LookupOperation,
                         valueLookup.Parameters.Properties().Select(p => p.Name).ToArray());
-                
+
                 param.SwaggerParameter.SetValueLookup(valueLookup);
             }
         }
         
+        private static void applyValueLookupForDynamicParametersWithCapability (Operation operation, ApiDescription apiDescription)
+            {
+            if ( operation == null || apiDescription == null )
+                return;
+
+            var lookupParameters = from p in apiDescription.ParameterDescriptions
+                let valueLookupInfo = p.ParameterDescriptor.GetFirstOrDefaultCustomAttribute<DynamicValueLookupCapabilityAttribute>()
+                where valueLookupInfo != null
+                select new
+                    {
+                    SwaggerParameter = operation.parameters.FirstOrDefault(param => param.name == p.Name),
+                    ValueLookupInfo = valueLookupInfo
+                    };
+
+            if (!lookupParameters.Any ())
+                return;
+
+            foreach (var param in lookupParameters)
+                {
+                var valueLookup = new DynamicValuesModel ()
+                    {
+                    Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams (param.ValueLookupInfo.Parameters),
+                    ValuePath = param.ValueLookupInfo.ValuePath,
+                    ValueTitle = param.ValueLookupInfo.ValueTitle,
+                    Capability = param.ValueLookupInfo.Capability
+                    };
+
+                param.SwaggerParameter.SetValueLookup (valueLookup);
+                }
+            }
+
         /// <summary>
         /// Applies the friendly names, descriptions, and visibility settings to the operation
         /// </summary>

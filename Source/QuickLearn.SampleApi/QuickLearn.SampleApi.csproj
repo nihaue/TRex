@@ -62,6 +62,7 @@
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.0\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization.Primitives" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -104,9 +105,11 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DynamicSchemasController.cs" />
+    <Compile Include="Controllers\DynamicValuesCapabilityController.cs" />
     <Compile Include="Controllers\DynamicValuesController.cs" />
     <Compile Include="Formatters\DynamicXmlFormatter.cs" />
     <Compile Include="Models\DynamicSchemas\CreatedResponse.cs" />
+    <Compile Include="Models\DynamicValuesCapability\BlobMetadataModel.cs" />
     <Compile Include="Models\PushTrigger\InMemoryCallbackStore.cs" />
     <Compile Include="Controllers\PollingTriggerController.cs" />
     <Compile Include="Controllers\PushTriggerController.cs" />

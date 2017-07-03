@@ -37,13 +37,21 @@ namespace QuickLearn.ApiApps.Metadata
             var placeholderMatch = Regex.Match(rawValue, PARAM_PLACEHOLDER);
 
             // There is a value, but it's not a placeholder
-            if (placeholderMatch.Groups.Count != 2) return;
+            if (placeholderMatch.Groups.Count != 2)
+            {
+                //changes true/false values from string to bool in json
+                if (rawValue == "true")
+                    currentProperty.Value = true;
+                else if (rawValue == "false")
+                    currentProperty.Value = false;
+                return;
+            }
 
-            var placeholderName = placeholderMatch.Groups[1].Value;
+        var placeholderName = placeholderMatch.Groups[1].Value;
 
             // There is no placeholder value to expand, even though it looked like there was
             if (string.IsNullOrWhiteSpace(placeholderName)) return;
-            
+
             // Finally, there is a placeholder, so let's expand it
             JObject expandedValue = new JObject
             {
@@ -89,7 +97,7 @@ namespace QuickLearn.ApiApps.Metadata
 
                 parseSuccess = true;
             }
-
+            
             foreach (var prop in result.Properties())
                 prop.buildParameterPlaceholders();
 

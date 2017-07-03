@@ -123,6 +123,7 @@
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\key\trex.snk">
       <Link>trex.snk</Link>
@@ -133,6 +134,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DynamicSchemaLookupTestController.cs" />
+    <Compile Include="Controllers\DynamicValueLookupCapabilityTestController.cs" />
     <Compile Include="Controllers\SubscriptionTestController.cs" />
     <Compile Include="Controllers\SummaryTestController.cs" />
     <Compile Include="Controllers\DynamicValueLookupTestController.cs" />

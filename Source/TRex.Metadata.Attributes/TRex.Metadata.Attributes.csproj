@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\CallbackUrlAttribute.cs" />
+    <Compile Include="Attributes\DynamicValueLookupCapabilityAttribute.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Attributes\MetadataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

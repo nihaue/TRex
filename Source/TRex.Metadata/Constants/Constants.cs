@@ -44,6 +44,11 @@
         /// </summary>
         internal const string X_MS_DYNAMIC_SCHEMA = "x-ms-dynamic-schema";
 
+        /// <summary>
+        /// Gets the string "x-ms-capabilities";
+        /// </summary>
+        internal const string X_MS_CAPABILITIES = "x-ms-capabilities";
+
         #endregion
 
         #region Vendor Extension Properties
@@ -99,6 +104,35 @@
         /// </summary>
         internal const string REF = "$ref";
 
+        /// <summary>
+        /// Gets the string "capability"
+        /// </summary>
+        internal const string CAPABILITY = "capability";
+
+        /// <summary>
+        /// Gets the string "open"
+        /// </summary>
+        internal const string OPEN = "open";
+
+        /// <summary>
+        /// Gets the string "browse"
+        /// </summary>
+        internal const string BROWSE = "browse";
+
+        /// <summary>
+        /// Gets the string "value-folder-property"
+        /// </summary>
+        internal const string VALUE_FOLDER_PROPERTY = "value-folder-property";
+
+        /// <summary>
+        /// Gets the string "value-media-property"
+        /// </summary>
+        internal const string VALUE_MEDIA_PROPERTY = "value-media-property";
+
+        /// <summary>
+        /// Gets the string "value-property"
+        /// </summary>
+        internal const string VALUE_PROPERTY = "value-property";
         #endregion
 
         #region Vendor Extension Values
@@ -112,6 +146,11 @@
         /// Gets the string "batch"
         /// </summary>
         internal const string BATCH = "batch";
+
+        /// <summary>
+        /// Gets the string "file-picker"
+        /// </summary>
+        internal const string FILE_PICKER = "file-picker";
 
         #endregion  
 
@@ -144,6 +183,5 @@
 
 
         #endregion
-
     }
 }

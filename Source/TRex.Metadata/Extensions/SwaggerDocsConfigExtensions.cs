@@ -1,6 +1,7 @@
 ﻿using QuickLearn.ApiApps.Metadata;
 using Swashbuckle.Application;
 using System;
+using TRex.Metadata.Models;
 
 namespace TRex.Metadata
 {
@@ -16,12 +17,22 @@ namespace TRex.Metadata
         /// to configure Swashbuckle</param>
         [CLSCompliant(false)]
         public static void ReleaseTheTRex(this SwaggerDocsConfig config)
-        {
+            {
             if (config == null) return;
 
             config.SchemaFilter<TRexSchemaFilter>();
             config.OperationFilter<TRexOperationFilter>();
             config.DocumentFilter<TRexDocumentFilter>();
-        }
+            }
+
+        [CLSCompliant (false)]
+        public static void ReleaseTheTRex (this SwaggerDocsConfig config, FilePickerCapabilityModel capability)
+            {
+            if (config == null) return;
+
+            config.SchemaFilter<TRexSchemaFilter> ();
+            config.OperationFilter<TRexOperationFilter> ();
+            config.DocumentFilter (() => new TRexDocumentFilter (capability));
+            }
     }
 }
