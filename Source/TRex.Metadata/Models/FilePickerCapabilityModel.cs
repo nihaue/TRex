@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using QuickLearn.ApiApps.Metadata;
 
 namespace TRex.Metadata.Models
@@ -12,10 +6,10 @@ namespace TRex.Metadata.Models
     public class FilePickerCapabilityModel
         {
         [JsonProperty (PropertyName = Constants.OPEN)]
-        public FilePickerOperation Open { get; set; }
+        public FilePickerOperationModel Open { get; set; }
         
         [JsonProperty (PropertyName = Constants.BROWSE)]
-        public FilePickerOperation Browse { get; set; }
+        public FilePickerOperationModel Browse { get; set; }
 
         [JsonProperty (PropertyName = Constants.VALUE_TITLE)]
         public string ValueTitle { get; set; }
@@ -41,8 +35,8 @@ namespace TRex.Metadata.Models
         /// used to determine file type (.zip, .txt, etc.)</param>
         public FilePickerCapabilityModel 
         (
-        FilePickerOperation open,
-        FilePickerOperation browse,
+        FilePickerOperationModel open,
+        FilePickerOperationModel browse,
         string valueTitle,
         string valueFolderProperty,
         string valueMediaProperty
@@ -56,38 +50,6 @@ namespace TRex.Metadata.Models
             ValueTitle = valueTitle;
             ValueFolderProperty = valueFolderProperty;
             ValueMediaProperty = valueMediaProperty;
-            }
-        }
-
-    public class FilePickerOperation
-        {
-        [JsonProperty(PropertyName = Constants.OPERATION_ID)]
-        public string OperationId { get; set; }
-        
-        [JsonProperty(PropertyName = Constants.PARAMETERS)]
-        public Dictionary<string, FilePickerParameterValue> Parameters { get; set; }
-
-        public FilePickerOperation (string operationId, Dictionary<string, string> parameters)
-            {
-            OperationId = operationId;
-            if (parameters == null)
-                return;
-            Parameters = new Dictionary<string, FilePickerParameterValue> ();
-            foreach (var param in parameters)
-                {
-                Parameters.Add (param.Key, new FilePickerParameterValue(param.Value));
-                }
-            }
-        }
-    
-    public class FilePickerParameterValue
-        {
-        [JsonProperty(PropertyName = Constants.VALUE_PROPERTY)]
-        public string Value { get; set; }
-
-        public FilePickerParameterValue (string value)
-            {
-            Value = value;
             }
         }
     }

@@ -22,8 +22,8 @@ namespace QuickLearn.SampleApi
                     {
                         var capability = new FilePickerCapabilityModel 
                             (
-                            new FilePickerOperation ("GetRootFolders", null),
-                            new FilePickerOperation ("GetChildFolders", new Dictionary<string, string> { { "folderName", "Name" } }),
+                            new FilePickerOperationModel ("GetRootFolders", null),
+                            new FilePickerOperationModel ("GetChildFolders", new Dictionary<string, string> { { "folderName", "Name" } }),
                             "Name",
                             "Name",
                             null);

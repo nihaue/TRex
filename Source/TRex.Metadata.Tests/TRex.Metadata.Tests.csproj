@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FilePickerCapabilityTests.cs" />
     <Compile Include="TestDoubles\DynamicModelHardcodedProp.cs" />
     <Compile Include="TriggerTests.cs" />
     <Compile Include="DynamicSchemaLookupTests.cs" />

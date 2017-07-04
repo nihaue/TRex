@@ -81,6 +81,7 @@
     <Compile Include="Models\DynamicModelBase.cs" />
     <Compile Include="Models\DynamicSchemaModel.cs" />
     <Compile Include="Models\FilePickerCapabilityModel.cs" />
+    <Compile Include="Models\FilePickerOperationModel.cs" />
     <Compile Include="Models\NotificationContentModel.cs" />
     <Compile Include="Models\DynamicValuesModel.cs" />
     <Compile Include="Models\SchemaModel.cs" />

@@ -1,4 +1,5 @@
-﻿using Swashbuckle.Application;
+﻿using System.Collections.Generic;
+using Swashbuckle.Application;
 using Swashbuckle.Swagger;
 using System.Globalization;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Web.Http.Description;
 using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using TRex.Metadata;
+using TRex.Metadata.Models;
 
 namespace TRex.Test.Infrastructure
 {
@@ -17,20 +19,23 @@ namespace TRex.Test.Infrastructure
     {
         internal static HttpConfiguration config = new HttpConfiguration();
 
-        internal static SwaggerDocsConfig GetDefaultConfigWithTRex()
+        internal static SwaggerDocsConfig GetDefaultConfigWithTRex(FilePickerCapabilityModel capability)
         {
             SwaggerDocsConfig config = new SwaggerDocsConfig();
 
             config.SingleApiVersion("v1", "TRexTestApi");
-            config.ReleaseTheTRex();
+            if (capability != null)
+                config.ReleaseTheTRex(capability);
+            else
+                config.ReleaseTheTRex();
             config.OperationFilter<IncludeParameterNamesInOperationIdFilter>();
 
             return config;
         }
 
-        internal static SwaggerDocsHandler GetDefaultHandler()
+        internal static SwaggerDocsHandler GetDefaultHandler(FilePickerCapabilityModel capability)
         {
-            return new SwaggerDocsHandler(GetDefaultConfigWithTRex());
+            return new SwaggerDocsHandler(GetDefaultConfigWithTRex(capability));
         }
 
         internal static void SetupRoutesFor(Assembly assembly)
@@ -39,7 +44,7 @@ namespace TRex.Test.Infrastructure
             config.EnsureInitialized();
         }
         
-        internal static string GetSwagger()
+        internal static string GetSwagger(FilePickerCapabilityModel capability = null)
         {
 
             SetupRoutesFor(typeof(TRex.Test.DummyApi.WebApiApplication).Assembly);
@@ -52,7 +57,7 @@ namespace TRex.Test.Infrastructure
 
             request.Properties[HttpPropertyKeys.HttpRouteDataKey] = route.GetRouteData("/", request);
 
-            var messageInvoker = new HttpMessageInvoker(GetDefaultHandler());
+            var messageInvoker = new HttpMessageInvoker(GetDefaultHandler(capability));
 
             var result = messageInvoker.SendAsync(request, new CancellationToken(false)).Result;
 
@@ -67,6 +72,10 @@ namespace TRex.Test.Infrastructure
             get { return swagger ?? (swagger = GetSwagger()); }
         }
 
+        public static string GetSwaggerWithCapability (FilePickerCapabilityModel capability)
+            {
+            return GetSwagger (capability);
+            }
     }
 
     internal class IncludeParameterNamesInOperationIdFilter : IOperationFilter
