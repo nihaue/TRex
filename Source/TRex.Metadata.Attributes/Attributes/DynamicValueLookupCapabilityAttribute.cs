@@ -26,7 +26,7 @@ namespace TRex.Metadata
 
         /// <summary>
         /// (current behaviour) CURRENTLY DOESN'T WORK (MICROSOFT PLEASE) always tries to get Path parameter from the output
-        /// and just crashes and burns if it can't find Path field
+        /// and just crashes the Flow creating UI if it can't find Path field
         /// (expected behaviour) Gets or sets the name of the property from capability's output which will be shown in the flow UI
         /// </summary>
         public string ValueTitle { get; set; }
@@ -34,10 +34,10 @@ namespace TRex.Metadata
         /// <summary>
         /// Initializes a new instance of the DynamicValueLookup attribute using the information supplied
         /// </summary>
-        /// <param name="capability"></param>
-        /// <param name="parameters"></param>
-        /// <param name="valuePath"></param>
-        /// <param name="valueTitle"></param>
+        /// <param name="capability">Name of capability</param>
+        /// <param name="parameters">Initial parameters for capability</param>
+        /// <param name="valuePath">Name of property that contains the value that will be used</param>
+        /// <param name="valueTitle">Name of property that will be shown in MS Flow UI</param>
         public DynamicValueLookupCapabilityAttribute (string capability, string parameters, string valuePath, string valueTitle)
             {
             Capability = capability;

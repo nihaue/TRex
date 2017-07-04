@@ -79,10 +79,7 @@ namespace TRex.Test.Infrastructure
             SwaggerDocsConfig config = new SwaggerDocsConfig();
 
             config.SingleApiVersion("v1", "TRexTestApi");
-            if ( capability != null )
-                config.ReleaseTheTRex(capability);
-            else
-                config.ReleaseTheTRex();
+            config.ReleaseTheTRex(capability);
             config.OperationFilter<IncludeParameterNamesInOperationIdFilter>();
 
             return config;
@@ -99,7 +96,7 @@ namespace TRex.Test.Infrastructure
             config.EnsureInitialized();
             }
 
-        internal static string GetSwagger (FilePickerCapabilityModel capability = null)
+        internal static string GetSwagger (FilePickerCapabilityModel capability)
             {
 
             SetupRoutesFor(typeof(TRex.Test.DummyApi.WebApiApplication).Assembly);
@@ -123,7 +120,7 @@ namespace TRex.Test.Infrastructure
 
         public static string GetSwaggerWithCapability (FilePickerCapabilityModel capability)
             {
-            SwaggerResolverCapability.config = new HttpConfiguration();
+            config = new HttpConfiguration();
             return GetSwagger (capability);
             }
         }

@@ -63,55 +63,6 @@ namespace TRex.Metadata
 
             ((Dictionary<string, object>) swaggerDoc.vendorExtensions.First(x => x.Key == Constants.X_MS_CAPABILITIES).Value)
                     .Add(Constants.FILE_PICKER, capability);
-
-            //probably shouldn't check if operation is correct
-            //there are no other checks if operation is ok in this code
-
-            //code with check if operation exists with given parameters
-            //bool capabilityCorrect = CheckIfFilePickerIsCorrect (capability, apiExplorer);
-
-            //if (capabilityCorrect)
-            //    ((Dictionary<string, object>) swaggerDoc.vendorExtensions
-            //        .First (x => x.Key == Constants.X_MS_CAPABILITIES).Value)
-            //        .Add (Constants.FILE_PICKER, capability);
-            }
-
-        private static bool CheckIfFilePickerIsCorrect (FilePickerCapabilityModel capability, IApiExplorer apiExplorer)
-            {
-            string openOperationId = capability.Open.OperationId;
-            var openOperationExpectedParameters = capability.Open.Parameters.Select (x => x.Key);
-
-            string browseOperationId = capability.Browse.OperationId;
-            var browseOperationExpectedParameters = capability.Browse.Parameters.Select(x => x.Key);
-
-            //some operationExists logic
-            foreach (var description in apiExplorer.ApiDescriptions)
-                {
-                var openOperationParameters = GetOperationParameters (description, openOperationId);
-                var browseOperationParameters = GetOperationParameters (description, browseOperationId);
-
-                if (openOperationParameters != null && browseOperationParameters != null &&
-                    openOperationExpectedParameters.All (openOperationParameters.Contains) &&
-                    browseOperationExpectedParameters.All (browseOperationParameters.Contains))
-                    {
-                    return true;
-                    }
-                }
-            //TODO: change back to false after testing
-            return false;
-            }
-
-        private static IEnumerable<string> GetOperationParameters (ApiDescription description, string operationId)
-            {
-            var operationParameters = description.ActionDescriptor
-                .ControllerDescriptor.ControllerType
-                .GetMethods ()
-                .FirstOrDefault (
-                    y => ((MetadataAttribute) y.GetCustomAttribute (typeof(MetadataAttribute), true))
-                         ?.FriendlyName == operationId)
-                ?.GetParameters ().Select(j => j.Name);
-
-            return operationParameters;
             }
     }
 }

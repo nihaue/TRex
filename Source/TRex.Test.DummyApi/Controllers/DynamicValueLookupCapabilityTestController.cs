@@ -62,14 +62,5 @@ namespace TRex.Test.DummyApi.Controllers
             {
             return Ok();
             }
-
-        [Metadata("Friendly Name For Operation")]
-        [HttpGet]
-        [Route("friendly-source")]
-        public IHttpActionResult FriendlySource (string sampleParam1, string sampleParam2)
-            {
-            return Ok();
-            }
-
         }
 }

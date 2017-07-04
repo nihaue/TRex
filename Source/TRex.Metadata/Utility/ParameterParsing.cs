@@ -37,6 +37,7 @@ namespace QuickLearn.ApiApps.Metadata
             var placeholderMatch = Regex.Match(rawValue, PARAM_PLACEHOLDER);
 
             // There is a value, but it's not a placeholder
+            // If the value is true or false parse it as a bool
             if (placeholderMatch.Groups.Count != 2)
             {
                 //changes true/false values from string to bool in json
