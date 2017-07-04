@@ -35,12 +35,10 @@ namespace TRex.Metadata
         /// to configure Swashbuckle</param>
         /// <param name="capability">Capability which will be serialized in SwaggerDocs</param>
         [CLSCompliant (false)]
-        public static void ReleaseTheTRex (this SwaggerDocsConfig config, FilePickerCapabilityModel capability)
+        public static void ReleaseTheTRexCapabilities (this SwaggerDocsConfig config, FilePickerCapabilityModel capability)
             {
             if (config == null) return;
 
-            config.SchemaFilter<TRexSchemaFilter> ();
-            config.OperationFilter<TRexOperationFilter> ();
             config.DocumentFilter (() => new TRexDocumentFilter (capability));
             }
     }

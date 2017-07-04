@@ -45,24 +45,6 @@ namespace TRex.Metadata
                     currentPath.post.vendorExtensions.Remove(Constants.X_MS_NOTIFICATION_CONTENT);
                 }
             }
-
-            if (capability == null) return;
-            
-            //handles file-picker capability (only 1 till microsoft gives more info about capabilities)
-            //TODO: think if you need to check if the operation exists, Flow doesn't break with bad capabilities
-            HandleCapabilities (swaggerDoc, apiExplorer, capability);
         }
-
-        private static void HandleCapabilities (SwaggerDocument swaggerDoc, IApiExplorer apiExplorer, FilePickerCapabilityModel capability)
-            {
-            if (!swaggerDoc.vendorExtensions.ContainsKey (Constants.X_MS_CAPABILITIES))
-                swaggerDoc.vendorExtensions.Add (
-                    Constants.X_MS_CAPABILITIES,
-                    new Dictionary<string, object> ()
-                );
-
-            ((Dictionary<string, object>) swaggerDoc.vendorExtensions.First(x => x.Key == Constants.X_MS_CAPABILITIES).Value)
-                    .Add(Constants.FILE_PICKER, capability);
-            }
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using TRex.Metadata.Models;
 using TRex.Test.Infrastructure;
-using QuickLearn.ApiApps.Metadata;
 
 namespace TRex.Metadata.Tests
     {
@@ -22,7 +21,7 @@ namespace TRex.Metadata.Tests
                 "value-media-property value"
             );
 
-            var swagger = JToken.Parse(SwaggerResolverCapability.GetSwaggerWithCapability(capability));
+            var swagger = JToken.Parse(SwaggerResolver.GetSwagger(capability));
 
             var filePickerNode = swagger.SelectToken(@"x-ms-capabilities.file-picker");
             Assert.IsNotNull(filePickerNode);
@@ -72,7 +71,7 @@ namespace TRex.Metadata.Tests
                 "value-media-property value"
             );
 
-            JToken swagger = JToken.Parse(SwaggerResolverCapability.GetSwaggerWithCapability(capability));
+            JToken swagger = JToken.Parse(SwaggerResolver.GetSwagger(capability));
 
             var filePickerNode = swagger.SelectToken(@"x-ms-capabilities.file-picker");
             Assert.IsNotNull(filePickerNode);
@@ -99,7 +98,7 @@ namespace TRex.Metadata.Tests
                 null
             );
 
-            JToken swagger = JToken.Parse(SwaggerResolverCapability.GetSwaggerWithCapability(capability));
+            JToken swagger = JToken.Parse(SwaggerResolver.GetSwagger(capability));
 
             var filePickerNode = swagger.SelectToken(@"x-ms-capabilities.file-picker");
             Assert.IsNotNull(filePickerNode);

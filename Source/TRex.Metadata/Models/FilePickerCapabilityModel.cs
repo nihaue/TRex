@@ -23,12 +23,11 @@ namespace TRex.Metadata.Models
         /// <summary>
         /// Initializes a new instance of FilePickerCapability with information supplied
         /// </summary>
-        /// <param name="open">Operation which will be called when you initially when you start
-        /// picking folder/file in MS Flow UI (when you press the folder icon)</param>
-        /// <param name="browse">Operation will be called when you browse through folders in 
-        /// MS Flow UI</param>
+        /// <param name="open">This operation which will be called when you initially when you start
+        /// picking folder/file</param>
+        /// <param name="browse">This operation will be called when you browse through folders</param>
         /// <param name="valueTitle">Value from either of operations (Open or Browse) output
-        /// which will be shown in MS Flow UI</param>
+        /// which will be used</param>
         /// <param name="valueFolderProperty">Value from either of operations (Open or Browse) output
         /// used to determine whether the output is a folder or a file</param>
         /// <param name="valueMediaProperty">Value from either of operations (Open or Browse) output

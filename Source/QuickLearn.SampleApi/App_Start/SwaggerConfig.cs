@@ -29,7 +29,8 @@ namespace QuickLearn.SampleApi
                             null);
 
                         c.SingleApiVersion("v1", "QuickLearn.SampleApi");
-                        c.ReleaseTheTRex(capability);
+                        c.ReleaseTheTRex();
+                        c.ReleaseTheTRexCapabilities(capability);
                      }
                 )
                 .EnableSwaggerUi(c => { });

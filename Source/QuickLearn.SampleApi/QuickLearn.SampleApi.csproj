@@ -109,7 +109,7 @@
     <Compile Include="Controllers\DynamicValuesController.cs" />
     <Compile Include="Formatters\DynamicXmlFormatter.cs" />
     <Compile Include="Models\DynamicSchemas\CreatedResponse.cs" />
-    <Compile Include="Models\DynamicValuesCapability\BlobMetadataModel.cs" />
+    <Compile Include="Models\DynamicValuesCapability\FolderDataModel.cs" />
     <Compile Include="Models\PushTrigger\InMemoryCallbackStore.cs" />
     <Compile Include="Controllers\PollingTriggerController.cs" />
     <Compile Include="Controllers\PushTriggerController.cs" />
