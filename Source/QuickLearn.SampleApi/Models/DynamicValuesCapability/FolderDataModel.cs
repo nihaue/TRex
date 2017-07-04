@@ -2,7 +2,7 @@
 
 namespace QuickLearn.SampleApi.Models.DynamicValuesCapability
     {
-    public class BlobMetadataModel
+    public class FolderDataModel
         {
         public string Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace QuickLearn.SampleApi.Models.DynamicValuesCapability
 
         public string ParentName { get; set; }
 
-        public BlobMetadataModel (string id, string name, string path, bool isFolder, string parentName)
+        public FolderDataModel (string id, string name, string path, bool isFolder, string parentName)
             {
             Id = id;
             Name = name;
@@ -23,7 +23,7 @@ namespace QuickLearn.SampleApi.Models.DynamicValuesCapability
             ParentName = parentName;
             }
 
-        public BlobMetadataModel ()
+        public FolderDataModel ()
             {
             }
         }
