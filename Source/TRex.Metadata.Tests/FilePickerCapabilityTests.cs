@@ -22,7 +22,7 @@ namespace TRex.Metadata.Tests
                 "value-media-property value"
             );
 
-            var swagger = JToken.Parse(SwaggerResolver.GetSwaggerWithCapability(capability));
+            var swagger = JToken.Parse(SwaggerResolverCapability.GetSwaggerWithCapability(capability));
 
             var filePickerNode = swagger.SelectToken(@"x-ms-capabilities.file-picker");
             Assert.IsNotNull(filePickerNode);
@@ -72,7 +72,7 @@ namespace TRex.Metadata.Tests
                 "value-media-property value"
             );
 
-            JToken swagger = JToken.Parse(SwaggerResolver.GetSwaggerWithCapability(capability));
+            JToken swagger = JToken.Parse(SwaggerResolverCapability.GetSwaggerWithCapability(capability));
 
             var filePickerNode = swagger.SelectToken(@"x-ms-capabilities.file-picker");
             Assert.IsNotNull(filePickerNode);
@@ -99,7 +99,7 @@ namespace TRex.Metadata.Tests
                 null
             );
 
-            JToken swagger = JToken.Parse(SwaggerResolver.GetSwaggerWithCapability(capability));
+            JToken swagger = JToken.Parse(SwaggerResolverCapability.GetSwaggerWithCapability(capability));
 
             var filePickerNode = swagger.SelectToken(@"x-ms-capabilities.file-picker");
             Assert.IsNotNull(filePickerNode);
