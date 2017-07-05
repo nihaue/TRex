@@ -75,6 +75,7 @@
     <Compile Include="Extensions\PollingTriggerExtensions.cs" />
     <Compile Include="Extensions\SchemaExtensions.cs" />
     <Compile Include="Extensions\SwaggerDocsConfigExtensions.cs" />
+    <Compile Include="Filters\TRexCapabilityFilter.cs" />
     <Compile Include="Filters\TRexDocumentFilter.cs" />
     <Compile Include="Filters\TRexSchemaFilter.cs" />
     <Compile Include="GlobalSuppressions.cs" />

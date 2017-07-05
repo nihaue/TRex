@@ -30,7 +30,7 @@ namespace QuickLearn.SampleApi.Controllers
         [HttpGet, Route("api/folderHierarchy/{test}")]
         [Metadata("TestHierarchy")]
         public IHttpActionResult TestHierarchy (
-            [DynamicValueLookupCapability("file-picker", "isFolder=", "Path", "Name")]
+            [DynamicValueLookupCapability("file-picker", "isFolder=true", "Id", "Path")]
             string test
             )
             {

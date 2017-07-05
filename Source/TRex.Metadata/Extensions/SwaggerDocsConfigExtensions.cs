@@ -1,6 +1,7 @@
 ﻿using QuickLearn.ApiApps.Metadata;
 using Swashbuckle.Application;
 using System;
+using TRex.Metadata.Filters;
 using TRex.Metadata.Models;
 
 namespace TRex.Metadata
@@ -39,7 +40,7 @@ namespace TRex.Metadata
             {
             if (config == null) return;
 
-            config.DocumentFilter (() => new TRexDocumentFilter (capability));
+            config.DocumentFilter (() => new TRexCapabilityFilter (capability));
             }
     }
 }
