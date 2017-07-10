@@ -48,7 +48,7 @@ namespace QuickLearn.ApiApps.Metadata
                 return;
             }
 
-        var placeholderName = placeholderMatch.Groups[1].Value;
+            var placeholderName = placeholderMatch.Groups[1].Value;
 
             // There is no placeholder value to expand, even though it looked like there was
             if (string.IsNullOrWhiteSpace(placeholderName)) return;
@@ -98,7 +98,7 @@ namespace QuickLearn.ApiApps.Metadata
 
                 parseSuccess = true;
             }
-            
+
             foreach (var prop in result.Properties())
                 prop.buildParameterPlaceholders();
 

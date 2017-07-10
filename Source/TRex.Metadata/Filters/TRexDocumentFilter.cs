@@ -8,23 +8,13 @@ using Newtonsoft.Json.Linq;
 using TRex.Metadata.Models;
 
 namespace TRex.Metadata
-    {
+{
     internal class TRexDocumentFilter : IDocumentFilter
-        {
-        private FilePickerCapabilityModel capability;
-        public TRexDocumentFilter()
-        {
-
-        }
-
-        public TRexDocumentFilter(FilePickerCapabilityModel capability)
-        {
-            this.capability = capability;
-        }
+    {
+        public TRexDocumentFilter() { }
 
         public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
         {
-
             if (swaggerDoc == null) return;
 
             // This iterates through the paths and "moves up" any x-ms-notification-content
@@ -32,19 +22,21 @@ namespace TRex.Metadata
             foreach (var path in swaggerDoc.paths.Keys)
             {
                 var currentPath = swaggerDoc.paths[path];
-                
+
                 if (null != currentPath?.post?.vendorExtensions
-                        && currentPath.post.vendorExtensions.ContainsKey(Constants.X_MS_NOTIFICATION_CONTENT))
+                    && currentPath.post.vendorExtensions.ContainsKey(Constants.X_MS_NOTIFICATION_CONTENT))
                 {
                     if (null == currentPath.vendorExtensions)
-                    { 
+                    {
                         currentPath.vendorExtensions = new Dictionary<string, object>();
                     }
 
-                    currentPath.vendorExtensions[Constants.X_MS_NOTIFICATION_CONTENT] = currentPath.post.vendorExtensions[Constants.X_MS_NOTIFICATION_CONTENT];
+                    currentPath.vendorExtensions[Constants.X_MS_NOTIFICATION_CONTENT] =
+                        currentPath.post.vendorExtensions[Constants.X_MS_NOTIFICATION_CONTENT];
                     currentPath.post.vendorExtensions.Remove(Constants.X_MS_NOTIFICATION_CONTENT);
                 }
             }
+
         }
     }
 }

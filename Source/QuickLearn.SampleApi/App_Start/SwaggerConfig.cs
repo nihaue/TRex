@@ -5,7 +5,6 @@ using WebActivatorEx;
 using QuickLearn.SampleApi;
 using TRex.Metadata;
 using TRex.Metadata.Models;
-using Newtonsoft.Json.Linq;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -20,13 +19,9 @@ namespace QuickLearn.SampleApi
             GlobalConfiguration.Configuration
                 .EnableSwagger(c =>
                     {
-                        var capability = new FilePickerCapabilityModel 
-                            (
-                            new FilePickerOperationModel ("GetRootFolders", null),
-                            new FilePickerOperationModel ("GetChildFolders", new Dictionary<string, string> { { "folderName", "Name" } }),
-                            "Name",
-                            "Name",
-                            null);
+                        var capability = new FilePickerCapabilityModel(new FilePickerOperationModel("GetRootFolders", null),
+                            new FilePickerOperationModel("GetChildFolders", new Dictionary<string, string> { { "folderName", "Name" } }),
+                            "Name", "IsFolder", null);
 
                         c.SingleApiVersion("v1", "QuickLearn.SampleApi");
                         c.ReleaseTheTRex();

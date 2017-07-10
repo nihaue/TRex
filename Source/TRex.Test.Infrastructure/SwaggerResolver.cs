@@ -16,60 +16,60 @@ using TRex.Metadata.Models;
 namespace TRex.Test.Infrastructure
 {
     public static class SwaggerResolver
+    {
+        internal static SwaggerDocsConfig GetDefaultConfigWithTRex(FilePickerCapabilityModel capability)
         {
-        internal static SwaggerDocsConfig GetDefaultConfigWithTRex (FilePickerCapabilityModel capability)
-            {
-            SwaggerDocsConfig config = new SwaggerDocsConfig ();
+            SwaggerDocsConfig config = new SwaggerDocsConfig();
 
-            config.SingleApiVersion ("v1", "TRexTestApi");
-            config.ReleaseTheTRex ();
-            config.ReleaseTheTRexCapabilities (capability);
-            config.OperationFilter<IncludeParameterNamesInOperationIdFilter> ();
+            config.SingleApiVersion("v1", "TRexTestApi");
+            config.ReleaseTheTRex();
+            config.ReleaseTheTRexCapabilities(capability);
+            config.OperationFilter<IncludeParameterNamesInOperationIdFilter>();
 
             return config;
-            }
+        }
 
-        internal static SwaggerDocsHandler GetDefaultHandler (FilePickerCapabilityModel capability)
-            {
-            return new SwaggerDocsHandler (GetDefaultConfigWithTRex (capability));
-            }
+        internal static SwaggerDocsHandler GetDefaultHandler(FilePickerCapabilityModel capability)
+        {
+            return new SwaggerDocsHandler(GetDefaultConfigWithTRex(capability));
+        }
 
-        internal static void SetupRoutesFor (Assembly assembly, HttpConfiguration config)
-            {
-            config.MapHttpAttributeRoutes ();
-            config.EnsureInitialized ();
-            }
+        internal static void SetupRoutesFor(Assembly assembly, HttpConfiguration config)
+        {
+            config.MapHttpAttributeRoutes();
+            config.EnsureInitialized();
+        }
 
-        public static string GetSwagger (FilePickerCapabilityModel capability = null)
-            {
+        public static string GetSwagger(FilePickerCapabilityModel capability = null)
+        {
             var config = new HttpConfiguration();
 
-            SetupRoutesFor (typeof(TRex.Test.DummyApi.WebApiApplication).Assembly, config);
+            SetupRoutesFor(typeof(TRex.Test.DummyApi.WebApiApplication).Assembly, config);
 
-            var request = new HttpRequestMessage (HttpMethod.Get, "http://tempuri.org/swagger/docs/v1");
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/swagger/docs/v1");
 
             request.Properties[HttpPropertyKeys.HttpConfigurationKey] = config;
 
-            var route = new HttpRoute ("swagger/docs/{apiVersion}");
+            var route = new HttpRoute("swagger/docs/{apiVersion}");
 
-            request.Properties[HttpPropertyKeys.HttpRouteDataKey] = route.GetRouteData ("/", request);
+            request.Properties[HttpPropertyKeys.HttpRouteDataKey] = route.GetRouteData("/", request);
 
-            var messageInvoker = new HttpMessageInvoker (GetDefaultHandler (capability));
+            var messageInvoker = new HttpMessageInvoker(GetDefaultHandler(capability));
 
-            var result = messageInvoker.SendAsync (request, new CancellationToken (false)).Result;
+            var result = messageInvoker.SendAsync(request, new CancellationToken(false)).Result;
 
-            var responseContent = result.Content.ReadAsStringAsync ().Result;
+            var responseContent = result.Content.ReadAsStringAsync().Result;
 
             return responseContent;
-            }
+        }
 
         private static string swagger = null;
 
         public static string Swagger
-            {
-            get { return swagger ?? (swagger = GetSwagger ()); }
-            }
+        {
+            get { return swagger ?? (swagger = GetSwagger()); }
         }
+    }
 
     internal class IncludeParameterNamesInOperationIdFilter : IOperationFilter
     {

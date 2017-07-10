@@ -2,22 +2,22 @@
 using QuickLearn.ApiApps.Metadata;
 
 namespace TRex.Metadata.Models
-    {
+{
     public class FilePickerCapabilityModel
-        {
-        [JsonProperty (PropertyName = Constants.OPEN)]
+    {
+        [JsonProperty(PropertyName = Constants.OPEN)]
         public FilePickerOperationModel Open { get; set; }
-        
-        [JsonProperty (PropertyName = Constants.BROWSE)]
+
+        [JsonProperty(PropertyName = Constants.BROWSE)]
         public FilePickerOperationModel Browse { get; set; }
 
-        [JsonProperty (PropertyName = Constants.VALUE_TITLE)]
+        [JsonProperty(PropertyName = Constants.VALUE_TITLE)]
         public string ValueTitle { get; set; }
 
-        [JsonProperty (PropertyName = Constants.VALUE_FOLDER_PROPERTY)]
+        [JsonProperty(PropertyName = Constants.VALUE_FOLDER_PROPERTY)]
         public string ValueFolderProperty { get; set; }
 
-        [JsonProperty (PropertyName = Constants.VALUE_MEDIA_PROPERTY)]
+        [JsonProperty(PropertyName = Constants.VALUE_MEDIA_PROPERTY)]
         public string ValueMediaProperty { get; set; }
 
         /// <summary>
@@ -32,23 +32,16 @@ namespace TRex.Metadata.Models
         /// used to determine whether the output is a folder or a file</param>
         /// <param name="valueMediaProperty">Value from either of operations (Open or Browse) output
         /// used to determine file type (.zip, .txt, etc.)</param>
-        public FilePickerCapabilityModel 
-        (
-        FilePickerOperationModel open,
-        FilePickerOperationModel browse,
-        string valueTitle,
-        string valueFolderProperty,
-        string valueMediaProperty
-        )
-            {
+        public FilePickerCapabilityModel(FilePickerOperationModel open, FilePickerOperationModel browse, string valueTitle,
+            string valueFolderProperty, string valueMediaProperty)
+        {
             Open = open;
             //remove parameters from open, they need to be in x-ms-dynamic-values
-            //should i even leave it as a FilePickerOperation?
             Open.Parameters = null;
             Browse = browse;
             ValueTitle = valueTitle;
             ValueFolderProperty = valueFolderProperty;
             ValueMediaProperty = valueMediaProperty;
-            }
         }
     }
+}

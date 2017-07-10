@@ -18,13 +18,13 @@ namespace TRex.Metadata
         /// to configure Swashbuckle</param>
         [CLSCompliant(false)]
         public static void ReleaseTheTRex(this SwaggerDocsConfig config)
-            {
+        {
             if (config == null) return;
 
             config.SchemaFilter<TRexSchemaFilter>();
             config.OperationFilter<TRexOperationFilter>();
             config.DocumentFilter<TRexDocumentFilter>();
-            }
+        }
 
         /// <summary>
         /// Makes your API App more easily consumable in the Logic App designer.
@@ -35,12 +35,12 @@ namespace TRex.Metadata
         /// <param name="config">SwaggerDocsConfig instance that will be used
         /// to configure Swashbuckle</param>
         /// <param name="capability">Capability which will be serialized in SwaggerDocs</param>
-        [CLSCompliant (false)]
-        public static void ReleaseTheTRexCapabilities (this SwaggerDocsConfig config, FilePickerCapabilityModel capability)
-            {
+        [CLSCompliant(false)]
+        public static void ReleaseTheTRexCapabilities(this SwaggerDocsConfig config, FilePickerCapabilityModel capability)
+        {
             if (config == null) return;
 
-            config.DocumentFilter (() => new TRexCapabilityFilter (capability));
-            }
+            config.DocumentFilter(() => new TRexCapabilityFilter(capability));
+        }
     }
 }

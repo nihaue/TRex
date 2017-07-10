@@ -1,13 +1,13 @@
 ﻿using System;
 
 namespace TRex.Metadata
-    {
+{
     /// <summary>
     /// Provides a mechanism to emit the x-ms-dynamic-values vendor extension with capability instead of operationId for a decorated parameter
     /// </summary>
     [System.AttributeUsage(AttributeTargets.Parameter, Inherited = false, AllowMultiple = false)]
     public class DynamicValueLookupCapabilityAttribute : Attribute
-        {
+    {
         /// <summary>
         /// Gets or sets capability name which returns possible values for the current parameter 
         /// </summary>
@@ -37,12 +37,12 @@ namespace TRex.Metadata
         /// <param name="parameters">Initial parameters for capability</param>
         /// <param name="valuePath">Name of property that contains the value that will be used</param>
         /// <param name="valueTitle">Name of property that will be used</param>
-        public DynamicValueLookupCapabilityAttribute (string capability, string parameters, string valuePath, string valueTitle)
-            {
+        public DynamicValueLookupCapabilityAttribute(string capability, string parameters, string valuePath, string valueTitle)
+        {
             Capability = capability;
             Parameters = parameters;
             ValuePath = valuePath;
             ValueTitle = valueTitle;
-            }
         }
     }
+}
