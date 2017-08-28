@@ -16,7 +16,7 @@
     <tags>T-Rex TRex API Apps App Service Metadata Logic Apps Flow Swagger Swashbuckle</tags>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="TRex.Metadata.Attributes" version="[2.0.4-alpha]" />
+        <dependency id="TRex.Metadata.Attributes" version="[2.0.5]" />
         <dependency id="Swashbuckle.Core" version="5.5.3" />
       </group>
     </dependencies>
