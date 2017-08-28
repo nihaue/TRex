@@ -1,6 +1,3 @@
-### Looking for the latest version of T-Rex?
-The latest code/samples/docs are on the *[**powerapps** branch](https://github.com/nihaue/trex/tree/powerapps)*. Some of the features there only work when used to build a Custom API for use with Power Apps/Microsoft Flow (e.g., Async Notification [Push Triggers], Dynamic Values, Dynamic Schemas), which is why they haven't been merged into master yet. If you want to use those features, you will find them in [version 2.0.2-alpha of the NuGet package](https://www.nuget.org/packages/TRex/2.0.2-alpha). The code living here in the **master** branch is from [version 0.1.8 of the NuGet package](https://www.nuget.org/packages/TRex/0.1.8), and represents the latest stable code for building simple actions within the Logic Apps designer. It should **not** be used for building polling triggers or push triggers -- instead, please use the 2.0.2-alpha version.
-
 # T-Rex Metadata Library
 <img src="https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PackageIcon.png" align="right" />
 QuickLearn's T-Rex Metadata Library enables you to quickly write Web API applications that are
