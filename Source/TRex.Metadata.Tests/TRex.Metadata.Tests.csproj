@@ -66,6 +66,7 @@
     <Compile Include="SummaryTests.cs" />
     <Compile Include="DynamicValueLookupTests.cs" />
     <Compile Include="DynamicModelBaseTests.cs" />
+    <Compile Include="JsonPropertyTests.cs" />
     <Compile Include="VisibilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

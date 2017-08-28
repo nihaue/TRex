@@ -73,6 +73,7 @@
     <Compile Include="Extensions\OperationExtensions.cs" />
     <Compile Include="Extensions\ParameterExtensions.cs" />
     <Compile Include="Extensions\PollingTriggerExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\SchemaExtensions.cs" />
     <Compile Include="Extensions\SwaggerDocsConfigExtensions.cs" />
     <Compile Include="Filters\TRexDocumentFilter.cs" />

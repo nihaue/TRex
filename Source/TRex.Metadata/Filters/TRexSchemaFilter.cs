@@ -35,7 +35,7 @@ namespace QuickLearn.ApiApps.Metadata
             foreach (var propertyName in schema.properties.Keys)
             {
                 var schemaProperty = schema.properties[propertyName];
-                var propertyInfo = type.GetRuntimeProperties().Where(p => p.Name == propertyName).FirstOrDefault();
+                var propertyInfo = type.GetRuntimeProperties().Where(p => p.GetSerializedPropertyName() == propertyName).FirstOrDefault();
 
                 applyPropertyMetadata(schemaProperty, propertyInfo);
                 applyCallbackUrl(schemaProperty, propertyInfo);
