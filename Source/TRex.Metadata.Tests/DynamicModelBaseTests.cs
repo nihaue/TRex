@@ -19,6 +19,7 @@ namespace TRex.Metadata.Tests
     {
         
         [TestMethod]
+        [TestCategory("DynamicModelBase")]
         public void DynamicModelBase_XmlConversion_SerializesCorrectly()
         {
             // This is to verify approach used in formatter for sample api,
@@ -56,6 +57,7 @@ namespace TRex.Metadata.Tests
         }
 
         [TestMethod]
+        [TestCategory("DynamicModelBase")]
         public void DynamicModelBase_FromDictionary_PropertiesReadable()
         {
             var myDictionary = new Dictionary<string, object>
@@ -74,6 +76,7 @@ namespace TRex.Metadata.Tests
         }
 
         [TestMethod]
+        [TestCategory("DynamicModelBase")]
         public void DynamicModelBase_HardcodedProperty_WorksAlongsideDynamicProperties()
         {
             // Set a property via source object in constructor

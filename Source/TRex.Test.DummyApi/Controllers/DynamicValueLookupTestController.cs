@@ -1,5 +1,7 @@
-﻿using System.Web.Http;
+﻿using Newtonsoft.Json.Linq;
+using System.Web.Http;
 using TRex.Metadata;
+using TRex.Test.DummyApi.Models;
 
 namespace TRex.Test.DummyApi.Controllers
 {
@@ -22,7 +24,37 @@ namespace TRex.Test.DummyApi.Controllers
 			return Ok();
 		}
 
-		[HttpGet]
+        [HttpPost]
+        [Route("create-company")]
+        public IHttpActionResult CreateCompany(DynamicValueLookupModel company)
+        {
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("countries")]
+        public IHttpActionResult GetCountries()
+        {
+            var result = new
+            {
+                Countries = new[] {
+                    new
+                    {
+                        Id = "US",
+                        Name = "United States of America"
+                    },
+                    new
+                    {
+                        Id = "CA",
+                        Name = "Canada"
+                    }
+                }
+            };
+
+            return Ok(result);
+        }
+
+        [HttpGet]
 		[Route("no-attribute-operation-as-source")]
 		public IHttpActionResult NoAttributeAsSource(
 				// T-Rex will reflect this method to lookup operation id

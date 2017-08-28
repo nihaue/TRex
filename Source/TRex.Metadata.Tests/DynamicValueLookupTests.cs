@@ -34,6 +34,36 @@ namespace TRex.Metadata.Tests
     {
         public JToken Swagger = JToken.Parse(SwaggerResolver.Swagger);
 
+        [TestMethod, TestCategory("x-ms-dynamic-values"), TestCategory("Property Attribute")]
+        public void Property_DynamicValuesAttributePresent_VendorExtensionEmitted()
+        {
+
+            var dynamicValuesNode = Swagger.SelectToken(@"definitions.DynamicValueLookupModel.properties.CountryOfOrigin.x-ms-dynamic-values");
+
+
+            var operationIdNode = dynamicValuesNode.SelectToken("operationId");
+            Assert.IsNotNull(operationIdNode, "Operation Id was not emitted for DynamicValueLookup attribute.");
+            Assert.AreEqual("GetCountries",
+                operationIdNode.Value<string>(),
+                "Operation Id emitted by DynamicValueLookup attribute contains incorrect value.");
+
+            var parametersNode = dynamicValuesNode.SelectToken("parameters");
+            Assert.IsNotNull(parametersNode, "Parameters node was not emitted for DynamicValueLookup attribute on property");
+            
+            var valueCollectionNode = dynamicValuesNode.SelectToken("value-collection");
+            Assert.IsNotNull(valueCollectionNode, "Value Collection was not emitted for DynamicValueLookup attribute.");
+            Assert.AreEqual("Countries", valueCollectionNode.Value<string>(), "Value Collection emitted by DynamicValueLookup attribute contains incorrect value.");
+
+            var valuePathNode = dynamicValuesNode.SelectToken("value-path");
+            Assert.IsNotNull(valuePathNode, "Value path was not emitted for DynamicValueLookup attribute.");
+            Assert.AreEqual("Id", valuePathNode.Value<string>(), "Value Path emitted by DynamicValueLookup attribute contains incorrect value.");
+
+            var valueTitleNode = dynamicValuesNode.SelectToken("value-title");
+            Assert.IsNotNull(valueTitleNode, "Value title was not emitted for DynamicValueLookup attribute.");
+            Assert.AreEqual("Name", valueTitleNode.Value<string>(), "Value Title emitted by DynamicValueLookup attribute contains incorrect value.");
+
+        }
+
         [TestMethod, TestCategory("x-ms-dynamic-values"), TestCategory("Parameter Attribute")]
         public void Parameter_LookupOperationFoundOnClass_OperationIdResolvedViaReflection()
         {

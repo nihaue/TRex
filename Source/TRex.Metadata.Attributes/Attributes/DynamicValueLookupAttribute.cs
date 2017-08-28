@@ -6,7 +6,7 @@ namespace TRex.Metadata
     /// <summary>
     /// Provides a mechanism to emit the x-ms-dynamic-values vendor extension for a decorated parameter
     /// </summary>
-    [System.AttributeUsage(AttributeTargets.Parameter, Inherited = false, AllowMultiple = false)]
+    [System.AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     public sealed class DynamicValueLookupAttribute : Attribute
     {
 

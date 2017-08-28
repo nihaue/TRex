@@ -37,11 +37,35 @@ namespace QuickLearn.ApiApps.Metadata
                 var schemaProperty = schema.properties[propertyName];
                 var propertyInfo = type.GetRuntimeProperties().Where(p => p.GetSerializedPropertyName() == propertyName).FirstOrDefault();
 
+                applyValueLookupForDynamicProperties(schemaProperty, propertyInfo);
                 applyPropertyMetadata(schemaProperty, propertyInfo);
                 applyCallbackUrl(schemaProperty, propertyInfo);
             }
         }
 
+        private static void applyValueLookupForDynamicProperties(Schema schemaProperty, PropertyInfo propertyInfo)
+        {
+
+            // Applies dynamic value lookup for the current property (if DynamicValueLookupAttribute is present)
+
+            if (schemaProperty == null || propertyInfo == null) return;
+
+            var valueLookupInfo = propertyInfo.GetCustomAttribute<DynamicValueLookupAttribute>();
+
+            if (valueLookupInfo == null) return;
+
+            var valueLookup = new DynamicValuesModel()
+            {
+                Parameters = ParsingUtility.ParseJsonOrUrlEncodedParams(valueLookupInfo.Parameters),
+                ValueCollection = valueLookupInfo.ValueCollection,
+                ValuePath = valueLookupInfo.ValuePath,
+                ValueTitle = valueLookupInfo.ValueTitle
+            };
+
+            valueLookup.OperationId = valueLookupInfo.LookupOperation;
+
+            schemaProperty.SetValueLookup(valueLookup);
+        }
 
         private static void applySchemaLookupForDynamicModels(Schema schema, SchemaRegistry schemaRegistry, Type type)
         {

@@ -148,6 +148,7 @@
     <Compile Include="Models\DynamicSchemaNoParamsModel.cs" />
     <Compile Include="Models\DynamicSchemaNullParamModel.cs" />
     <Compile Include="Models\DynamicSchemaTestModel.cs" />
+    <Compile Include="Models\DynamicValueLookupModel.cs" />
     <Compile Include="Models\JsonPropertyModel.cs" />
     <Compile Include="Models\NoAttributeTestModel.cs" />
     <Compile Include="Models\NotificationContentTestModel.cs" />

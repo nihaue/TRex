@@ -23,6 +23,19 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
             }
         }
 
+        public static void SetValueLookup(this Schema modelDescription, DynamicValuesModel dynamicValuesSettings)
+        {
+
+            modelDescription.EnsureVendorExtensions();
+
+            if (!modelDescription.vendorExtensions.ContainsKey(Constants.X_MS_DYNAMIC_VALUES))
+            {
+                modelDescription.vendorExtensions.Add(Constants.X_MS_DYNAMIC_VALUES,
+                    dynamicValuesSettings);
+            }
+
+        }
+
         public static void SetCallbackUrl(this Schema modelDescription)
         {
             modelDescription.EnsureVendorExtensions();
