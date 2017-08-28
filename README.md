@@ -2,15 +2,25 @@
 The latest code/samples/docs are on the *[**powerapps** branch](https://github.com/nihaue/trex/tree/powerapps)*. Some of the features there only work when used to build a Custom API for use with Power Apps/Microsoft Flow (e.g., Async Notification [Push Triggers], Dynamic Values, Dynamic Schemas), which is why they haven't been merged into master yet. If you want to use those features, you will find them in [version 2.0.2-alpha of the NuGet package](https://www.nuget.org/packages/TRex/2.0.2-alpha). The code living here in the **master** branch is from [version 0.1.8 of the NuGet package](https://www.nuget.org/packages/TRex/0.1.8), and represents the latest stable code for building simple actions within the Logic Apps designer. It should **not** be used for building polling triggers or push triggers -- instead, please use the 2.0.2-alpha version.
 
 # T-Rex Metadata Library
-<img src="https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PackageIcon.png" align="right" />QuickLearn's T-Rex Metadata Library enables you to quickly write Web API applications that are readily consumable from the Logic App Designer. It is implemented as a set of .NET Attributes that you can use to decorate methods, parameters, and properties, and a set of filters for [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) that use those attributes to override the [swagger](http://swagger.io/) metadata generation.
+<img src="https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PackageIcon.png" align="right" />
+QuickLearn's T-Rex Metadata Library enables you to quickly write Web API applications that are
+readily consumable from the Logic App Designer. It is implemented as a set of .NET Attributes
+that you can use to decorate methods, parameters, models and properties, and a set of filters for
+[Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) that use those attributes to
+override the [swagger](http://swagger.io/) metadata generation.
 
 So let's go ahead and get started!
 
 # Getting Started
-To get started, you will need to [install the **TRex** NuGet package](https://www.nuget.org/packages/TRex/). From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and then whichever other sections are applicable below. If you want to get straight to some working code, you can also [look through the sample application](https://github.com/nihaue/TRex/tree/master/Source/QuickLearn.ApiApps.SampleApiApp) which implements a set of simple actions, a polling trigger, and a push trigger.
+To get started, you will need to [install the **TRex** NuGet package](https://www.nuget.org/packages/TRex/).
+From there, follow the instructions in the **Enabling T-Rex Metadata Generation** section, and
+then whichever other sections are applicable below. If you want to get straight to some working
+code, you can also [look through the sample application](https://github.com/nihaue/TRex/tree/powerapps/Source/QuickLearn.SampleApi)
+which implements an API that demonstrates each of the core features of the T-Rex library.
 
 # Enabling T-Rex Metadata Generation
-To enable T-Rex Metadata Generation, head over to the **SwaggerConfig.cs** file in the **App_Start** folder. Add the requisite using directive:
+To enable T-Rex Metadata Generation, head over to the **SwaggerConfig.cs** file in the
+**App_Start** folder. Add the requisite using directive:
 ```csharp
 using TRex.Metadata;
 ```
@@ -20,14 +30,21 @@ Then within the configure action passed to the **EnableSwagger** method, add the
 GlobalConfiguration.Configuration.EnableSwagger(c =>
 	{
 	    c.SingleApiVersion("v1", "QuickLearn Sample API App");
-	    c.ReleaseTheTRex(); /* <-- This line does all of the magic */
+	    c.ReleaseTheTRex(); // <-- This line does all of the magic
 	}).EnableSwaggerUi();
 ```
 
 # Building an Action or Connector API App
-If you are building an Action or Connector API App, T-Rex helps you make sure your actions look pretty within the Logic Apps designer, and the generated swagger metadata. It does this through the **Metadata** attribute, which can be used to provide custom friendly names, descriptions, and visibility settings for each of your API App methods, parameters, or properties of the models used by your parameters.
+If you are building an Action/Connector API App, T-Rex helps you make sure your actions
+look pretty within the Logic Apps designer, and within the generated swagger metadata. It does
+this through a set of custom .NET attributes.
 
-To use this beast, you'll need to add a pesky **using** directive (CTRL+. is your friend if you just start typing the attribute without thinking about it):
+The attribute that you will use most often is the **Metadata** attribute, which can be used to
+provide custom friendly names, descriptions, and visibility settings for each of your API App
+methods, parameters, or properties of the models used by your parameters.
+
+To use this beast, you'll need to add a pesky **using** directive (CTRL+. is your friend if
+you just start typing the attribute without thinking about it):
 ```csharp
 using TRex.Metadata;
 ```
@@ -36,27 +53,39 @@ Now that we have that out of the way, let's start with a typical Web API action 
 
 ```csharp
         [HttpPost, Route]
-        public SampleOutputMessage Post([FromBody]SampleInputMessage sampleInput)
+		[SwaggerOperation("PostInput")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(SampleOutputMessage))]
+        public async Task<IHttpActionResult> Post([FromBody]SampleInputMessage sampleInput)
         {
-            return new SampleOutputMessage();
+            return await SampleOutputMessage.FromInputAsync(sampleInput);
         }
 ```
 
-How do we make it look pretty in the Logic App designer? We simply add the T-Rex **Metadata** attribute. Here it is in action, providing a friendly name and description for the action itself, and its parameter:
+How do we make it look pretty in the Logic App designer? We simply replace the **SwaggerOperation** attribute
+with the T-Rex **Metadata** attribute.
+
+Here it is in action, providing a friendly name and description for the action itself, and its parameter:
 
 ```csharp
-        [Metadata("Create Message", "Creates a new message absolutely nowhere")]
         [HttpPost, Route]
-        public SampleOutputMessage Post([FromBody]
+		[Metadata("Create Message", "Creates a new message absolutely nowhere")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(SampleOutputMessage))]
+        public async Task<IHttpActionResult> Post([FromBody]
                                         [Metadata("Sample Input", "A sample input message")]
                                             SampleInputMessage sampleInput)
         {
-            return new SampleOutputMessage();
+            return await SampleOutputMessage.FromInputAsync(sampleInput);
         }
 ```
-_**NOTE:** This is an extract from the the companion sample app. You can find this file [here](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.ApiApps.SampleApiApp/Controllers/ActionSampleController.cs)._
 
-You're not limited to using the **Metadata** attribute on actions or parameters though, you can bring it to your models as well:
+Where did the **SwaggerOperation** attribute go? Well, the **Metadata** attribute goes a step further
+than the **SwaggerOperation** attriubte. The **SwaggerOperation** attribute indicates what the id of
+the operation should be in the swagger metadata. The **Metadata** attribute indicates a friendly name
+from which an operation id is generated. If you type a friendly name that does not include spaces, it will
+be used directly as the operation id in the swagger metadata.
+
+You're not limited to using the **Metadata** attribute on just *actions* or *parameters* though,
+you can bring it to your *models* as well:
 
 ```csharp
     public class SampleInputMessage
@@ -70,10 +99,6 @@ You're not limited to using the **Metadata** attribute on actions or parameters 
        
     }
 ```
-_**NOTE:** This is an extract from the the companion sample app. You can find this file [here](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.ApiApps.SampleApiApp/Models/ActionSample/SampleInputMessage.cs)._
-
-Here's what that would look like in a Logic App (it's the one on the far right):
-![Create Message action within a Logic App](https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/CreateMessageAction.png "Create Message action within a Logic App")
 
 The **Metadata** attribute accepts three values: **FriendlyName**, **Description**, and **Visibility**.
 
@@ -81,17 +106,13 @@ The **Metadata** attribute accepts three values: **FriendlyName**, **Description
 | ------------- | ------------- | 
 | FriendlyName | This is the name that will be used for the item in the Logic App designer. In some cases this will be adding an x-ms-summary object in the generated swagger metadata |
 | Description | This text describes the item within the generated swagger metadata |
-| Visibility | Default - The item shows by default in the Logic App designer, Advanced - The item shows whenever the user clicks the ellipses (...) button to see more, Internal - The item only appears in code view |
+| Visibility | Default - The item shows by default in the Logic App designer, Advanced - The item shows whenever the user clicks the ellipses (...) button to see more, Internal - The item only appears in code view, Important - The item is especially highlighted in the designer |
 
 It's pretty straight-forward stuff, eh? So how does the Logic App know what to show? It's ultimately reading the swagger metadata for the API. 
 
-At this point, I would welcome you to follow along in sample application by deploying it to a new Web App within your Azure subscription. You can do that using the button below, but again note that it will deploy as a _Web App_ for more easy experimentation and not an _API App_ that is locked away behind the gateway by default:
+If you [fire up a new API App](https://azure.microsoft.com/en-us/documentation/articles/app-service-logic-custom-hosted-api/), you can see some of the information contained in the metadata yourself in a nice visual form by going to **/swagger/ui/index**.
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
-
-Once you have it living somewhere, you can see some of the information contained in the metadata yourself in a nice visual form by going to **/swagger/ui/index**.
-
-There you will find the **Create Message** action with its lovely friendly name being displayed.
+In the example shown in the figure below, we find the **Create Message** action with its lovely friendly name being displayed.
 
 ![Create Message action shown in Swagger UI](https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/CreateMessageSwagger1.png "Create Message action shown in Swagger UI")
 
@@ -105,227 +126,24 @@ So where is all of the metadata that we clearly added to the _model_ for this ac
 
 Well that's pretty cool, but what else can T-Rex do for me?
 
-# Building a Polling Trigger API App
+# New Capabilities for Power Apps / Microsoft Flow 
 
-Let's say that you want to trigger a Logic App by having it poll one of your actions until it hits a magical value. That's a little bit more complicated, but T-Rex is willing to help with the **Trigger** attribute.
+T-Rex is currently being updated to support [new functionality](https://powerapps.microsoft.com/en-us/tutorials/customapi-how-to-swagger/) within Power Apps and Microsoft Flow. At the moment, these features are **only** functioning in Microsoft Flow (since your custom API is treated as a Managed API and has access to the same dynamic schema/values functionality).
 
-```csharp
-using Microsoft.Azure.AppService.ApiApps.Service;
-using TRex.Metadata;
+You can find this functionality in version **[2.0.2-alpha](http://www.nuget.org/packages/TRex/2.0.2-alpha)** of the NuGet package.
 
-/* lots of unrelated code here */
+What will I have to change in my code?
+- Triggers as a concept have evolved into a completely different form in the new runtime/designer. Triggers can actually be used at any point of a Logic App -- they're not necessarily only triggering the flow -- the flow can pause and wait for an event and/or poll for data. As a result the **Trigger** attribute no longer serves the same purpose as it once did. You can currently build three types of triggers with T-Rex (1) [Polling with a single returned result](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PollingTriggerController.cs), (2) Polling with a returned batch of results that will each trigger their own flow, (3) [Subscription based trigger](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PushTriggerController.cs) (requires use of the [CallbackUrl attribute somewhere in the response model](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Models/PushTrigger/PriceAlertConfig.cs)).
+- The **UnregisterCallback** attribute has been removed. The runtime simply performs a DELETE on the resource specified in the Location header when the callback is created. [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PushTriggerController.cs).
+- The **ResponseTypeLookup** attribute has been removed. This has been replaced by the **DynamicSchemaLookup** attribute to be specified on a class that dervices from **DynamicModelBase**. [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Models/DynamicSchemas/ContactInfo.cs).
 
-    // GET trigger/poll/diceRoll?triggerState={triggerState}&numberOfSides={numberOfSides}&targetNumber={targetNumber}
-
-    [Trigger(TriggerType.Poll, typeof(SamplePollingResult))]
-    [Metadata("Roll the Dice", "Roll the dice to see if we should trigger this time")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, "Bad configuration. Dice require 1 or more sides")]
-    [HttpGet, Route("diceRoll")]
-    public HttpResponseMessage DiceRoll(string triggerState,
-                                    [Metadata("Number of Sides", "Number of sides that should be on the die that is rolled")]
-                                    int numberOfSides,
-                                    [Metadata("Target Number", "Trigger will fire if dice roll is above this number")]
-                                    int targetNumber)
-    {
-        // Validate configuration
-        if (numberOfSides <= 0)
-        {
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                                                    "Bad configuration. Dice require 1 or more sides");
-        }
+What are the new features?
+- [**Trigger** attribute](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata.Attributes/Attributes/TriggerAttribute.cs) to be used with [polling triggers](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PollingTriggerController.cs)/[subscription triggers](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PushTriggerController.cs) to identify the batch mode (treat trigger result as a sinlge item vs. treat trigger result as a batch) and pattern
+- [**EventTriggered** and **EventWaitPoll** extension methods](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata/Extensions/PollingTriggerExtensions.cs) that are compatible with new Logic Apps polling style. [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/PollingTriggerController.cs))
+- [**DynamicValueLookup** attribute](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata.Attributes/Attributes/DynamicValueLookupAttribute.cs) to be used with a parameter to define an operation to call to lookup possible values for a given parameter (emits x-ms-dynamic-values vendor extension). [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/DynamicValuesController.cs). 
+- [**DynamicSchemaLookup** attribute](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata.Attributes/Attributes/DynamicSchemaLookupAttribute.cs) to define an operation to call to lookup a JSON schema for a given model (emits x-ms-dynamic-schmea swagger vendor extension). See [sample controller here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Controllers/DynamicSchemasController.cs), and [dynamic model here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Models/DynamicSchemas/ContactInfo.cs).
+- [**DynamicModelBase** class](https://github.com/nihaue/TRex/blob/powerapps/Source/TRex.Metadata/Models/DynamicModelBase.cs) to use as a base of your dynamic models (models for which you are using the **DynamicSchemaLookup** attribute). It has been designed to be backed by a JToken, and implicitly convertible to/from JToken. It can also be used as a dynamic. Properties added by classes deriving from this class will also be backed by the JToken during serialization/deserialization. [See sample here](https://github.com/nihaue/TRex/blob/powerapps/Source/QuickLearn.SampleApi/Models/DynamicSchemas/ContactInfo.cs).
     
-        int lastRoll = 0;
-        int.TryParse(triggerState, out lastRoll);
-        int thisRoll = new Random().Next(numberOfSides);
-    
-        // Roll the dice
-        if (thisRoll >= targetNumber /* We've hit or exceeded the target */
-                && thisRoll != lastRoll /* And this dice roll isn't the same as the last */)
-        {
-            // Let the Logic App know the dice roll matched
-            return Request.EventTriggered(new SamplePollingResult(thisRoll),
-                                            triggerState: thisRoll.ToString(),
-                                            pollAgain: TimeSpan.FromSeconds(30)); 
-        }
-        else
-        {
-            // Let the Logic App know we don't have any data for it
-            return Request.EventWaitPoll(retryDelay: null, triggerState: triggerState);
-    
-        }
-    
-    }
-```
-_**NOTE:** This is an extract from the the companion sample app. You can find this file [here](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.ApiApps.SampleApiApp/Controllers/PollingTriggerSampleController.cs)._
-
-The **Trigger** attribute can be used to describe the type of Trigger and the type of Result that will be sent to the Logic App when it fires. It can also be in combination with the **Metadata** attribute to fully describe what is triggering the Logic App. If there are any other responses that could be generated (e.g., in the case of error), you can use the **SwaggerResponse** attribute that Swashbuckle provides.
-
-The **Trigger** attribute accepts two values: **TriggerType**, and **ResultType**.
-
-| Property        | Description   
-| ------------- | ------------- | 
-| TriggerType | This will either be Push or Poll, Push meaning we're actively calling back to the Logic App, Poll meaning the Logic App keeps bugging us and asking if we have data |
-| ResultType | Type of object that we will be returning when we have data, this determines the schema used in the metadata |
-
-So what does that look like in the Logic App designer? Well, hopefully by this point, what you would expect:
-
-![Roll the Dice Trigger in Logic App](https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/RollTheDiceTrigger.png "Roll the Dice Trigger in Logic App")
-
-What is T-Rex bringing to the table in terms of the raw Metadata here? Well, you may or may not have noticed a random **triggerState** property being thrown around. That is a special property for polling triggers, and T-Rex knows exactly what to do with it. Additionally the operation itself is special - inasmuch as it represents a method that should be polled. T-Rex knows what to do with that too:
-
-![Polling Trigger Metadata](https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PollingTriggerMetadata.png "Polling Trigger Metadata")
-
-### Polling Trigger Checklist
-1. Make sure you have using directives for the **Microsoft.Azure.AppService.ApiApps.Service**, and **TRex.Metadata** namespaces.
-  * Microsoft.Azure.AppService.ApiApps.Service provides the **EventWaitPoll** and **EventTriggered** extension methods
-  * TRex.Metadata provides the T-Rex **Metadata** attribute, and the **Trigger** attribute
-2. Make sure your action returns an **HttpResponseMessage**
-3. Make sure your polling action is decorated with the **HttpGet** attribute
-4. Make sure your polling action is decorated with the **Metadata** attribute and provide a friendly name, and description, for your polling action 
-5. Make sure your polling action is decorated with the **Trigger** attribute passing the argument **TriggerType.Poll** to the constructor, as well as the type of model that will be sent when data is available (e.g., **typeof(MyModelClassHere)**)
-6. Make sure the action has a **string** parameter named **triggerState**
-  * This is a value that you can populate and pass back whenever polling data is returned to the Logic App, and the Logic App will send it back to you on the next poll (e.g., to let you know that it is finished with the last item sent)
-  * You do not need to decorate this parameter with any attributes. T-Rex looks for this property by name and automatically applies the correct metadata (friendly name, description, visibility, and default value)
-7. _You can optionally include_, any other parameters that control how it should poll (e.g., file name mask, warning temperature, target heart rate, etc...)
-  * Decorate these parameters with the **Metadata** attribute to control their friendly names, descriptions, and visibility settings
-8. Make sure that the action returns the value generated by calling **Request.EventWaitPoll** when no data is available
-  * You can also provide a hint to the Logic App as to a proper polling interval for the next request (if you anticipate data available at a certain time)
-  * You can also provide a triggerState value that you want the Logic App to send to you on the next poll
-9. Make sure that the action returns the value generated by calling **Request.EventTriggered** when data is available
-  * The first argument should be the data to be returned to the Logic App, followed by the new **triggerState** value that you want to receive on the next poll, and optionally a new polling interval for the next request (if you anticipate data available at a certain time, or more likely that you know more data is immediately available and there isn't a need to wait).
-
-# Building a Push Trigger API App
-
-So you want to call the Logic App on your own terms, eh? Well here's the deal, it will get in touch with you first. It will give you its name, and number (callback url in reality), and you can call it anytime you have information for it. How? Well T-Rex already gave you a **Trigger** attribute, and you already know it accepts a **Push** trigger type. Unfortunately, we're going to need a few more tools in our toolbox to make it all happen. Why? Because sometimes the Logic App doesn't want to be bothered by your trigger anymore. It wants to unregister for callbacks. It is for that purpose that T-Rex gives you an **UnregisterCallbackAttribute**.
-
-Let's see this all in action (also note: we're sending the callbacks with an extension method that T-Rex provides to make sure that the Logic App can successfully evaluate expressions against your result):
-
-```csharp
-using Microsoft.Azure.AppService.ApiApps.Service;
-using TRex.Metadata;
-using TRex.Extensions; // <-- For our custom callback logic
-
-/* lots of unrelated code here */
-
-        // Simulated storage for callback data
-        public static Dictionary<string, SampleStoredCallback> CallbackStore
-            = new Dictionary<string, SampleStoredCallback>();
-        
-        // PUT trigger/push/{triggerId}
-
-        [Trigger(TriggerType.Push, typeof(SamplePushEvent))]
-        [Metadata("Receive Simulated Push")]
-        [HttpPut, Route("{triggerId}")]
-        public HttpResponseMessage RegisterCallback(
-                                        string triggerId,
-                                        [FromBody]TriggerInput<SamplePushConfig, SamplePushEvent> parameters)
-        {
-
-            // Store the callback for later use
-            CallbackStore[triggerId] = new SampleStoredCallback()
-            {
-                 SampleConfigFromLogicApp = parameters.inputs, 
-                 CallbackUri = parameters.GetCallback().CallbackUri
-            };
-                        
-            // Notify the Logic App that the callback was registered
-            return Request.PushTriggerRegistered(parameters.GetCallback());
-
-        }
-
-        // DELETE trigger/push/{triggerId}
-
-        [UnregisterCallback]
-        [SwaggerResponse(HttpStatusCode.NotFound, "The trigger id had no callback registered")]
-        [HttpDelete, Route("{triggerId}")]
-        public HttpResponseMessage UnregisterCallback(string triggerId)
-        {
-
-            if (!CallbackStore.ContainsKey(triggerId))
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The trigger had no callback registered");
-            
-            // Remove the stored callback by trigger id
-            CallbackStore.Remove(triggerId);
-            return Request.CreateResponse(HttpStatusCode.OK);
-
-        }
-
-        // POST trigger/push/all
-
-        [Metadata("Fire Push Triggers", "Fires all Logic Apps awaiting callback", VisibilityType.Internal)]
-        [SwaggerResponse(HttpStatusCode.OK, "Indicates the operation completed without error", typeof(string))]
-        [HttpPost, Route("all", Order = 0)]
-        public async Task<HttpResponseMessage> FireTheTriggers()
-        {
-
-            // This action is the simulation of some external force causing
-            // the trigger to fire for all awaiting Logic Apps where
-            // our custom configuration value has been satisfied
-
-            var readyCallbacks = from callback in CallbackStore.Values
-                                    where callback.SampleConfigFromLogicApp.QuietHour != DateTime.UtcNow.Hour
-                                    select callback;
-
-            foreach (var storedCallback in readyCallbacks)
-            {
-                var callback = new ClientTriggerCallback<SamplePushEvent>(storedCallback.CallbackUri);
-
-                await callback.InvokeAsyncWithBody(
-                                    Runtime.FromAppSettings(),
-                                    new SamplePushEvent()
-                                    {
-                                        SampleStringProperty = 
-                                            string.Format("Fired with configuration data: {0}", 
-                                                storedCallback.SampleConfigFromLogicApp.QuietHour)
-                                    });
-            }
-
-            return Request.CreateResponse<string>(HttpStatusCode.OK,
-                    string.Format("{0} triggers were fired.", readyCallbacks.Count()));
-
-        }
-
-```
-_**NOTE:** This is an extract from the the companion sample app. You can find this file [here](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.ApiApps.SampleApiApp/Controllers/PushTriggerSampleController.cs)._
-
-What does that end up looking like in the Logic App UI?
-
-![Receive Simulated Push in use within Logic App](https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/ReceiveSimulatedPush.png "Receive Simulated Push in use within Logic App")
-
-But that was a lot of code, right? Well let's break it down in checklist form so that we can separate what parts of this magic are actually required, and what is simply there for the purposes of the sample.
-
-### Push Trigger Checklist
-1. Make sure you have using directives for the **Microsoft.Azure.AppService.ApiApps.Service**, **TRex.Metadata**, **TRex.Extensions** namespaces.
-  * Microsoft.Azure.AppService.ApiApps.Service provides the **PushTriggerRegistered** extension method
-  * TRex.Metadata provides the T-Rex **Metadata** attribute, the **Trigger** attribute, and the **UnregisterCallback** attribute
-  * TRex.Extensions provides the **InvokeAsyncWithBody** extension method for the **`ClientTriggerCallback<T>`**
-2. Make sure your callback registration action returns an **HttpResponseMessage**
-3. Make sure that action is decorated with the **HttpPut** attribute
-4. Make sure that action is decorated with the **Metadata** attribute and provide a friendly name, and description, for your trigger
-  * This should not be "Register Callback" even though that's what _this specific_ action represents. It should be a meaningful way to describe _WHAT_ is triggering the Logic App like _Target Temp Reached_, _Files Available_, _Customer Entered Store_, etc...
-5. Make sure that action is decorated with the **Trigger** attribute passing the argument **TriggerType.Push** to the constructor
-  * This first action is going to be the method the Logic App uses to register the fact that it wants to be notified whenever data is available.
-6. Make sure the action has a **string** parameter named **triggerId**
-  * You do not need to decorate this parameter with any attributes. T-Rex looks for this property by name and automatically applies the correct metadata (friendly name, description, visibility, and default value -- currently the name of the Logic App itself)
-7. Make sure the action has a parameter named **parameters** of type **`TriggerInput<TInput,TOutput>`** or **`TriggerInput<TInput>`**.
-  * The type used for the **TInput** type parameter should be whatever inputs may be required to control exactly what ought to fire the trigger (e.g., file name mask, warning temperature, target heart rate, etc...).
-  * The type used for the **TOutput** type parameter should be whatever the trigger sends to the Logic App's callback uri when it has data available. While it may appear at first glance like you are somehow receiving this data from the Logic App, the reality is that you're _not_ going to be getting anything of this type sent _in_ from the Logic App. The Logic App _does_ want to know what the shape of that output is though, so referencing it here makes sure that it gets the appropriate metadata is generated.
-8. Make sure that the **parameters** parameter is decorated with the **FromBody** attribute, since it will be contained in the body of the callback registration message.
-9. Make sure that somewhere within the code for the action you _store_ the value generated by calling **parameters.GetCallback().CallbackUri**
-  * This value can be stored anywhere that you can reliably retrieve it later
-  * This value should be correlated with the **triggerId** when stored (so that the callback can be unregistered if the Logic App no longer wants to hear from your trigger)
-  * The input model instance stored in **parameters.inputs** should also be stored or dealt with (to configure what actually ought to trigger that specific Logic App). These are the values that the user will be able to configure for this action in the designer.
-10. Make sure that when data is available for any waiting clients, you new-up an instance of **`ClientTriggerCallback<TOutput>`** by passing it the **CallbackUri** stored earlier, and then invoke the **InvokeAsyncWithBody** extension method on that instance
-  * The design isn't that you are invoking this within the callback registration action, but instead that this is invoked from within some other running code that is listening for whatever event ought to cause the trigger to fire
-  * The first parameter can be simply **Runtime.FromAppSettings()** if executed from within the code of an API App -- given that the App Settings on the host already contain the otherwise required microserviceId and gatewayKey)
-  * The last parameter should be the data that you actually want to send to the Logic App
-11. Make sure you have an unregister callback action as well that returns an **HttpResponseMessage**, and has the same route as the first
-12. Make sure that action is decorated with the **HttpDelete** attribute
-13. Make sure that action is decorated with the **UnregisterCallback** attribute
-14. Make sure that action has a **string** parameter named **triggerId**
-  * You do not need to decorate this parameter with any attributes. T-Rex looks for this property by name and automatically applies the correct metadata (friendly name, description, visibility, and default value -- currently the name of the Logic App itself)
-15. Make sure that within the code for the action you _delete_ the callback previously registered for the Logic App with the trigger id of **triggerId** from wherever it was stored.
-  
 # Go Build Great Things!
 Well, what are you waiting for? Reading documentation never built software. Go make mistakes, let those mistakes lead you into building great things!
 

@@ -1,7 +1,7 @@
 ﻿using Swashbuckle.Swagger;
 using System.Collections.Generic;
-using System.Globalization;
 using TRex.Metadata;
+using TRex.Metadata.Models;
 
 namespace QuickLearn.ApiApps.Metadata.Extensions
 {
@@ -11,24 +11,29 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
         {
             if (modelDescription.vendorExtensions == null) modelDescription.vendorExtensions = new Dictionary<string, object>();
         }
-        
 
-        public static void SetChildPropertyRequired(this Schema model, string requiredChildPropertyName)
+        public static void SetSchemaLookup(this Schema modelDescription, DynamicSchemaModel dynamicSchemaSettings)
         {
-            if (model.required == null) model.required = new List<string>();
-            if (!model.required.Contains(requiredChildPropertyName)) model.required.Add(requiredChildPropertyName);
-        }
-
-        public static void SetSchedulerRecommendation(this Schema modelDescription, string recommendation)
-        {
-            if (string.IsNullOrWhiteSpace(recommendation)) return;
-
             modelDescription.EnsureVendorExtensions();
 
-            if (!modelDescription.vendorExtensions.ContainsKey(Constants.X_MS_SCHEDULER_RECOMMENDATION))
+            if (!modelDescription.vendorExtensions.ContainsKey(Constants.X_MS_DYNAMIC_SCHEMA))
             {
-                modelDescription.vendorExtensions.Add(Constants.X_MS_SCHEDULER_RECOMMENDATION, recommendation);
+                modelDescription.vendorExtensions.Add(Constants.X_MS_DYNAMIC_SCHEMA,
+                    dynamicSchemaSettings);
             }
+        }
+
+        public static void SetCallbackUrl(this Schema modelDescription)
+        {
+            modelDescription.EnsureVendorExtensions();
+
+            if (!modelDescription.vendorExtensions.ContainsKey(Constants.X_MS_NOTIFICATION_URL))
+            {
+                modelDescription.vendorExtensions.Add(Constants.X_MS_NOTIFICATION_URL,
+                    true.ToString().ToLowerInvariant());
+            }
+
+            modelDescription.SetVisibility(VisibilityType.Internal);
         }
 
         public static void SetVisibility(this Schema modelDescription, VisibilityType visibility)

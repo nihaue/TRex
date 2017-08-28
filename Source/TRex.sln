@@ -1,25 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Metadata", "TRex.Metadata\TRex.Metadata.csproj", "{BB17E598-1D39-4997-A0F3-77079002BADA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{42C08418-9915-4DCB-9E9F-EBAD820E9E43}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLearn.ApiApps.SampleApiApp", "QuickLearn.ApiApps.SampleApiApp\QuickLearn.ApiApps.SampleApiApp.csproj", "{0B505243-DF17-466A-B01F-B817FE2639F1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Metadata.Attributes", "TRex.Metadata.Attributes\TRex.Metadata.Attributes.csproj", "{D174C512-53A9-47F3-8C4C-31147125D9A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Metadata.Tests", "TRex.Metadata.Tests\TRex.Metadata.Tests.csproj", "{76E53728-EC68-457A-A1B7-36532B7B8C5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Test.DummyApi", "TRex.Test.DummyApi\TRex.Test.DummyApi.csproj", "{E05D7F04-57AA-4F98-9662-82137B17CA64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{CF02E26A-8194-4F66-8677-DF7F3F235F1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{FB0D846F-D9BE-4AA9-82BC-98B548705FE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{BF8BACFC-9BE3-45E4-8890-E3476005AC99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRex.Test.Infrastructure", "TRex.Test.Infrastructure\TRex.Test.Infrastructure.csproj", "{BC876A57-376F-4E66-8083-96A752681EDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLearn.SampleApi", "QuickLearn.SampleApi\QuickLearn.SampleApi.csproj", "{1B3FD54A-3C38-4198-858B-02D180267A08}"
+EndProject
 Global
-	GlobalSection(CodealikeProperties) = postSolution
-		SolutionGuid = b9b63587-6227-4fbd-9dc2-251f9d41e7bc
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -29,16 +31,39 @@ Global
 		{BB17E598-1D39-4997-A0F3-77079002BADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB17E598-1D39-4997-A0F3-77079002BADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB17E598-1D39-4997-A0F3-77079002BADA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B505243-DF17-466A-B01F-B817FE2639F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B505243-DF17-466A-B01F-B817FE2639F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B505243-DF17-466A-B01F-B817FE2639F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B505243-DF17-466A-B01F-B817FE2639F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D174C512-53A9-47F3-8C4C-31147125D9A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D174C512-53A9-47F3-8C4C-31147125D9A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D174C512-53A9-47F3-8C4C-31147125D9A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D174C512-53A9-47F3-8C4C-31147125D9A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76E53728-EC68-457A-A1B7-36532B7B8C5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76E53728-EC68-457A-A1B7-36532B7B8C5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76E53728-EC68-457A-A1B7-36532B7B8C5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76E53728-EC68-457A-A1B7-36532B7B8C5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E05D7F04-57AA-4F98-9662-82137B17CA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E05D7F04-57AA-4F98-9662-82137B17CA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E05D7F04-57AA-4F98-9662-82137B17CA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E05D7F04-57AA-4F98-9662-82137B17CA64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC876A57-376F-4E66-8083-96A752681EDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC876A57-376F-4E66-8083-96A752681EDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC876A57-376F-4E66-8083-96A752681EDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC876A57-376F-4E66-8083-96A752681EDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B3FD54A-3C38-4198-858B-02D180267A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B3FD54A-3C38-4198-858B-02D180267A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B3FD54A-3C38-4198-858B-02D180267A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B3FD54A-3C38-4198-858B-02D180267A08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB17E598-1D39-4997-A0F3-77079002BADA} = {FB0D846F-D9BE-4AA9-82BC-98B548705FE7}
+		{D174C512-53A9-47F3-8C4C-31147125D9A5} = {FB0D846F-D9BE-4AA9-82BC-98B548705FE7}
+		{76E53728-EC68-457A-A1B7-36532B7B8C5B} = {CF02E26A-8194-4F66-8677-DF7F3F235F1A}
+		{E05D7F04-57AA-4F98-9662-82137B17CA64} = {CF02E26A-8194-4F66-8677-DF7F3F235F1A}
+		{BC876A57-376F-4E66-8083-96A752681EDE} = {CF02E26A-8194-4F66-8677-DF7F3F235F1A}
+		{1B3FD54A-3C38-4198-858B-02D180267A08} = {BF8BACFC-9BE3-45E4-8890-E3476005AC99}
+	EndGlobalSection
+	GlobalSection(CodealikeProperties) = postSolution
+		SolutionGuid = b9b63587-6227-4fbd-9dc2-251f9d41e7bc
 	EndGlobalSection
 EndGlobal
