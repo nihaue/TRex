@@ -123,7 +123,7 @@ Well that's pretty cool, but what else can T-Rex do for me?
 
 T-Rex is currently being updated to support [new functionality](https://powerapps.microsoft.com/en-us/tutorials/customapi-how-to-swagger/) within Power Apps and Microsoft Flow. At the moment, these features are **only** functioning in Microsoft Flow (since your custom API is treated as a Managed API and has access to the same dynamic schema/values functionality).
 
-You can find this functionality in version **[2.0.4-alpha](http://www.nuget.org/packages/TRex/2.0.4-alpha)** of the NuGet package.
+You can find this functionality in version **[2.0.5](https://www.nuget.org/packages/TRex/2.0.5)** of the NuGet package.
 
 What will I have to change in my code?
 - Triggers as a concept have evolved into a completely different form in the new runtime/designer. Triggers can actually be used at any point of a Logic App -- they're not necessarily only triggering the flow -- the flow can pause and wait for an event and/or poll for data. As a result the **Trigger** attribute no longer serves the same purpose as it once did. You can currently build three types of triggers with T-Rex (1) [Polling with a single returned result](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.SampleApi/Controllers/PollingTriggerController.cs), (2) Polling with a returned batch of results that will each trigger their own flow, (3) [Subscription based trigger](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.SampleApi/Controllers/PushTriggerController.cs) (requires use of the [CallbackUrl attribute somewhere in the response model](https://github.com/nihaue/TRex/blob/master/Source/QuickLearn.SampleApi/Models/PushTrigger/PriceAlertConfig.cs)).
