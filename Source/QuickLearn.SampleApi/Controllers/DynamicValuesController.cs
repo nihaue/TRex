@@ -14,6 +14,18 @@ namespace QuickLearn.SampleApi.Controllers
     public class DynamicValuesController : ApiController
     {
 
+        [HttpPost, Route("vote/{country}")]
+        [Metadata("Vote for Favorite", "Votes for favorite foods by location", VisibilityType.Important)]
+        [SwaggerResponse(HttpStatusCode.OK)]
+        public IHttpActionResult VoteFavoriteFood([FromUri]
+            [Metadata("Country")]
+            [DynamicValueLookup("GetCountries", valueCollection: "Countries", valuePath: "Id", valueTitle: "Name")]
+            string country,
+            [FromBody]FavoriteFoodVoteModel model)
+        {
+            return Ok();
+        }
+
         [HttpGet, Route("favorite/{country}/{stateprovince}")]
         [Metadata("Favorite Food Lookup", "Looks up favorite foods by location", VisibilityType.Important)]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(FavoriteFoodModel))]
