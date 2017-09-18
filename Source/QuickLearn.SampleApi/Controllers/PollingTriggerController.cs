@@ -13,10 +13,8 @@ namespace QuickLearn.SampleApi.Controllers
     public class PollingTriggerController : ApiController
     {
 
-        private const string POLLING_TRIGGER_ROUTE_NAME = "PollWebPageContent";
-
-
-        [Route("element/text", Name = POLLING_TRIGGER_ROUTE_NAME), HttpGet]
+        
+        [HttpGet, Route("element/text", Name = nameof(PollWebPageContent))]
         [Metadata("Poll For Updated Web Page Content")]
         [Trigger(TriggerType.PollingSingle, typeof(PageQueryResult), "Page Element Results")]
         public async Task<IHttpActionResult> PollWebPageContent(
@@ -46,8 +44,8 @@ namespace QuickLearn.SampleApi.Controllers
                 // Location header points to the next address to poll
 
                 // In this case, since we are triggering the event:
-                //  TimeSpan.FromSeconds(0) = Poll again immediately -- more data is waiting.
-                return ResponseMessage(Request.EventTriggered(result, TimeSpan.FromMinutes(1), POLLING_TRIGGER_ROUTE_NAME, paramsForNextPoll));
+                //  TimeSpan.Zero = Poll immediately (not at pre-configured intereval).
+                return ResponseMessage(Request.EventTriggered(result, TimeSpan.Zero, nameof(PollWebPageContent), paramsForNextPoll));
             }
             else
             {
@@ -59,8 +57,8 @@ namespace QuickLearn.SampleApi.Controllers
                 // Location header points to the next address to poll
 
                 // In this case, since we are not triggering the event:
-                //  TimeSpan.FromSeconds(0) = Poll at pre-configured interval in Logic App
-                return ResponseMessage(Request.EventWaitPoll(TimeSpan.FromSeconds(0), POLLING_TRIGGER_ROUTE_NAME, paramsForNextPoll));
+                //  TimeSpan.Zero = Poll at pre-configured interval in Logic App
+                return ResponseMessage(Request.EventWaitPoll(TimeSpan.Zero, nameof(PollWebPageContent), paramsForNextPoll));
             }
             
         }

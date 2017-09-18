@@ -16,7 +16,6 @@ namespace QuickLearn.SampleApi.Controllers
     [RoutePrefix("api/contacts")]
     public class DynamicSchemasController : ApiController
     {
-        private const string LOOKUP_ROUTE = "ContactLookup";
         private static Dictionary<string, ContactInfo> phones = new Dictionary<string, ContactInfo>();
         private static Dictionary<string, ContactInfo> emails = new Dictionary<string, ContactInfo>();
         
@@ -32,7 +31,7 @@ namespace QuickLearn.SampleApi.Controllers
         ///
         /// See that type for an example of how to craft your own object that will support a dynamic schema. 
         /// </remarks>
-        [HttpGet, Route("{name}", Name = LOOKUP_ROUTE)]
+        [HttpGet, Route("{name}", Name = nameof(GetContactInfo))]
         [Metadata("Get Contact Info", "Gets contact info of the specified type", VisibilityType.Important)]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(ContactInfo))]
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "Invalid type specified")]
@@ -122,7 +121,7 @@ namespace QuickLearn.SampleApi.Controllers
         /// <returns>Returns a message constructed from members of the created contact to demonstrate member access.</returns>
         [HttpPost, Route()]
         [Metadata("Insert Contact", "Inserts a new contact", VisibilityType.Advanced)]
-        [ResponseType(typeof(ContactCreatedResponse))]
+        [SwaggerResponseRemoveDefaults]
         [SwaggerResponse(HttpStatusCode.Created, Type = typeof(ContactCreatedResponse))]
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "Invalid type specified")]
         public IHttpActionResult CreateNewContact(
@@ -163,7 +162,7 @@ namespace QuickLearn.SampleApi.Controllers
                 return BadRequest("Unknown contact type");
             }
 
-            return CreatedAtRoute<object>(LOOKUP_ROUTE, new { name = name, contactType = contactType }, response);
+            return CreatedAtRoute<object>(nameof(GetContactInfo), new { name = name, contactType = contactType }, response);
 
         }
 
@@ -181,11 +180,10 @@ namespace QuickLearn.SampleApi.Controllers
         {
             var result = new JObject();
 
-            var schema = new JsonSchema()
+            var schema = new JSchema()
             {
                 Title = type,
-                Properties = new Dictionary<string, JsonSchema>(),
-                Type = JsonSchemaType.Object
+                Type = JSchemaType.Object
             };
 
             /*
@@ -194,21 +192,21 @@ namespace QuickLearn.SampleApi.Controllers
             // that would appear to both Phone and Email contacts, you can. However, if you do add
             // any, you should account for them in the schema as well. Example is shown below:
 
-            schema.Properties.Add("Id", new JsonSchema() { Type = JsonSchemaType.String });
+            schema.Properties.Add("Id", new JSchema() { Type = JSchemaType.String });
 
             */
 
             if (type == "Phone")
             {
-                schema.Properties.Add("countryCode", new JsonSchema() { Type = JsonSchemaType.String });
-                schema.Properties.Add("areaCode", new JsonSchema() { Type = JsonSchemaType.String });
-                schema.Properties.Add("phoneNumber", new JsonSchema() { Type = JsonSchemaType.String });
+                schema.Properties.Add("countryCode", new JSchema() { Type = JSchemaType.String });
+                schema.Properties.Add("areaCode", new JSchema() { Type = JSchemaType.String });
+                schema.Properties.Add("phoneNumber", new JSchema() { Type = JSchemaType.String });
             }
             else if (type == "Email")
             {
-                schema.Properties.Add("localPart", new JsonSchema() { Type = JsonSchemaType.String });
-                schema.Properties.Add("hostPart", new JsonSchema() { Type = JsonSchemaType.String });
-                schema.Properties.Add("displayName", new JsonSchema() { Type = JsonSchemaType.String });
+                schema.Properties.Add("localPart", new JSchema() { Type = JSchemaType.String });
+                schema.Properties.Add("hostPart", new JSchema() { Type = JSchemaType.String });
+                schema.Properties.Add("displayName", new JSchema() { Type = JSchemaType.String });
             }
             else
             {
@@ -226,7 +224,5 @@ namespace QuickLearn.SampleApi.Controllers
             return Ok(result);
 
         }
-
-
     }
 }

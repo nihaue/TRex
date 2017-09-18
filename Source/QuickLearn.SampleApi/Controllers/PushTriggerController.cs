@@ -11,14 +11,12 @@ namespace QuickLearn.SampleApi.Controllers
     [RoutePrefix("api/marketwatcher")]
     public class PushTriggerController : ApiController
     {
-
-        private const string UNSUBSCRIPTION_ROUTE = "DeleteSubscription";
-
         private static InMemoryCallbackStore<PriceAlertConfig> callbacks = new InMemoryCallbackStore<PriceAlertConfig>();
 
         [HttpPost, Route("$subscriptions")]
         [Metadata("Target Price Reached", "Fires whenever the target price of a given security is reached", VisibilityType.Important)]
         [Trigger(TriggerType.Subscription, typeof(PriceAlert), "Price Alert")]
+        [SwaggerResponseRemoveDefaults]
         [SwaggerResponse(HttpStatusCode.Created, "Subscription created")]
         [SwaggerResponse(HttpStatusCode.BadRequest, "Invalid subscription configuration")]
         public async Task<IHttpActionResult> Subscribe([FromBody]PriceAlertConfig config)
@@ -32,12 +30,13 @@ namespace QuickLearn.SampleApi.Controllers
 
             await callbacks.WriteCallbackAsync(triggerId, new Uri(config.CallbackUrl), config);
 
-            return CreatedAtRoute(UNSUBSCRIPTION_ROUTE, new { triggerId = triggerId }, string.Empty);
+            return CreatedAtRoute(nameof(Unsubscribe), new { triggerId = triggerId }, string.Empty);
             
         }
 
-        [HttpDelete, Route("$subscriptions/{triggerId}", Name = UNSUBSCRIPTION_ROUTE)]
+        [HttpDelete, Route("$subscriptions/{triggerId}", Name = nameof(Unsubscribe))]
         [Metadata("Unsubscribe", Visibility = VisibilityType.Internal)]
+        [SwaggerResponse(HttpStatusCode.OK)]
         public async Task<IHttpActionResult> Unsubscribe(string triggerId)
         {
             await callbacks.DeleteCallbackAsync(triggerId);
@@ -46,6 +45,7 @@ namespace QuickLearn.SampleApi.Controllers
 
         [HttpPut, Route("{symbol}")]
         [Metadata("PriceUpdate", Visibility = VisibilityType.Internal)]
+        [SwaggerResponse(HttpStatusCode.OK)]
         public async Task<IHttpActionResult> PriceUpdate(string symbol, decimal newPrice)
         {
             // This operation can be used manually to trigger any matching configured price alerts
