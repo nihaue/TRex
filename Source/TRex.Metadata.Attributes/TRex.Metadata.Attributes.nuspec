@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>TRex.Metadata.Attributes</id>
-    <version>2.0.6</version>
+    <version>2.0.7</version>
     <title>T-Rex Metadata Library (Attributes Only)</title>
     <authors>Nick Hauenstein</authors>
     <owners>Nick Hauenstein</owners>
@@ -11,7 +11,8 @@
     <iconUrl>https://raw.githubusercontent.com/nihaue/TRex/master/Docs/Images/PackageIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>QuickLearn's T-Rex Metadata Library provides attributes that can be used to decorate your API Apps' actions and models for Logic App consumption. Use this package for shared projects containing models.</description>
-    <releaseNotes>- Version bump to synchronize with TRex package</releaseNotes>
+    <releaseNotes>- Updated Trigger attribute handling to allow the x-ms-trigger vendor extension to be emitted for webhook subscription style triggers
+    - Version bump to synchronize with TRex package</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>T-Rex TRex API Apps App Service Metadata Logic Apps Flow Swagger Swashbuckle</tags>
   </metadata>

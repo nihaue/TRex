@@ -25,20 +25,21 @@ namespace QuickLearn.ApiApps.Metadata.Extensions
                     batchMode = Constants.SINGLE;
                     break;
                 case TriggerType.Subscription:
+                    batchMode = Constants.SINGLE;
                     operation.SetCallbackType(schemaRegistry, triggerDescription.DataType, triggerDescription.DataFriendlyName);
                     break;
                 default:
                     break;
             }
 
-            if (null == batchMode) return;
-
             if (!operation.vendorExtensions.ContainsKey(Constants.X_MS_TRIGGER))
             {
                 operation.vendorExtensions.Add(Constants.X_MS_TRIGGER,
                     batchMode.ToString().ToLowerInvariant());
             }
-            
+
+            if (triggerDescription.Pattern == TriggerType.Subscription) return;
+
             var dataResponse = new Response()
             {
                 description = triggerDescription.DataFriendlyName,

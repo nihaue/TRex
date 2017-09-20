@@ -53,6 +53,17 @@ namespace TRex.Metadata.Tests
             
         }
 
+        [TestMethod, TestCategory("x-ms-trigger"), TestCategory("Method Attribute")]
+        public void Operation_SubscriptionStyleTrigger_SingleTriggerMetadataPresent()
+        {
+            var triggerNode = Swagger.SelectToken(@"paths./test/x-ms-notification-content/$subscriptions.post.x-ms-trigger");
+
+            Assert.IsNotNull(triggerNode, "x-ms-trigger attribute was not emitted for subscription trigger");
+
+            Assert.AreEqual("single", triggerNode.Value<string>(),
+                "x-ms-trigger attribute was not correctly emitted for subscription trigger (should be single by default)");
+        }
+
         [TestMethod, TestCategory("x-ms-notification-content"), TestCategory("Method Attribute")]
         public void Operation_CallbackTypeIsComplexType_XNotificationContentSchemaUsesRef()
         {
